@@ -1,2 +1,11 @@
-<input name="chat" [(ngModel)]="chatinput" dTextarea>
-<d-button (btnClick)="chat()">Chat</d-button>
+<div class="input-bar">
+    <d-button bsSize='lg' (btnClick)="chat()" icon="icon-delete"
+        bsStyle="primary"></d-button>
+    <input size="lg" name="chat" [(ngModel)]="chatinput" dTextarea>
+
+    <d-button bsSize='lg' (btnClick)="chat()" icon="icon-publish"></d-button>
+    <d-button bsSize='lg' bsStyle="common" icon="icon-save"></d-button>
+    <d-button bsSize='lg' bsStyle="common" icon="icon-search-replace"></d-button>
+    <d-button bsSize='lg' bsStyle="common" icon="icon-setting"></d-button>
+
+</div>

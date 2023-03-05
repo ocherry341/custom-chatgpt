@@ -1,10 +1,12 @@
-<ul>
-  <li *ngFor="let msg of chatMessages">
+<div class="list-wrapper">
+
+  <div *ngFor="let msg of chatMessages">
     <div>{{msg.role}}</div>
     <div>{{msg.content}}</div>
-  </li>
-</ul>
-<d-button *ngIf="!hasApikey" (btnClick)="login()">log in</d-button>
+  </div>
+
+  <d-button *ngIf="!hasApikey" (btnClick)="login()">log in</d-button>
+</div>
 
 <ng-template #apikeyInput>
   <div>输入OpenAI Apikey</div>
