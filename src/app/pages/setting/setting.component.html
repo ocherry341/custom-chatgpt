@@ -1,3 +1,101 @@
-<p>
-  setting works!
-</p>
+<form [layout]="formLayout" class="setting-form" dForm>
+  <div class="setting-title">通用设置</div>
+  <d-form-item>
+    <d-form-label>ApiKey</d-form-label>
+    <d-form-control>
+      <input name="chat-apikey" dTextInput [(ngModel)]="setting.apikey">
+    </d-form-control>
+  </d-form-item>
+
+  <d-form-item>
+    <d-form-label>ApiUrl</d-form-label>
+    <d-form-control>
+      <input name="chat-apiurl" dTextInput [(ngModel)]="setting.apiurl">
+    </d-form-control>
+  </d-form-item>
+
+  <div class="setting-title">模型设置</div>
+
+  <d-form-item>
+    <d-form-label>预设</d-form-label>
+    <d-form-control>
+      <textarea dTextarea resize="vertical" name="chat-system"
+        [(ngModel)]="setting.system"></textarea>
+    </d-form-control>
+  </d-form-item>
+
+  <d-form-item>
+    <d-form-label>model</d-form-label>
+    <d-form-control>
+      <d-select name="chat-model" [(ngModel)]="setting.model"
+        [options]="['gpt-3.5-turbo','gpt-3.5-turbo-0301']"></d-select>
+    </d-form-control>
+  </d-form-item>
+
+  <d-tabs type="slider" [(activeTab)]="setting.use">
+    <d-tab id="temperature" title="temperature">
+      <d-form-item>
+        <d-form-label>temperature</d-form-label>
+        <d-form-control>
+          <d-input-number name="chat-temp"
+            [(ngModel)]="setting.temperature"></d-input-number>
+        </d-form-control>
+      </d-form-item>
+    </d-tab>
+    <d-tab id="top_p" title="top_p">
+      <d-form-item>
+        <d-form-label>top_p</d-form-label>
+        <d-form-control>
+          <d-input-number name="chat-top_p"
+            [(ngModel)]="setting.top_p"></d-input-number>
+        </d-form-control>
+      </d-form-item>
+    </d-tab>
+  </d-tabs>
+
+  <d-form-item>
+    <d-form-label>max_tokens</d-form-label>
+    <d-form-control>
+      <d-input-number name="chat-tokens"
+        [(ngModel)]="setting.max_tokens"></d-input-number>
+    </d-form-control>
+  </d-form-item>
+
+  <d-form-item>
+    <d-form-label>n</d-form-label>
+    <d-form-control>
+      <d-input-number name="chat-n" [(ngModel)]="setting.n"></d-input-number>
+    </d-form-control>
+  </d-form-item>
+
+  <d-form-item>
+    <d-form-label>presence_penalty</d-form-label>
+    <d-form-control>
+      <d-input-number name="chat-presence"
+        [(ngModel)]="setting.presence_penalty"></d-input-number>
+    </d-form-control>
+  </d-form-item>
+
+  <d-form-item>
+    <d-form-label>logit_bias</d-form-label>
+    <d-form-control>
+      <input name="chat-bias" [(ngModel)]="setting.logit_bias">
+    </d-form-control>
+  </d-form-item>
+
+  <d-form-item>
+    <d-form-label>frequency_penalty</d-form-label>
+    <d-form-control>
+      <input name="chat-freq" [(ngModel)]="setting.frequency_penalty">
+    </d-form-control>
+  </d-form-item>
+
+  <d-form-item>
+    <d-form-label>stop</d-form-label>
+    <d-form-control>
+      <input name="chat-stop" [(ngModel)]="setting.stop">
+    </d-form-control>
+  </d-form-item>
+
+
+</form>
