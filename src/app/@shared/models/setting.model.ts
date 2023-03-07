@@ -5,6 +5,11 @@ interface ApiOptions extends Omit<ChatRequest, 'ChatMessages' | 'stream' | 'user
 export interface Setting extends ApiOptions {
     apikey: string;
     apiurl: string;
-    use: string | number;
     system?: string;
 }
+
+
+
+export type SettingUse = {
+    [key in keyof Setting]: boolean;
+};

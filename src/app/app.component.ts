@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  template: '<div class="layout"><router-outlet></router-outlet></div>',
+  template: '<router-outlet></router-outlet>',
 })
 export class AppComponent {
   // title = 'chatbot2';

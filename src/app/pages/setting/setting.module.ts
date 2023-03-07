@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { InputNumberModule, SelectModule, SliderModule, TabsModule } from 'ng-devui';
+import { RouterModule } from '@angular/router';
+import { InputNumberModule, SelectModule, SliderModule, ToggleModule } from 'ng-devui';
 import { SharedModule } from 'src/app/@shared/shared.module';
 import { SettingComponent } from './setting.component';
 
@@ -9,7 +10,8 @@ import { SettingComponent } from './setting.component';
     SliderModule,
     InputNumberModule,
     SelectModule,
-    TabsModule
+    ToggleModule,
+    RouterModule
   ],
   declarations: [SettingComponent],
   exports: [SettingComponent]

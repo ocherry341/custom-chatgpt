@@ -1,101 +1,156 @@
-<form [layout]="formLayout" class="setting-form" dForm>
-  <div class="setting-title">通用设置</div>
-  <d-form-item>
-    <d-form-label>ApiKey</d-form-label>
-    <d-form-control>
-      <input name="chat-apikey" dTextInput [(ngModel)]="setting.apikey">
-    </d-form-control>
-  </d-form-item>
+<!-- <div style="font-size: x-large;">
+  result
+  <div>
+    {{setting|json}}
+  </div>
 
-  <d-form-item>
-    <d-form-label>ApiUrl</d-form-label>
-    <d-form-control>
-      <input name="chat-apiurl" dTextInput [(ngModel)]="setting.apiurl">
-    </d-form-control>
-  </d-form-item>
+  <div>use
+    {{use|json}}
+  </div>
+</div> -->
+<div class="layout">
+  <div class="setting-content">
+    <div class="setting-header">
+      <div class="back" [routerLink]="['/']">
+        <i class="icon icon-arrow-left"></i>返回
+      </div>
+      <div class="title">设置</div>
+    </div>
+    <form [layout]="formLayout" class="setting-form" dForm>
+      <div class="setting-title">通用</div>
+      <d-row [dGutter]="48" [dSpace]="24">
+        <d-col [dSpan]="3">
+          ApiKey
+        </d-col>
+        <d-col [dSpan]="18">
+          <input name="chat-apikey" dTextInput [(ngModel)]="setting.apikey">
+        </d-col>
+      </d-row>
+      <d-row [dGutter]="48">
+        <d-col [dSpan]="3">
+          ApiUrl
+        </d-col>
+        <d-col [dSpan]="18">
+          <input name="chat-apiurl" dTextInput [(ngModel)]="setting.apiurl">
+        </d-col>
+      </d-row>
+      <div class="setting-title">模型参数
+        <a class="model-help" target="_blank"
+          href="https://platform.openai.com/docs/api-reference/chat/create">
+          <i class="icon icon-op-help"></i></a>
+      </div>
+      <d-row [dGutter]="48">
+        <d-col [dSpan]="10">
+          <d-form-item>
+            <div class="toggle-label">
+              <d-form-label>预设</d-form-label>
+              <d-toggle name="use-system" [(ngModel)]="use['system']"></d-toggle>
+            </div>
+            <d-form-control>
+              <textarea dTextarea name="chat-system" style="height: 512px;"
+                [(ngModel)]="setting.system"></textarea>
+            </d-form-control>
+          </d-form-item>
+        </d-col>
 
-  <div class="setting-title">模型设置</div>
+        <d-col [dSpan]="6">
+          <d-form-item>
+            <d-form-label>model</d-form-label>
+            <d-form-control>
+              <d-select name="chat-model" [(ngModel)]="setting.model"
+                [options]="['gpt-3.5-turbo','gpt-3.5-turbo-0301']"></d-select>
+            </d-form-control>
+          </d-form-item>
+          <d-form-item>
+            <div class="toggle-label">
+              <d-form-label>temperature</d-form-label>
+              <d-toggle name="use-temp" [(ngModel)]="use['temperature']"
+                (change)="tempChange($event,'temperature')"></d-toggle>
+            </div>
+            <d-form-control>
+              <d-input-number name="chat-temp" [(ngModel)]="setting.temperature"
+                [min]="0" [max]="2" [step]="0.1"></d-input-number>
+            </d-form-control>
+          </d-form-item>
+          <d-form-item>
+            <div class="toggle-label">
+              <d-form-label>top_p</d-form-label>
+              <d-toggle name="use-top_p" [(ngModel)]="use['top_p']"
+                (change)="tempChange($event,'top_p')"></d-toggle>
+            </div>
+            <d-form-control>
+              <d-input-number name="chat-top_p" [min]="0" [max]="1" [step]="0.1"
+                [(ngModel)]="setting.top_p"></d-input-number>
+            </d-form-control>
+          </d-form-item>
+          <d-form-item>
+            <div class="toggle-label">
+              <d-form-label>max_tokens</d-form-label>
+              <d-toggle name="use-tokens" [(ngModel)]="use['max_tokens']"></d-toggle>
+            </div>
+            <d-form-control>
+              <d-input-number name="chat-tokens" [(ngModel)]="setting.max_tokens"
+                [min]="0" [decimalLimit]="0"></d-input-number>
+            </d-form-control>
+          </d-form-item>
+          <d-form-item>
+            <div class="toggle-label">
+              <d-form-label>presence_penalty</d-form-label>
+              <d-toggle name="use-presence"
+                [(ngModel)]="use['presence_penalty']"></d-toggle>
+            </div>
+            <d-form-control>
+              <d-input-number name="chat-presence"
+                [(ngModel)]="setting.presence_penalty" [min]="-2" [max]="2"
+                [step]="0.1"></d-input-number>
+            </d-form-control>
+          </d-form-item>
+          <d-form-item>
+            <div class="toggle-label">
+              <d-form-label>frequency_penalty</d-form-label>
+              <d-toggle name="use-freq"
+                [(ngModel)]="use['frequency_penalty']"></d-toggle>
+            </div>
+            <d-form-control>
+              <d-input-number name="chat-freq"
+                [(ngModel)]="setting.frequency_penalty" [min]="-2" [max]="2"
+                [step]="0.1"></d-input-number>
+            </d-form-control>
+          </d-form-item>
+          <d-form-item>
+            <div class="toggle-label">
+              <d-form-label>n</d-form-label>
+              <d-toggle name="use-n" [(ngModel)]="use['n']"></d-toggle>
+            </div>
+            <d-form-control>
+              <d-input-number name="chat-n" [(ngModel)]="setting.n" [min]="0"
+                [decimalLimit]="0"></d-input-number>
+            </d-form-control>
+          </d-form-item>
+        </d-col>
 
-  <d-form-item>
-    <d-form-label>预设</d-form-label>
-    <d-form-control>
-      <textarea dTextarea resize="vertical" name="chat-system"
-        [(ngModel)]="setting.system"></textarea>
-    </d-form-control>
-  </d-form-item>
+        <d-col [dSpan]="8">
+          <d-form-item>
+            <div class="toggle-label">
+              <d-form-label>logit_bias</d-form-label>
+              <d-toggle name="use-bias" [(ngModel)]="use['logit_bias']"></d-toggle>
+            </div>
+            <d-form-control>
+              <input name="chat-bias" [(ngModel)]="setting.logit_bias">
+            </d-form-control>
+          </d-form-item>
 
-  <d-form-item>
-    <d-form-label>model</d-form-label>
-    <d-form-control>
-      <d-select name="chat-model" [(ngModel)]="setting.model"
-        [options]="['gpt-3.5-turbo','gpt-3.5-turbo-0301']"></d-select>
-    </d-form-control>
-  </d-form-item>
-
-  <d-tabs type="slider" [(activeTab)]="setting.use">
-    <d-tab id="temperature" title="temperature">
-      <d-form-item>
-        <d-form-label>temperature</d-form-label>
-        <d-form-control>
-          <d-input-number name="chat-temp"
-            [(ngModel)]="setting.temperature"></d-input-number>
-        </d-form-control>
-      </d-form-item>
-    </d-tab>
-    <d-tab id="top_p" title="top_p">
-      <d-form-item>
-        <d-form-label>top_p</d-form-label>
-        <d-form-control>
-          <d-input-number name="chat-top_p"
-            [(ngModel)]="setting.top_p"></d-input-number>
-        </d-form-control>
-      </d-form-item>
-    </d-tab>
-  </d-tabs>
-
-  <d-form-item>
-    <d-form-label>max_tokens</d-form-label>
-    <d-form-control>
-      <d-input-number name="chat-tokens"
-        [(ngModel)]="setting.max_tokens"></d-input-number>
-    </d-form-control>
-  </d-form-item>
-
-  <d-form-item>
-    <d-form-label>n</d-form-label>
-    <d-form-control>
-      <d-input-number name="chat-n" [(ngModel)]="setting.n"></d-input-number>
-    </d-form-control>
-  </d-form-item>
-
-  <d-form-item>
-    <d-form-label>presence_penalty</d-form-label>
-    <d-form-control>
-      <d-input-number name="chat-presence"
-        [(ngModel)]="setting.presence_penalty"></d-input-number>
-    </d-form-control>
-  </d-form-item>
-
-  <d-form-item>
-    <d-form-label>logit_bias</d-form-label>
-    <d-form-control>
-      <input name="chat-bias" [(ngModel)]="setting.logit_bias">
-    </d-form-control>
-  </d-form-item>
-
-  <d-form-item>
-    <d-form-label>frequency_penalty</d-form-label>
-    <d-form-control>
-      <input name="chat-freq" [(ngModel)]="setting.frequency_penalty">
-    </d-form-control>
-  </d-form-item>
-
-  <d-form-item>
-    <d-form-label>stop</d-form-label>
-    <d-form-control>
-      <input name="chat-stop" [(ngModel)]="setting.stop">
-    </d-form-control>
-  </d-form-item>
-
-
-</form>
+          <d-form-item>
+            <div class="toggle-label">
+              <d-form-label>stop</d-form-label>
+              <d-toggle name="use-stop" [(ngModel)]="use['stop']"></d-toggle>
+            </div>
+            <d-form-control>
+              <input name="chat-stop" [(ngModel)]="setting.stop">
+            </d-form-control>
+          </d-form-item>
+        </d-col>
+      </d-row>
+    </form>
+  </div>
+</div>

@@ -1,9 +1,76 @@
+@import 'ng-devui/devui-layout.css';
+@import 'ng-devui/styles-var/devui-var.scss';
+
+.setting-header {
+    font-size: 20px;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+
+    .back {
+        padding-right: 12px;
+        font-size: 16px;
+        border-right: 1px solid $devui-line;
+        cursor: pointer;
+
+        &:hover {
+            color: $devui-primary-hover;
+        }
+    }
+
+    .title {
+        padding-left: 12px;
+    }
+}
+
+.setting-content {
+    background-color: $devui-global-bg-normal;
+    padding: 12px 24px;
+    box-shadow: $devui-shadow-length-base $devui-light-shadow;
+}
+
 .setting-title {
     font-size: 18px;
     margin-bottom: 18px;
-    margin-top: 9px;
+    margin-top: 18px;
 }
 
 .setting-form {
     font-size: 16px;
+}
+
+.toggle-label {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+d-input-number {
+    width: 100%;
+}
+
+.model-help {
+    margin-left: 5px;
+    cursor: pointer;
+    color: $devui-text;
+
+
+    &:hover {
+        color: $devui-primary-hover;
+    }
+}
+
+.layout {
+    padding-left: 30px;
+    padding-right: 30px;
+
+    max-width: 1260px;
+    width: 100%;
+    margin: 0 auto;
+
+}
+
+body ::ng-deep {
+    background-color: $devui-glass-morphism-bg;
 }
