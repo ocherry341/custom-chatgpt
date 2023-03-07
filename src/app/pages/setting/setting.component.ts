@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormLayout } from 'ng-devui';
-import { Setting } from 'src/app/@shared/model/setting.model';
+import { Setting } from 'src/app/@shared/models/setting.model';
 
 @Component({
   selector: 'app-setting',
