@@ -1,11 +1,16 @@
 <div class="input-bar">
-    <d-button bsSize='lg' (btnClick)="chat()" icon="icon-delete"
-        bsStyle="primary"></d-button>
-    <input size="lg" name="chat" [(ngModel)]="chatinput" dTextarea>
-
-    <d-button bsSize='lg' (btnClick)="chat()" icon="icon-publish"></d-button>
-    <d-button bsSize='lg' bsStyle="common" icon="icon-save"></d-button>
-    <d-button bsSize='lg' bsStyle="common" icon="icon-search-replace"></d-button>
-    <d-button bsSize='lg' bsStyle="common" icon="icon-setting"></d-button>
-
+    <d-button class="large-btn" bsSize='lg' (btnClick)="clear()" icon="icon-delete"
+        bsStyle="primary" title="重置"></d-button>
+    <textarea #chatInput class="chat-input" name="chat" [(ngModel)]="chatinput"
+        dTextarea (input)="textInput()"></textarea>
+    <d-button class="large-btn send" (btnClick)="chat()" icon="icon-publish"
+        title="发送"></d-button>
+    <d-button class="large-btn" bsStyle="common" icon="icon-save"
+        title="保存对话"></d-button>
+    <d-button class="large-btn" bsStyle="common" icon="icon-search-replace"
+        title="读取对话"></d-button>
+    <d-button class="large-btn separate" bsStyle="common" icon="icon-go-module"
+        title="切换模式"></d-button>
+    <d-button class="large-btn" bsStyle="common" icon="icon-setting"
+        [routerLink]="'./setting'" title="设置"></d-button>
 </div>

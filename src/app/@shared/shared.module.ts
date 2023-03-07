@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule, LayoutModule, ModalModule, TextInputModule, TextareaModule } from 'ng-devui';
+import { ButtonModule, LayoutModule, ModalModule, TextInputModule, TextareaModule, TooltipModule } from 'ng-devui';
 
 const DEVUI = [
   LayoutModule,
@@ -10,6 +10,7 @@ const DEVUI = [
   ButtonModule,
   FormsModule,
   ModalModule,
+  TooltipModule
 ];
 
 @NgModule({

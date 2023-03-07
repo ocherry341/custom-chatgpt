@@ -1,20 +1,37 @@
+@import 'ng-devui/styles-var/devui-var.scss';
+
 .input-bar {
     position: fixed;
     left: 50%;
     bottom: 0px;
     transform: translate(-50%, 0);
     width: 100%;
+    max-width: 1200px;
+
+    padding-top: 4px;
     padding-bottom: 40px;
-    padding-top: 40px;
     background-color: white;
 
-    input {
-        width: 30%;
-        height: 32px;
-    }
-
     d-button {
-        margin-left: 5px;
-        margin-right: 5px;
+        vertical-align: bottom;
+
+        &.send {
+            width: 80px;
+        }
+
+        &.separate {
+            border-left: 1px solid $devui-base-bg-dark;
+        }
     }
+}
+
+.chat-input {
+    width: calc(100% - 340px);
+    min-height: 50px;
+    height: 50px;
+    font-size: 16px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-left: 5px;
+    margin-right: 5px;
 }

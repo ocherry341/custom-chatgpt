@@ -1,1 +1,12 @@
-.list-wrapper {}
+@import 'ng-devui/styles-var/devui-var.scss';
+
+.chat-list {
+    font-size: 16px;
+    border-bottom: 1px solid $devui-dividing-line;
+    padding-top: 8px;
+    padding-bottom: 8px;
+
+    &.bot {
+        background-color: $devui-list-item-strip-bg;
+    }
+}

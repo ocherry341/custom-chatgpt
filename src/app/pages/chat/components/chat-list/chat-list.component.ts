@@ -1,6 +1,7 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DialogService } from 'ng-devui';
-import { ChatMessages } from 'src/app/@shared/model/chat-messages.model';
+import { BehaviorSubject } from 'rxjs';
+import { ChatMessages } from 'src/app/@shared/models/chat-messages.model';
 import { AppService } from 'src/app/app.service';
 
 @Component({
@@ -10,7 +11,6 @@ import { AppService } from 'src/app/app.service';
 })
 export class ChatListComponent implements OnInit {
 
-  @Input() chatMessages: ChatMessages | null;
   @ViewChild('apikeyInput', { read: TemplateRef }) apikeyInput: TemplateRef<any>;
 
   constructor(
@@ -20,6 +20,7 @@ export class ChatListComponent implements OnInit {
 
   apikey: string | null;
   hasApikey: boolean = false;
+  chatMessages$: BehaviorSubject<ChatMessages> = new BehaviorSubject<ChatMessages>([]);
 
   login() {
     const dialog = this.dialogService.open({
@@ -44,6 +45,7 @@ export class ChatListComponent implements OnInit {
 
   ngOnInit() {
     this.hasApikey = !!this.appService.storage.get('API_KEY');
+    this.chatMessages$ = this.appService.getChatMessages();
   }
 
 }
