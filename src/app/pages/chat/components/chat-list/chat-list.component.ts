@@ -1,8 +1,9 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DialogService } from 'ng-devui';
 import { BehaviorSubject } from 'rxjs';
-import { ChatMessages } from 'src/app/@shared/models/chat-messages.model';
-import { AppService } from 'src/app/app.service';
+import { LocalStorageService, StoreService } from 'src/app/@core/services';
+import { ChatMessage } from 'src/app/@shared/models/chat-messages.model';
+
 
 @Component({
   selector: 'app-chat-list',
@@ -15,12 +16,13 @@ export class ChatListComponent implements OnInit {
 
   constructor(
     private dialogService: DialogService,
-    private appService: AppService
+    private storage: LocalStorageService,
+    private store: StoreService,
   ) { }
 
   apikey: string | null;
   hasApikey: boolean = false;
-  chatMessages$: BehaviorSubject<ChatMessages> = new BehaviorSubject<ChatMessages>([]);
+  chatMessages$: BehaviorSubject<ChatMessage[]> = new BehaviorSubject<ChatMessage[]>([]);
 
   login() {
     const dialog = this.dialogService.open({
@@ -33,7 +35,7 @@ export class ChatListComponent implements OnInit {
           text: '确定',
           handler: () => {
             if (this.apikey) {
-              this.appService.storage.set('API_KEY', this.apikey);
+              // this.storage.set('API_KEY', this.apikey);
               this.hasApikey = true;
             };
             dialog.modalInstance.hide();
@@ -44,8 +46,8 @@ export class ChatListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.hasApikey = !!this.appService.storage.get('API_KEY');
-    this.chatMessages$ = this.appService.getChatMessages();
+    this.hasApikey = true;
+    this.chatMessages$ = this.store.getChatMessages();
   }
 
 }

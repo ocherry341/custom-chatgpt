@@ -1,15 +1,31 @@
-import { ChatRequest } from "./chat-request";
+import { ChatRequest } from "./chat-request.model";
 
-interface ApiOptions extends Omit<ChatRequest, 'ChatMessages' | 'stream' | 'user'> { }
+export interface ApiOptions extends Omit<ChatRequest, 'messages' | 'stream' | 'user'> { }
 
-export interface Setting extends ApiOptions {
+interface Value<T> {
+    use: boolean;
+    value: T;
+}
+
+export interface SettingOption {
+    apikey: Value<string>;
+    apiurl: Value<string>;
+    system: Value<string>;
+    memory: Value<number>;
+    apiOptions: {
+        [K in keyof ApiOptions]-?: Value<ApiOptions[K]>;
+    };
+}
+
+export interface SettingValue {
     apikey: string;
     apiurl: string;
     system?: string;
+    memory?: number;
+    apiOptions: ApiOptions;
 }
 
-
-
-export type SettingUse = {
-    [key in keyof Setting]: boolean;
-};
+export interface SavedSettingOption {
+    title: string;
+    option: SettingOption;
+}

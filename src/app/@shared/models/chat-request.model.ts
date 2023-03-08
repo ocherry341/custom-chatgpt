@@ -1,4 +1,4 @@
-import { ChatMessages } from "./chat-messages.model";
+import { ChatMessage } from "./chat-messages.model";
 
 export interface ChatRequest {
     frequency_penalty?: number;
@@ -7,7 +7,7 @@ export interface ChatRequest {
     /**
      * The ChatMessages to generate chat completions for, in the chat format.
      */
-    ChatMessages: ChatMessages;
+    messages: ChatMessage[];
     /**
      * ID of the model to use. Currently, only gpt-3.5-turbo and gpt-3.5-turbo-0301 are
      * supported.
@@ -40,6 +40,4 @@ export interface ChatRequest {
     top_p?: number;
     user?: string;
 }
-
-export interface SettingOprions extends Omit<ChatRequest, 'ChatMessages' | 'model'> { }
 

@@ -8,7 +8,8 @@ import { ChatListComponent } from './components/chat-list/chat-list.component';
 @NgModule({
   imports: [
     SharedModule,
-    RouterModule
+    RouterModule,
+
   ],
   declarations: [
     ChatComponent,

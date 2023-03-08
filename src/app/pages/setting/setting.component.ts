@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormLayout } from 'ng-devui';
-import { Setting, SettingUse } from 'src/app/@shared/models/setting.model';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { DialogService, FormLayout } from 'ng-devui';
+import { LocalStorageService, StoreService } from 'src/app/@core/services';
+import { SettingOption } from 'src/app/@shared/models/setting.model';
 
 @Component({
   selector: 'app-setting',
@@ -9,48 +10,78 @@ import { Setting, SettingUse } from 'src/app/@shared/models/setting.model';
 })
 export class SettingComponent implements OnInit {
 
+  @ViewChild('saveDialog', { read: TemplateRef }) saveDialog: TemplateRef<void>;
+  @ViewChild('saveInput', { read: ElementRef }) saveInput: ElementRef<HTMLInputElement>;
+
   constructor(
+    private store: StoreService,
+    private storage: LocalStorageService,
+    private dialogService: DialogService,
   ) { }
 
   formLayout: FormLayout = FormLayout.Vertical;
 
-  setting: Setting = {
-    apikey: '',
-    apiurl: '',
-    model: 'gpt-3.5-turbo',
-    temperature: 0.7,
-    top_p: 1,
-    max_tokens: 4096,
-    n: 1,
-    presence_penalty: 0,
-    frequency_penalty: 0
-  };
+  option: SettingOption;
 
-  use: SettingUse = {
-    system: true,
-    apikey: true,
-    apiurl: true,
-    model: true,
-    temperature: true,
-  };
+  systemPlaceholder: string = `The content of the role 'system', set the behavior of the assistant.\n\ne.g. "You are a helpful assistant."`;
+  stopPlaceholder: string = `up to 4 sequences \n\ne.g. ["\\n","?","."] \nThe generated text will stop at the sequences.`;
+  biasPlaceholder: string = `{ [ tokenID: number ]: number } \nEach value range from -100 to 100 \n\ne.g. {5171: -100, 470: -100} \nThe token IDs for "can't" are [5171, 470]. \nThe generated text will be unlikely to contain the word "can't".`;
 
   tempChange(e: boolean, field: 'temperature' | 'top_p') {
     if (e) {
-      this.use['top_p'] = field !== 'temperature';
-      this.use['temperature'] = field !== 'top_p';
+      this.option.apiOptions.top_p.use = field !== 'temperature';
+      this.option.apiOptions.temperature.use = field !== 'top_p';
     }
   }
 
-  private getUse(setting: Setting) {
-    let temp: { [key: string]: boolean; } = {};
-    Object.entries(setting)
-      .forEach(([key, value]: [string, any]) => {
-        temp[key] = !!value;
-      });
-    return temp;
+  submit(option: SettingOption) {
+    this.store.setSettingOption(option);
+    this.storage.set('CURRENT_OPTION', option);
+  }
+
+  save() {
+    const dialog = this.dialogService.open({
+      id: 'save-option',
+      title: '保存',
+      contentTemplate: this.saveDialog,
+      buttons: [
+        {
+          text: '确定',
+          cssClass: 'primary',
+          handler: () => {
+            const title = this.saveInput.nativeElement.value;
+            if (!title) return;
+            const savedOptions = this.storage.get('CHAT_OPTIONS');
+            if (!savedOptions) {
+              this.storage.set('CHAT_OPTIONS', [{ title, option: this.option }]);
+              dialog.modalInstance.hide();
+              return;
+            }
+            savedOptions.push({ title, option: this.option });
+            this.storage.set('CHAT_OPTIONS', savedOptions);
+            dialog.modalInstance.hide();
+          }
+        },
+        {
+          text: '取消',
+          cssClass: 'common',
+          handler: () => {
+            dialog.modalInstance.hide();
+          }
+        }
+      ],
+    });
+    setTimeout(() => {
+      this.saveInput.nativeElement.focus();
+    });
   }
 
   ngOnInit() {
+    const option = this.storage.get('CURRENT_OPTION');
+    if (option) {
+      this.store.setSettingOption(option);
+    }
+    this.option = this.store.getSettingOption().getValue();
   }
 
 }

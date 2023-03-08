@@ -1,16 +1,42 @@
-<div class="input-bar">
+<div class="input-wrapper">
+  <div class="input-bar">
     <d-button class="large-btn" bsSize='lg' (btnClick)="clear()" icon="icon-delete"
-        bsStyle="primary" title="重置"></d-button>
-    <textarea #chatInput class="chat-input" name="chat" [(ngModel)]="chatinput"
-        dTextarea (input)="textInput()"></textarea>
+      bsStyle="primary" title="重置"></d-button>
+    <textarea class="chat-input" name="chat" [(ngModel)]="chatInput" dTextarea
+      (input)="textInput()" (keydown)="preventEnter($event)"
+      (keyup)="enter($event)"></textarea>
     <d-button class="large-btn send" (btnClick)="chat()" icon="icon-publish"
-        title="发送"></d-button>
+      title="发送"></d-button>
     <d-button class="large-btn" bsStyle="common" icon="icon-save"
-        title="保存对话"></d-button>
+      title="保存对话"></d-button>
     <d-button class="large-btn" bsStyle="common" icon="icon-search-replace"
-        title="读取对话"></d-button>
+      title="读取对话"></d-button>
     <d-button class="large-btn separate" bsStyle="common" icon="icon-go-module"
-        title="切换模式"></d-button>
+      title="切换配置" (btnClick)="showOptions()"></d-button>
     <d-button class="large-btn" bsStyle="common" icon="icon-setting"
-        [routerLink]="'./setting'" title="设置"></d-button>
+      [routerLink]="'./setting'" title="设置"></d-button>
+  </div>
 </div>
+
+<ng-template #optionsList>
+  <d-data-table [dataSource]="settingOptions" [fixHeader]="true" tableHeight="320px"
+    [containFixHeaderHeight]="true" [scrollable]="true">
+    <d-column field="$index" width="60px"></d-column>
+    <d-column field="title"></d-column>
+    <d-column width="100px">
+      <d-cell>
+        <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
+          <d-icon-group>
+            <d-icon title="选择" [operable]="true" icon="icon-right"
+              (click)="selectOption(rowItem)"></d-icon>
+            <d-icon title="删除" [operable]="true" icon="icon-delete"
+              (click)="removeOptions(rowIndex)"></d-icon>
+          </d-icon-group>
+        </ng-template>
+      </d-cell>
+    </d-column>
+    <ng-template #noResultTemplateRef>
+      <div style="text-align: center; margin-top: 20px">无数据</div>
+    </ng-template>
+  </d-data-table>
+</ng-template>

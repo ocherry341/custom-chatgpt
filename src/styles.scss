@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'ng-devui/styles-var/devui-var.scss';
 
+body {
+    background-color: $devui-global-bg;
+}
+
 .large-btn {
 
     height: 50px;

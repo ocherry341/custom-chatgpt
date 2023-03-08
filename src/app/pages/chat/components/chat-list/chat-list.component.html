@@ -1,6 +1,8 @@
-<div class="chat-list" *ngFor="let msg of chatMessages$|async;odd as odd"
-  [ngClass]="{bot:odd}">
-  <div>{{msg.content}}</div>
+<div class="chat-list">
+  <div class="chat-item" *ngFor="let msg of chatMessages$|async;odd as odd"
+    [ngClass]="{bot:odd}">
+    <div>{{msg.content}}</div>
+  </div>
 </div>
 
 <!-- <d-button *ngIf="!hasApikey" (btnClick)="login()">log in</d-button> -->

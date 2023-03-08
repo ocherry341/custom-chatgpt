@@ -1,152 +1,205 @@
-<!-- <div style="font-size: x-large;">
-  result
-  <div>
-    {{setting|json}}
-  </div>
-
-  <div>use
-    {{use|json}}
-  </div>
-</div> -->
-<div class="layout">
+<div class="setting-layout">
   <div class="setting-content">
     <div class="setting-header">
-      <div class="back" [routerLink]="['/']">
-        <i class="icon icon-arrow-left"></i>返回
+      <div class="operate">
+        <d-icon-group>
+          <d-icon dTooltip [content]="'返回'" [position]="['bottom','left','right']"
+            icon="icon-go-back" [operable]="true" [routerLink]="['/']"></d-icon>
+          <d-icon dTooltip [content]="'保存'" [position]="['bottom','left','right']"
+            icon="icon-save" [operable]="true" (click)="save()"></d-icon>
+        </d-icon-group>
       </div>
+
       <div class="title">设置</div>
+
     </div>
     <form [layout]="formLayout" class="setting-form" dForm>
       <div class="setting-title">通用</div>
-      <d-row [dGutter]="48" [dSpace]="24">
-        <d-col [dSpan]="3">
+
+      <d-row [dGutter]="48" [dSpace]="12">
+        <d-col [dSpan]="{ss:24,ms:5,mm:3}">
           ApiKey
         </d-col>
-        <d-col [dSpan]="18">
-          <input name="chat-apikey" dTextInput [(ngModel)]="setting.apikey">
+        <d-col [dSpan]="{ss:24,ms:19,mm:18}">
+          <input style="margin-bottom: 24px;" name="chat-apikey" dTextInput
+            [(ngModel)]="option.apikey.value" (ngModelChange)="submit(option)"
+            placeholder="Your OpenAI ApiKey">
         </d-col>
       </d-row>
-      <d-row [dGutter]="48">
-        <d-col [dSpan]="3">
+
+      <d-row [dGutter]="48" [dSpace]="12">
+        <d-col [dSpan]="{ss:24,ms:5,mm:3}">
           ApiUrl
         </d-col>
-        <d-col [dSpan]="18">
-          <input name="chat-apiurl" dTextInput [(ngModel)]="setting.apiurl">
+        <d-col [dSpan]="{ss:24,ms:19,mm:18}">
+          <input style="margin-bottom: 24px;" name="chat-apiurl" dTextInput
+            [(ngModel)]="option.apiurl.value" (ngModelChange)="submit(option)">
         </d-col>
       </d-row>
+
+      <d-row [dGutter]="48" [dSpace]="12">
+        <d-col [dSpan]="{ss:24,ms:5,mm:3}">
+          最近对话 <i class="icon icon-helping model-help" dTooltip
+            [content]="'记住最近的几组对话，-1为所有对话'"></i>
+        </d-col>
+        <d-col [dSpan]="{ss:8,ms:4,mm:2}">
+          <d-toggle name="use-memory" [(ngModel)]="option.memory.use"
+            (ngModelChange)="submit(option)"></d-toggle>
+        </d-col>
+        <d-col *ngIf="option.memory.use" [dSpan]="{ss:8,ms:6,mm:2}">
+          <d-input-number name="chat-memory" [(ngModel)]="option.memory.value"
+            (ngModelChange)="submit(option)" [min]="-1" [max]="1024" [step]="1"
+            [decimalLimit]="0"></d-input-number>
+        </d-col>
+
+      </d-row>
+
       <div class="setting-title">模型参数
-        <a class="model-help" target="_blank"
+        <a dTooltip [content]="'Learn more'" class="model-help" target="_blank"
           href="https://platform.openai.com/docs/api-reference/chat/create">
-          <i class="icon icon-op-help"></i></a>
+          <i class="icon icon-helping"></i></a>
       </div>
       <d-row [dGutter]="48">
-        <d-col [dSpan]="10">
+        <d-col [dSpan]="{ss:24,mm:10}">
           <d-form-item>
             <div class="toggle-label">
-              <d-form-label>预设</d-form-label>
-              <d-toggle name="use-system" [(ngModel)]="use['system']"></d-toggle>
+              <d-form-label>system <a dTooltip
+                  [content]="'The behavior of the assistant'" class="model-help"
+                  target="_blank"
+                  href="https://platform.openai.com/docs/guides/chat/introduction">
+                  <i class="icon icon-helping"></i></a></d-form-label>
+              <d-toggle name="use-system" [(ngModel)]="option.system.use"
+                (ngModelChange)="submit(option)"></d-toggle>
             </div>
             <d-form-control>
-              <textarea dTextarea name="chat-system" style="height: 512px;"
-                [(ngModel)]="setting.system"></textarea>
+              <textarea dTextarea name="chat-system" style="height: 514px;"
+                [(ngModel)]="option.system.value" (ngModelChange)="submit(option)"
+                [placeholder]="systemPlaceholder"></textarea>
             </d-form-control>
           </d-form-item>
         </d-col>
 
-        <d-col [dSpan]="6">
+        <d-col [dSpan]="{ss:24,mm:6}">
           <d-form-item>
             <d-form-label>model</d-form-label>
             <d-form-control>
-              <d-select name="chat-model" [(ngModel)]="setting.model"
-                [options]="['gpt-3.5-turbo','gpt-3.5-turbo-0301']"></d-select>
+              <d-select name="chat-model" [(ngModel)]="option.apiOptions.model.value"
+                [options]="['gpt-3.5-turbo','gpt-3.5-turbo-0301']"
+                (ngModelChange)="submit(option)"></d-select>
             </d-form-control>
           </d-form-item>
           <d-form-item>
             <div class="toggle-label">
               <d-form-label>temperature</d-form-label>
-              <d-toggle name="use-temp" [(ngModel)]="use['temperature']"
-                (change)="tempChange($event,'temperature')"></d-toggle>
+              <d-toggle name="use-temp"
+                [(ngModel)]="option.apiOptions['temperature'].use"
+                (change)="tempChange($event,'temperature')"
+                (ngModelChange)="submit(option)"></d-toggle>
             </div>
             <d-form-control>
-              <d-input-number name="chat-temp" [(ngModel)]="setting.temperature"
-                [min]="0" [max]="2" [step]="0.1"></d-input-number>
+              <d-input-number name="chat-temp"
+                [(ngModel)]="option.apiOptions.temperature.value" [min]="0" [max]="2"
+                [step]="0.1" (ngModelChange)="submit(option)"></d-input-number>
             </d-form-control>
           </d-form-item>
           <d-form-item>
             <div class="toggle-label">
               <d-form-label>top_p</d-form-label>
-              <d-toggle name="use-top_p" [(ngModel)]="use['top_p']"
-                (change)="tempChange($event,'top_p')"></d-toggle>
+              <d-toggle name="use-top_p" [(ngModel)]="option.apiOptions['top_p'].use"
+                (change)="tempChange($event,'top_p')"
+                (ngModelChange)="submit(option)"></d-toggle>
             </div>
             <d-form-control>
               <d-input-number name="chat-top_p" [min]="0" [max]="1" [step]="0.1"
-                [(ngModel)]="setting.top_p"></d-input-number>
+                [(ngModel)]="option.apiOptions.top_p.value"
+                (ngModelChange)="submit(option)"></d-input-number>
             </d-form-control>
           </d-form-item>
           <d-form-item>
             <div class="toggle-label">
               <d-form-label>max_tokens</d-form-label>
-              <d-toggle name="use-tokens" [(ngModel)]="use['max_tokens']"></d-toggle>
+              <d-toggle name="use-tokens"
+                [(ngModel)]="option.apiOptions['max_tokens'].use"
+                (ngModelChange)="submit(option)"></d-toggle>
             </div>
             <d-form-control>
-              <d-input-number name="chat-tokens" [(ngModel)]="setting.max_tokens"
-                [min]="0" [decimalLimit]="0"></d-input-number>
+              <d-input-number name="chat-tokens"
+                [(ngModel)]="option.apiOptions.max_tokens.value" [min]="0"
+                [decimalLimit]="0" (ngModelChange)="submit(option)"></d-input-number>
             </d-form-control>
           </d-form-item>
           <d-form-item>
             <div class="toggle-label">
               <d-form-label>presence_penalty</d-form-label>
               <d-toggle name="use-presence"
-                [(ngModel)]="use['presence_penalty']"></d-toggle>
+                [(ngModel)]="option.apiOptions['presence_penalty'].use"
+                (ngModelChange)="submit(option)"></d-toggle>
             </div>
             <d-form-control>
               <d-input-number name="chat-presence"
-                [(ngModel)]="setting.presence_penalty" [min]="-2" [max]="2"
-                [step]="0.1"></d-input-number>
+                [(ngModel)]="option.apiOptions.presence_penalty.value" [min]="-2"
+                [max]="2" [step]="0.1"
+                (ngModelChange)="submit(option)"></d-input-number>
             </d-form-control>
           </d-form-item>
           <d-form-item>
             <div class="toggle-label">
               <d-form-label>frequency_penalty</d-form-label>
               <d-toggle name="use-freq"
-                [(ngModel)]="use['frequency_penalty']"></d-toggle>
+                [(ngModel)]="option.apiOptions['frequency_penalty'].use"
+                (ngModelChange)="submit(option)"></d-toggle>
             </div>
             <d-form-control>
               <d-input-number name="chat-freq"
-                [(ngModel)]="setting.frequency_penalty" [min]="-2" [max]="2"
-                [step]="0.1"></d-input-number>
+                [(ngModel)]="option.apiOptions.frequency_penalty.value" [min]="-2"
+                [max]="2" [step]="0.1"
+                (ngModelChange)="submit(option)"></d-input-number>
             </d-form-control>
           </d-form-item>
           <d-form-item>
             <div class="toggle-label">
               <d-form-label>n</d-form-label>
-              <d-toggle name="use-n" [(ngModel)]="use['n']"></d-toggle>
+              <d-toggle name="use-n" [(ngModel)]="option.apiOptions['n'].use"
+                (ngModelChange)="submit(option)"></d-toggle>
             </div>
             <d-form-control>
-              <d-input-number name="chat-n" [(ngModel)]="setting.n" [min]="0"
-                [decimalLimit]="0"></d-input-number>
+              <d-input-number name="chat-n" [(ngModel)]="option.apiOptions.n.value"
+                [min]="0" [decimalLimit]="0"
+                (ngModelChange)="submit(option)"></d-input-number>
             </d-form-control>
           </d-form-item>
         </d-col>
 
-        <d-col [dSpan]="8">
+        <d-col [dSpan]="{ss:24,mm:8}">
           <d-form-item>
             <div class="toggle-label">
-              <d-form-label>logit_bias</d-form-label>
-              <d-toggle name="use-bias" [(ngModel)]="use['logit_bias']"></d-toggle>
+              <d-form-label>logit_bias <a dTooltip [content]="'Get TokenIDs'"
+                  class="model-help" target="_blank"
+                  href="https://platform.openai.com/tokenizer">
+                  <i class="icon icon-helping"></i></a></d-form-label>
+              <d-toggle name="use-bias"
+                [(ngModel)]="option.apiOptions.logit_bias.use"
+                (ngModelChange)="submit(option)"></d-toggle>
             </div>
             <d-form-control>
-              <input name="chat-bias" [(ngModel)]="setting.logit_bias">
+              <textarea dTextarea style="height: 231px;" name="chat-bias"
+                [(ngModel)]="option.apiOptions.logit_bias.value"
+                (ngModelChange)="submit(option)"
+                [placeholder]="biasPlaceholder"></textarea>
             </d-form-control>
           </d-form-item>
 
           <d-form-item>
             <div class="toggle-label">
               <d-form-label>stop</d-form-label>
-              <d-toggle name="use-stop" [(ngModel)]="use['stop']"></d-toggle>
+              <d-toggle name="use-stop" [(ngModel)]="option.apiOptions['stop'].use"
+                (ngModelChange)="submit(option)"></d-toggle>
             </div>
             <d-form-control>
-              <input name="chat-stop" [(ngModel)]="setting.stop">
+              <textarea dTextarea style="height: 231px;" name="chat-stop"
+                [(ngModel)]="option.apiOptions.stop.value"
+                (ngModelChange)="submit(option)"
+                [placeholder]="stopPlaceholder"></textarea>
             </d-form-control>
           </d-form-item>
         </d-col>
@@ -154,3 +207,8 @@
     </form>
   </div>
 </div>
+
+<ng-template #saveDialog>
+  <div style="margin-bottom: 7px;font-size: 14px;">输入配置名称</div>
+  <input #saveInput dTextInput>
+</ng-template>

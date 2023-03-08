@@ -12,7 +12,7 @@ export interface ChatResponse {
 interface Choice {
     finish_reason?: string;
     index?: number;
-    ChatMessage?: ChatMessage;
+    message?: ChatMessage;
 }
 
 
