@@ -1,8 +1,9 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DialogService } from 'ng-devui';
 import { BehaviorSubject } from 'rxjs';
-import { LocalStorageService, StoreService } from 'src/app/@core/services';
+import { StoreService } from 'src/app/@core/services';
 import { ChatMessage } from 'src/app/@shared/models/chat-messages.model';
+import { ChatService } from '../../chat.service';
 
 
 @Component({
@@ -16,8 +17,8 @@ export class ChatListComponent implements OnInit {
 
   constructor(
     private dialogService: DialogService,
-    private storage: LocalStorageService,
     private store: StoreService,
+    public chat: ChatService
   ) { }
 
   apikey: string | null;

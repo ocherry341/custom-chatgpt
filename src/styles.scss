@@ -20,10 +20,8 @@ body {
     }
 }
 
-// .layout {
-//     padding-left: 30px;
-//     padding-right: 30px;
-
-//     max-width: 1260px;
-//     margin: 0 auto;
-// }
+.markdown-clipboard-button {
+    background-color: $devui-brand-foil;
+    padding: 6px 16px;
+    border-radius: $devui-border-radius;
+}

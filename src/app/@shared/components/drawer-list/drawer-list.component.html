@@ -1,0 +1,22 @@
+<div class="drawer-menu">
+  <div class="drawer-header">
+    <d-icon icon="icon-delete" [operable]="true" (click)="clear()">
+      <span iconPrefix>清空</span>
+    </d-icon>
+  </div>
+  <ul class="list-group" [style.margin-top.px]="20">
+    <li (click)="selectItem(i)" class="list-group-item"
+      *ngFor="let item of items; let i = index">
+      <div class="item-title" [title]="item.title">{{
+        item.title }}</div>
+      <div class="item-icon">
+        <d-icon icon="icon-delete" [operable]="true"
+          (click)="deleteItem($event,i)"></d-icon>
+      </div>
+    </li>
+  </ul>
+  <div class="operation-area">
+
+    <!-- <d-button icon="icon-delete" bsSize='lg'>清空</d-button> -->
+  </div>
+</div>

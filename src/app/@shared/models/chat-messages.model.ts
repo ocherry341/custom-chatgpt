@@ -7,6 +7,6 @@ export interface ChatMessage {
 
 export interface SavedChatMessage {
     title: string;
-    message: ChatMessage;
+    message: ChatMessage[];
     option: SettingOption;
 }

@@ -18,7 +18,7 @@ export interface ChatRequest {
      */
     n?: number;
     presence_penalty?: number;
-    stop?: any[] | string;
+    stop?: string[];
     /**
      * If set, partial ChatMessage deltas will be sent, like in ChatGPT. Tokens will be sent as
      * data-only server-sent events as they become available, with the stream terminated by a

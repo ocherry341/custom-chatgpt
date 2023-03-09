@@ -7,6 +7,8 @@
             icon="icon-go-back" [operable]="true" [routerLink]="['/']"></d-icon>
           <d-icon dTooltip [content]="'保存'" [position]="['bottom','left','right']"
             icon="icon-save" [operable]="true" (click)="save()"></d-icon>
+          <d-icon dTooltip [content]="'复制请求体'" [position]="['bottom','left','right']"
+            icon="icon-copy" [operable]="true" (click)="copyBody()"></d-icon>
         </d-icon-group>
       </div>
 
@@ -93,7 +95,7 @@
               <d-form-label>temperature</d-form-label>
               <d-toggle name="use-temp"
                 [(ngModel)]="option.apiOptions['temperature'].use"
-                (change)="tempChange($event,'temperature')"
+                (change)="temperatureChange($event,'temperature')"
                 (ngModelChange)="submit(option)"></d-toggle>
             </div>
             <d-form-control>
@@ -106,7 +108,7 @@
             <div class="toggle-label">
               <d-form-label>top_p</d-form-label>
               <d-toggle name="use-top_p" [(ngModel)]="option.apiOptions['top_p'].use"
-                (change)="tempChange($event,'top_p')"
+                (change)="temperatureChange($event,'top_p')"
                 (ngModelChange)="submit(option)"></d-toggle>
             </div>
             <d-form-control>
@@ -196,10 +198,14 @@
                 (ngModelChange)="submit(option)"></d-toggle>
             </div>
             <d-form-control>
-              <textarea dTextarea style="height: 231px;" name="chat-stop"
+              <!-- <textarea dTextarea style="height: 231px;" name="chat-stop"
                 [(ngModel)]="option.apiOptions.stop.value"
                 (ngModelChange)="submit(option)"
-                [placeholder]="stopPlaceholder"></textarea>
+                [placeholder]="stopPlaceholder"></textarea> -->
+              <d-tags-input name="chat-stop" [tags]="stopTags" [(ngModel)]="stopTags"
+                placeholder="添加一个参数" [maxTags]="4" [minLength]="1"
+                [showSuggestion]="false"
+                (ngModelChange)="stopTagsChange($event)"></d-tags-input>
             </d-form-control>
           </d-form-item>
         </d-col>

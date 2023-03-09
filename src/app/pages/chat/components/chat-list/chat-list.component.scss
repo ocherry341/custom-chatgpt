@@ -13,4 +13,23 @@
     &.bot {
         background-color: $devui-list-item-strip-bg;
     }
+
+    &.loading {
+        padding: {
+            top: 20px;
+            bottom: 20px;
+            left: 36px;
+        }
+    }
+
+    &.error {
+        padding: 20px 36px;
+
+        div {
+            background-color: $devui-danger-bg;
+            padding: 10px;
+            border: 1px solid $devui-danger-line;
+            border-radius: $devui-border-radius-card;
+        }
+    }
 }

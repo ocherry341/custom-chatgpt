@@ -1,9 +1,8 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { DialogService, ModalComponent, ToastService } from 'ng-devui';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { ToastService } from 'ng-devui';
+import { Subject, throttleTime } from 'rxjs';
 import { LocalStorageService, StoreService } from 'src/app/@core/services';
-import { HttpApiService } from 'src/app/@core/services/http-api.service';
-import { SavedSettingOption } from 'src/app/@shared/models/setting.model';
+import { ChatService } from '../../chat.service';
 
 @Component({
   selector: 'app-chat-input',
@@ -13,54 +12,44 @@ import { SavedSettingOption } from 'src/app/@shared/models/setting.model';
 export class ChatInputComponent implements OnInit {
 
   @ViewChild('optionsList', { read: TemplateRef }) optionsList: TemplateRef<void>;
-  // @HostListener('window:keyup', ['$event'])
-  // enter(e: KeyboardEvent) {
-  //   if (e.key === 'Enter') {
-  //     this.chat();
-  //   }
-  // }
+  @Input() chatTitle: string = 'Untitled Chat';
+  @Input() chatIndex: number;
+  @Output() optionsClick = new EventEmitter<void>();
+  @Output() chatsClick = new EventEmitter<void>();
+  @Output() chatFinish = new EventEmitter<void>();
 
   constructor(
-    private http: HttpApiService,
     private store: StoreService,
     private storage: LocalStorageService,
-    private dialogService: DialogService,
+    public chatService: ChatService,
     private toastService: ToastService
   ) { }
 
   chatInput: string;
-  settingOptions: SavedSettingOption[] = [];
-  dialog: ModalComponent;
-  generating: boolean = false;
 
-  showOptions() {
-    this.dialog = this.dialogService.open({
-      id: 'op',
-      title: '保存的配置',
-      contentTemplate: this.optionsList,
-      width: '320px',
-      buttons: []
-    }).modalInstance;
-  }
+  saveClick$ = new Subject<void>();
 
-  removeOptions(index: number) {
-    this.settingOptions.splice(index, 1);
-    this.storage.set('CHAT_OPTIONS', this.settingOptions);
-    if (this.settingOptions.length === 0) {
-      this.dialog.hide();
+  private getCurrentOption() {
+    const currentOption = this.storage.get('CURRENT_OPTION');
+    if (currentOption) {
+      this.store.setSettingOption(currentOption);
     }
   }
 
-  selectOption(savedOption: SavedSettingOption) {
-    this.store.setSettingOption(savedOption.option);
-    this.storage.set('CURRENT_OPTION', savedOption.option);
-    this.dialog.hide();
-    this.toastService.open({
-      value: [{
-        content: `载入配置 ${savedOption.title}`,
-        severity: 'success',
-      }]
-    });
+  ngOnInit() {
+    this.getCurrentOption();
+    this.saveClick$.pipe(throttleTime(1000))
+      .subscribe(() => {
+        this.saveChats();
+      });
+  }
+
+  showOptions() {
+    this.optionsClick.emit();
+  }
+
+  showChats() {
+    this.chatsClick.emit();
   }
 
   enter(e: KeyboardEvent) {
@@ -75,44 +64,40 @@ export class ChatInputComponent implements OnInit {
     }
   }
 
-
   textInput() {
     // this.chatInput.nativeElement.style.height = `${this.chatInput.nativeElement.scrollHeight}px`;
   }
 
   chat() {
-    if (!this.generating && this.chatInput) {
-      this.store.pushChatMessages({ role: 'user', content: this.chatInput });
-      this.chatInput = '';
-      this.generating = true;
-      this.http.chat(this.chatInput)
-        .subscribe({
-          next: (res) => {
-            const msg = res.choices[0].message ?? { role: 'assistant', content: 'err' };
-            this.store.pushChatMessages(msg);
-            this.generating = false;
-          },
-          error: (err: HttpErrorResponse) => {
-            console.log(err.error.error.message);
-          },
-        });
-    }
-
+    this.chatService.chat(this.chatInput).subscribe((res) => {
+      if (res) {
+        this.chatInput = '';
+        this.chatFinish.emit();
+      }
+    });
   }
 
   clear() {
     this.store.setChatMessages([]);
+    this.chatService.onError = false;
   }
 
-  ngOnInit() {
-    const options = this.storage.get('CHAT_OPTIONS');
-    if (options) {
-      this.settingOptions = options;
+  saveChats() {
+    const message = this.store.getChatMessages().getValue();
+    if (!message || message.length === 0) return;
+    const option = this.store.getSettingOption().getValue();
+    const thisChat = { title: this.chatTitle, message, option };
+
+    const chatsSessions = this.storage.get('CHAT_SESSION');
+    if (chatsSessions) {
+      this.chatIndex != undefined
+        ? chatsSessions[this.chatIndex] = thisChat
+        : chatsSessions.push(thisChat);
+      this.storage.set('CHAT_SESSION', chatsSessions);
+    } else {
+      this.storage.set('CHAT_SESSION', [thisChat]);
     }
-    const currentOption = this.storage.get('CURRENT_OPTION');
-    if (currentOption) {
-      this.store.setSettingOption(currentOption);
-    }
+    this.toastService.open({ value: [{ summary: '已保存', severity: 'success', life: 4500 }] });
   }
 
 }

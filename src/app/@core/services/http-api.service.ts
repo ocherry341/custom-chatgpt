@@ -1,9 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { throttleTime } from 'rxjs';
+import { Observable, catchError, map, retry, throttleTime } from 'rxjs';
 import { ChatMessage } from 'src/app/@shared/models/chat-messages.model';
 import { ChatRequest } from 'src/app/@shared/models/chat-request.model';
 import { ChatResponse } from 'src/app/@shared/models/chat-response.model';
+import { SettingValue } from 'src/app/@shared/models/setting.model';
 import { environment } from 'src/environments/environment';
 import { StoreService } from './store.service';
 
@@ -17,9 +18,15 @@ export class HttpApiService {
 
   private createchat: string = `/v1/chat/completions`;
 
-  chat(content: string) {
+  private getHeader(apikey: string): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apikey}`
+    });
+  }
+
+  getBody(option: SettingValue, chatInput: string): ChatRequest {
     const messages = this.store.getChatMessages().getValue();
-    const option = this.store.getSettingValue();
     let chatMsg: ChatMessage[] = JSON.parse(JSON.stringify(messages));
 
     if (option.memory && option.memory !== -1) {
@@ -29,23 +36,61 @@ export class HttpApiService {
       }
     }
 
-    chatMsg.push({ role: 'user', content });
+    chatMsg.push({ role: 'user', content: chatInput });
     if (option.system) {
       chatMsg.unshift({ role: 'system', content: option.system });
     }
 
-    const url = `${option.apiurl || environment.defaultBaseUrl}${this.createchat}`;
-    const body: ChatRequest = {
+
+    return {
       messages: chatMsg,
       stream: false,
       ...option.apiOptions,
     };
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${option.apikey}`
-    });
-    console.log(body);
-    return this.http.post<ChatResponse>(url, body, { headers }).pipe(throttleTime(500));
+  }
+
+  chat(chatInput: string) {
+    const option = this.store.getSettingValue();
+    const url = `${option.apiurl || environment.defaultBaseUrl}${this.createchat}`;
+    const body: ChatRequest = this.getBody(option, chatInput);
+    const headers = this.getHeader(option.apikey);
+    return this.http.post<ChatResponse>(url, body, { headers })
+      .pipe(
+        throttleTime(500),
+        catchError(err => {
+          throw this.handleErr(err);
+        })
+      );
+  }
+
+  genChatTitle(messages: ChatMessage[]): Observable<string> {
+    const defaultTitle = 'Untitled Chat';
+    const option = this.store.getSettingValue();
+    const url = `${option.apiurl || environment.defaultBaseUrl}${this.createchat}`;
+    const headers = this.getHeader(option.apikey);
+    const queryMsg = messages.slice(0, 2);
+    queryMsg.push({ role: 'user', content: '为以上对话取一个标题，10个字以内' });
+    const body: ChatRequest = { model: 'gpt-3.5-turbo', messages: queryMsg };
+    return this.http.post<ChatResponse>(url, body, { headers })
+      .pipe(
+        map(res => {
+          return res.choices[0].message?.content ?? defaultTitle;
+        }),
+        throttleTime(1000),
+        retry(2),
+        catchError(err => {
+          return defaultTitle;
+        }),
+      );
+  }
+
+  handleErr(err): string {
+    if (err instanceof HttpErrorResponse) {
+      const msg = err.error?.error?.message ?? err.message;
+      return msg;
+    } else {
+      return '未知错误';
+    }
   }
 
   // chat(content: string) {

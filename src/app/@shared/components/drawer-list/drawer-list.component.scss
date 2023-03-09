@@ -1,0 +1,46 @@
+@import 'ng-devui/styles-var/devui-var.scss';
+
+.list-group-item {
+    font-size: 16px;
+    border-bottom: 1px solid $devui-dividing-line;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    .item-title {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .item-icon {
+        padding-left: 12px;
+    }
+
+    &:hover {
+        background-color: $devui-list-item-hover-bg;
+    }
+}
+
+.operation-area {
+    margin: 16px 24px;
+
+    d-button {
+        margin-top: 16px;
+    }
+}
+
+.drawer-header {
+    margin: 20px 24px 0 0;
+    text-align: right;
+    font-size: 14px;
+
+}
+
+:host::ng-deep {
+    .devui-icon {
+        font-size: 18px !important;
+    }
+}

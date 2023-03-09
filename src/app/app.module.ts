@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DevUIGlobalConfig, DevUIGlobalConfigToken } from 'ng-devui/utils';
+import { MarkdownModule } from 'ngx-markdown';
 import { CoreModule } from './@core/core.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -33,6 +34,7 @@ const GLOBAL_CONFIG: DevUIGlobalConfig = {
     HttpClientModule,
     BrowserAnimationsModule,
     CoreModule.forRoot(),
+    MarkdownModule.forRoot(),
   ],
   providers: [
     {

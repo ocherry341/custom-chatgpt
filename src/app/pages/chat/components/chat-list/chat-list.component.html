@@ -1,12 +1,24 @@
 <div class="chat-list">
   <div class="chat-item" *ngFor="let msg of chatMessages$|async;odd as odd"
     [ngClass]="{bot:odd}">
-    <div>{{msg.content}}</div>
+    <markdown clipboard [data]="msg.content"></markdown>
+    <!-- <div>{{msg.content}}</div> -->
   </div>
+
+  <div *ngIf="chat.generating" class="chat-item bot loading">
+    <d-icon [icon]="'icon-loading'" [rotate]="'infinite'">
+      <span iconSuffix>加载中</span>
+    </d-icon>
+  </div>
+
+  <div *ngIf="chat.onError" class="chat-item bot error">
+    <d-icon [icon]="'icon-error-o'" [color]="'rgb(249, 95, 91)'"></d-icon>
+    <div>{{chat.errMessage}}</div>
+  </div>
+
 </div>
 
 <!-- <d-button *ngIf="!hasApikey" (btnClick)="login()">log in</d-button> -->
-
 
 <ng-template #apikeyInput>
   <div>输入OpenAI Apikey</div>
