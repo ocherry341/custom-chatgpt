@@ -1,5 +1,6 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DrawerService, ToastService } from 'ng-devui';
+import { Subject, takeUntil } from 'rxjs';
 import { LocalStorageService, StoreService } from 'src/app/@core/services';
 import { SavedChatMessage } from 'src/app/@shared/models/chat-messages.model';
 import { SavedSettingOption } from 'src/app/@shared/models/setting.model';
@@ -12,7 +13,7 @@ type DrawerItems = SavedSettingOption[] | SavedChatMessage[];
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
 
   @ViewChild('drawer', { read: TemplateRef }) drawerTpl: TemplateRef<void>;
 
@@ -24,11 +25,13 @@ export class ChatComponent implements OnInit {
     private chatService: ChatService
   ) { }
 
+
   drawerItems: DrawerItems = [];
   close: () => void;
   currentStorage: 'CHAT_OPTIONS' | 'CHAT_SESSION';
-  chatTitle: string = 'UnTitled Chat';
+  chatTitle: string = '新对话';
   chatIndex: number;
+  destroy$ = new Subject<void>();
 
   private showDrawer(items: DrawerItems | null) {
     this.drawerItems = items ? items : [];
@@ -74,18 +77,15 @@ export class ChatComponent implements OnInit {
       this.store.setChatMessages(item.message);
       this.chatTitle = item.title;
       this.chatIndex = index;
+    } else {
+      this.toastService.open({
+        value: [{
+          summary: `载入配置 ${item.title}`,
+          severity: 'success',
+          life: 4500,
+        }]
+      });
     }
-
-    const toastTile = this.currentStorage === 'CHAT_OPTIONS'
-      ? '载入配置'
-      : '载入对话';
-    this.toastService.open({
-      value: [{
-        summary: `${toastTile} ${item.title}`,
-        severity: 'success',
-        life: 4500,
-      }]
-    });
   }
 
   chatFinish() {
@@ -95,11 +95,19 @@ export class ChatComponent implements OnInit {
         this.chatTitle = val;
       });
     }
-
   }
 
 
+  ngOnInit() {
+    this.chatService.onChatClear().pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.chatIndex = -1;
+      });
+  }
 
-  ngOnInit() { }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
 }

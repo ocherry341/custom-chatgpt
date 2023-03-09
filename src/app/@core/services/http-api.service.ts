@@ -64,7 +64,7 @@ export class HttpApiService {
   }
 
   genChatTitle(messages: ChatMessage[]): Observable<string> {
-    const defaultTitle = 'Untitled Chat';
+    const defaultTitle = '新对话';
     const option = this.store.getSettingValue();
     const url = `${option.apiurl || environment.defaultBaseUrl}${this.createchat}`;
     const headers = this.getHeader(option.apikey);

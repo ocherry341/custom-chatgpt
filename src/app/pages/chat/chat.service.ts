@@ -4,6 +4,8 @@ import { StoreService } from 'src/app/@core/services';
 import { HttpApiService } from 'src/app/@core/services/http-api.service';
 import { ChatResponse } from 'src/app/@shared/models/chat-response.model';
 
+
+
 @Injectable()
 export class ChatService {
 
@@ -11,11 +13,32 @@ export class ChatService {
     private http: HttpApiService,
     private store: StoreService,
   ) { }
+
   generating: boolean = false;
-  onError: boolean = false;
+  haveError: boolean = false;
   errMessage: string = '';
 
   private errMessage$: Subject<string> = new Subject<string>();
+
+  private chatSave$ = new Subject<void>();
+  private chatClear$ = new Subject<void>();
+
+  sendChatSaveEvent() {
+    this.chatSave$.next();
+  }
+
+  sendChatClearEvent() {
+    this.chatClear$.next();
+  }
+
+  onChatSave() {
+    return this.chatSave$.asObservable();
+  }
+
+  onChatClear() {
+    return this.chatClear$.asObservable();
+  }
+
 
   getErrMessage() {
     return this.errMessage$;
@@ -26,7 +49,7 @@ export class ChatService {
   }
 
   chat(input: string | undefined): Observable<ChatResponse | null> {
-    if (!this.generating && input && !this.onError) {
+    if (!this.generating && input && !this.haveError) {
       this.store.pushChatMessages({ role: 'user', content: input });
       this.generating = true;
       return this.http.chat(input).pipe(
@@ -38,7 +61,7 @@ export class ChatService {
           },
           error: (errMsg: string) => {
             this.generating = false;
-            this.onError = true;
+            this.haveError = true;
             this.errMessage = errMsg;
           },
         }),

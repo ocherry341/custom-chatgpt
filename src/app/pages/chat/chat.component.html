@@ -1,5 +1,5 @@
 <div class="chat-content">
-  <app-chat-list></app-chat-list>
+  <app-chat-list [chatIndex]="chatIndex" [chatTitle]="chatTitle"></app-chat-list>
   <app-chat-input (chatsClick)="chatsClick()" (optionsClick)="optionsClick()"
     (chatFinish)="chatFinish()" [chatTitle]="chatTitle"
     [chatIndex]="chatIndex"></app-chat-input>

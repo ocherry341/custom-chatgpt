@@ -1,9 +1,9 @@
-<div class="input-wrapper">
+<div class="input-fixed">
   <div class="input-bar">
     <d-button class="large-btn" bsSize='lg' (btnClick)="clear()" icon="icon-delete"
       bsStyle="primary" title="重置"></d-button>
-    <textarea class="chat-input" name="chat" [(ngModel)]="chatInput" dTextarea
-      (input)="textInput()" (keydown)="preventEnter($event)"
+    <textarea #textarea class="chat-input" name="chat" [(ngModel)]="chatInput"
+      dTextarea (input)="textInput()" (keydown)="preventEnter($event)"
       (keyup)="enter($event)"></textarea>
 
     <d-button class="large-btn send" (btnClick)="chat()"
@@ -22,3 +22,4 @@
       [routerLink]="'./setting'" title="设置"></d-button>
   </div>
 </div>
+<div #placeholder class="placeholder"></div>

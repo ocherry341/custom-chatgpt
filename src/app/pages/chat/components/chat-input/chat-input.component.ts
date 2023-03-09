@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ToastService } from 'ng-devui';
 import { Subject, throttleTime } from 'rxjs';
 import { LocalStorageService, StoreService } from 'src/app/@core/services';
@@ -11,9 +11,11 @@ import { ChatService } from '../../chat.service';
 })
 export class ChatInputComponent implements OnInit {
 
-  @ViewChild('optionsList', { read: TemplateRef }) optionsList: TemplateRef<void>;
-  @Input() chatTitle: string = 'Untitled Chat';
-  @Input() chatIndex: number;
+  @ViewChild('textarea', { read: ElementRef }) textarea: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('placeholder', { read: ElementRef }) placeholder: ElementRef<HTMLDivElement>;
+
+  @Input() chatTitle: string = '新对话';
+  @Input() chatIndex: number = -1;
   @Output() optionsClick = new EventEmitter<void>();
   @Output() chatsClick = new EventEmitter<void>();
   @Output() chatFinish = new EventEmitter<void>();
@@ -65,7 +67,12 @@ export class ChatInputComponent implements OnInit {
   }
 
   textInput() {
-    // this.chatInput.nativeElement.style.height = `${this.chatInput.nativeElement.scrollHeight}px`;
+    this.textarea.nativeElement.style.height = `50px`;
+    this.placeholder.nativeElement.style.height = '110px';
+    const scrollHeight = this.textarea.nativeElement.scrollHeight;
+    this.textarea.nativeElement.style.height = `${scrollHeight}px`;
+    this.placeholder.nativeElement.style.height = `${scrollHeight + 60}px`;
+    console.log(scrollHeight + 60);
   }
 
   chat() {
@@ -79,7 +86,8 @@ export class ChatInputComponent implements OnInit {
 
   clear() {
     this.store.setChatMessages([]);
-    this.chatService.onError = false;
+    this.chatService.haveError = false;
+    this.chatService.sendChatClearEvent();
   }
 
   saveChats() {
@@ -90,7 +98,7 @@ export class ChatInputComponent implements OnInit {
 
     const chatsSessions = this.storage.get('CHAT_SESSION');
     if (chatsSessions) {
-      this.chatIndex != undefined
+      this.chatIndex > -1
         ? chatsSessions[this.chatIndex] = thisChat
         : chatsSessions.push(thisChat);
       this.storage.set('CHAT_SESSION', chatsSessions);
@@ -98,6 +106,7 @@ export class ChatInputComponent implements OnInit {
       this.storage.set('CHAT_SESSION', [thisChat]);
     }
     this.toastService.open({ value: [{ summary: '已保存', severity: 'success', life: 4500 }] });
+    this.chatService.sendChatSaveEvent();
   }
 
 }
