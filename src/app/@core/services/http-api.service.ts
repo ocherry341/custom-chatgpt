@@ -41,7 +41,6 @@ export class HttpApiService {
       chatMsg.unshift({ role: 'system', content: option.system });
     }
 
-
     return {
       messages: chatMsg,
       stream: false,
@@ -63,7 +62,8 @@ export class HttpApiService {
       );
   }
 
-  genChatTitle(messages: ChatMessage[]): Observable<string> {
+  genChatTitle(messages: ChatMessage[]): Observable<string> | undefined {
+    if (messages.length !== 2) return;
     const defaultTitle = '新对话';
     const option = this.store.getSettingValue();
     const url = `${option.apiurl || environment.defaultBaseUrl}${this.createchat}`;

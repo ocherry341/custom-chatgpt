@@ -1,7 +1,8 @@
 <div class="drawer-menu">
   <div class="drawer-header">
-    <d-icon icon="icon-delete" [operable]="true" (click)="clear()">
-      <span iconPrefix>清空</span>
+    <div>{{header}}</div>
+    <d-icon icon="icon-delete" title="清空" [color]="'white'" (click)="clear()">
+      <!-- <span iconPrefix>清空</span> -->
     </d-icon>
   </div>
   <ul class="list-group" [style.margin-top.px]="20">

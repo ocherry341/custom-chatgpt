@@ -33,9 +33,23 @@
 }
 
 .drawer-header {
-    margin: 20px 24px 0 0;
+    padding: 20px 32px;
     text-align: right;
     font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    background-color: $devui-feedback-overlay-bg;
+
+    div {
+        font-size: 18px;
+        margin-left: 6px;
+    }
+
+    d-icon {
+        cursor: pointer;
+    }
 
 }
 

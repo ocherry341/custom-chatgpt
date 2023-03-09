@@ -1,12 +1,61 @@
 <div class="chat-content">
-  <app-chat-list [chatIndex]="chatIndex" [chatTitle]="chatTitle"></app-chat-list>
-  <app-chat-input (chatsClick)="chatsClick()" (optionsClick)="optionsClick()"
-    (chatFinish)="chatFinish()" [chatTitle]="chatTitle"
-    [chatIndex]="chatIndex"></app-chat-input>
-</div>
+  <!-- Header -->
+  <div class="chat-header">
+    <div class="title">
+      <d-icon icon="icon-list-view" [color]="'white'" title="读取对话"
+        (click)="showList('CHAT_SESSION')" style="margin-right: 8px;"></d-icon>
+      {{chatTitle}}
+    </div>
+    <d-icon-group>
+      <d-icon icon="icon-go-module" [color]="'white'" title="切换配置"
+        (click)="showList('CHAT_OPTIONS')"></d-icon>
+      <d-icon icon="icon-setting" [color]="'white'" title="设置"
+        [routerLink]="'./setting'"></d-icon>
+    </d-icon-group>
 
-<ng-template #drawer>
-  <app-drawer-list [items]="drawerItems" [close]="close" (clearClick)="clearItems()"
-    (deleteClick)="deleteItem($event)"
-    (selectClick)="selectItems($event)"></app-drawer-list>
-</ng-template>
+  </div>
+  <!-- List -->
+  <div class="chat-list" (mouseleave)="mouseout()">
+    <div class="chat-item"
+      *ngFor="let msg of chatMessages$|async;odd as odd;index as i"
+      (mouseover)="chatListHover(i)" [ngClass]="{bot:odd}">
+      <markdown clipboard [data]="msg.content"></markdown>
+      <div *ngIf="i===hoverIndex&&i!==savedIndex&&odd" class="saved">
+        <d-icon title="保存对话" icon="icon-save" [operable]="true"
+          (click)="saveChats(i)">
+        </d-icon>
+      </div>
+      <div *ngIf="i===savedIndex" class="saved">
+        <d-icon title="已保存" icon="icon-save" [operable]="true" [color]="'#5e7ce0'">
+        </d-icon>
+      </div>
+    </div>
+
+    <div *ngIf="generating" class="chat-item bot loading">
+      <d-icon [icon]="'icon-loading'" [rotate]="'infinite'">
+        <span iconSuffix>加载中</span>
+      </d-icon>
+    </div>
+
+    <div *ngIf="haveError" class="chat-item bot error">
+      <d-icon [icon]="'icon-error-o'" [color]="'rgb(249, 95, 91)'"></d-icon>
+      <div>{{errMessage}}</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="chat-footer">
+    <div class="footer-bar">
+      <d-button class="large-btn" bsSize='lg' (btnClick)="clear()" icon="icon-delete"
+        bsStyle="primary" title="重置"></d-button>
+      <textarea #textarea class="chat-textarea" name="chat" [(ngModel)]="chatInput"
+        dTextarea (input)="setTextareaHeight()" (keydown)="preventEnter($event)"
+        (keyup)="enter($event)"></textarea>
+      <d-button class="large-btn send" (btnClick)="chat()"
+        [icon]="generating?'icon-loading devui-icon-spin':'icon-publish'"
+        title="发送"></d-button>
+    </div>
+  </div>
+  <div #placeholder class="footer-placeholder"></div>
+
+</div>

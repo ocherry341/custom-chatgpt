@@ -1,20 +1,18 @@
 <div class="setting-layout">
   <div class="setting-content">
+
     <div class="setting-header">
-      <div class="operate">
-        <d-icon-group>
-          <d-icon dTooltip [content]="'返回'" [position]="['bottom','left','right']"
-            icon="icon-go-back" [operable]="true" [routerLink]="['/']"></d-icon>
-          <d-icon dTooltip [content]="'保存'" [position]="['bottom','left','right']"
-            icon="icon-save" [operable]="true" (click)="save()"></d-icon>
-          <d-icon dTooltip [content]="'复制请求体'" [position]="['bottom','left','right']"
-            icon="icon-copy" [operable]="true" (click)="copyBody()"></d-icon>
-        </d-icon-group>
-      </div>
-
       <div class="title">设置</div>
-
+      <d-icon-group>
+        <d-icon title="返回" [color]="'white'" icon="icon-go-back"
+          [routerLink]="['/']"></d-icon>
+        <d-icon title="保存" [color]="'white'" icon="icon-save"
+          (click)="save()"></d-icon>
+        <d-icon title="复制请求体" [color]="'white'" icon="icon-copy"
+          (click)="copyBody()"></d-icon>
+      </d-icon-group>
     </div>
+
     <form [layout]="formLayout" class="setting-form" dForm>
       <div class="setting-title">通用</div>
 
