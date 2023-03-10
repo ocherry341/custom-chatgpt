@@ -96,6 +96,8 @@ export class ChatComponent implements OnInit, OnDestroy {
           this.chatTitle = item.title;
           this.chatIndex = index;
           this.savedIndex = this.chatMessages$.getValue().length - 1;
+          this.stop$.next();
+          this.haveError = false;
         }
       });
 
