@@ -28,27 +28,33 @@
 <div class="chat-content">
   <!-- List -->
   <div class="chat-list" (mouseleave)="mouseout()">
-    <div class="chat-item" *ngFor="let msg of chatMessages$|async;index as i"
-      (mouseover)="chatListHover(i)" [ngClass]="{bot:msg.role==='assistant'}">
-      <markdown clipboard [data]="msg.content"></markdown>
-      <div *ngIf="i===hoverIndex && i!==savedIndex && msg.role==='assistant'"
-        class="saved">
-        <d-icon title="保存对话" icon="icon-save" [operable]="true"
-          (click)="saveChats(i)">
-        </d-icon>
+    <ng-container *ngFor="let msg of chatMessages$|async;index as i">
+      <!-- User Block -->
+      <div class="chat-item" *ngIf="msg.role==='user'">
+        <div>{{msg.content}}</div>
       </div>
-      <div *ngIf="i===savedIndex" class="saved">
-        <d-icon title="已保存" icon="icon-save" [operable]="true" [color]="'#5e7ce0'">
-        </d-icon>
+      <!-- Bot Block -->
+      <div class="chat-item bot" (mouseover)="chatListHover(i)"
+        *ngIf="msg.role==='assistant'">
+        <markdown clipboard [data]="msg.content"></markdown>
+        <div *ngIf="i===hoverIndex && i!==savedIndex " class="saved">
+          <d-icon title="保存对话" icon="icon-save" [operable]="true"
+            (click)="saveChats(i)">
+          </d-icon>
+        </div>
+        <div *ngIf="i===savedIndex" class="saved">
+          <d-icon title="已保存" icon="icon-save" [operable]="true" [color]="'#5e7ce0'">
+          </d-icon>
+        </div>
       </div>
-    </div>
-
+    </ng-container>
+    <!-- Loading Block -->
     <div *ngIf="generating" class="chat-item bot loading">
       <d-icon [icon]="'icon-loading'" [rotate]="'infinite'">
         <span iconSuffix>加载中</span>
       </d-icon>
     </div>
-
+    <!-- Error Block -->
     <div *ngIf="haveError" class="chat-item bot error">
       <d-icon [icon]="'icon-error-o'" [color]="'rgb(249, 95, 91)'"></d-icon>
       <div>{{errMessage}}</div>
