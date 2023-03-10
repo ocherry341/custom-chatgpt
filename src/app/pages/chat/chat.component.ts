@@ -143,11 +143,18 @@ export class ChatComponent implements OnInit, OnDestroy {
   startChat() {
     this.store.pushChatMessages({ role: 'user', content: this.chatInput });
     if (!this.generating && this.chatInput && !this.haveError) {
+      this.clearInput();
       this.generating = true;
       this.stream
         ? this.chatStream()
         : this.chat();
     }
+  }
+
+  clearInput() {
+    this.chatInput = '';
+    this.textarea.nativeElement.style.height = `50px`;
+    this.placeholder.nativeElement.style.height = '110px';
   }
 
   chat() {
@@ -156,9 +163,6 @@ export class ChatComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           console.log(res);
-          if (res) this.chatInput = '';
-          this.textarea.nativeElement.style.height = `50px`;
-          this.placeholder.nativeElement.style.height = '110px';
           this.generating = false;
           const msg = res.choices[0].message ?? { role: 'assistant', content: 'err' };
           this.store.pushChatMessages(msg);
@@ -177,8 +181,32 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   chatStream() {
-
-    this.http.chatStream();
+    this.http.chatStream().subscribe({
+      next: (text) => {
+        const message = this.chatMessages$.value;
+        const lastMsg = message[message.length - 1];
+        if (lastMsg.role === 'user') {
+          this.generating = false;
+          message.push({ role: 'assistant', content: text });
+        } else {
+          lastMsg.content += text;
+        }
+      },
+      complete: () => {
+        const message = this.chatMessages$.value;
+        this.store.setChatMessages(message);
+        //gen Title
+        const title$ = this.http.genChatTitle(message);
+        if (title$) {
+          title$.subscribe(val => { this.chatTitle = val; });
+        }
+      },
+      error: (errMsg) => {
+        this.generating = false;
+        this.haveError = true;
+        this.errMessage = errMsg;
+      }
+    });
 
   }
 

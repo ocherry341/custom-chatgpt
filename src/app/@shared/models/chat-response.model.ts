@@ -23,9 +23,17 @@ interface Usage {
     total_tokens: number;
 }
 
+interface StreamChoice {
+    finish_reason?: string;
+    index?: number;
+    delta: {
+        role?: 'assistant',
+        content?: string;
+    };
+}
 
-export interface ChatStreamResponse {
-    choices: Choice[];
+export interface ChatStreamData {
+    choices: StreamChoice[];
     created: number;
     id: string;
     object: string;

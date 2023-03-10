@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, map, retry, throttleTime } from 'rxjs';
 import { ChatMessage } from 'src/app/@shared/models/chat-messages.model';
 import { ChatRequest } from 'src/app/@shared/models/chat-request.model';
-import { ChatResponse } from 'src/app/@shared/models/chat-response.model';
+import { ChatResponse, ChatStreamData } from 'src/app/@shared/models/chat-response.model';
 import { SettingValue } from 'src/app/@shared/models/setting.model';
 import { environment } from 'src/environments/environment';
 import { StoreService } from './store.service';
@@ -64,38 +64,60 @@ export class HttpApiService {
   }
 
   chatStream() {
-    const option = this.store.getSettingValue();
-    const url = `${option.apiurl || environment.defaultBaseUrl}${this.createchat}`;
-    const body: ChatRequest = this.getBody(option);
-    body.stream = true;
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${option.apikey}`,
-    });
+    return new Observable<string>(observer => {
+      const option = this.store.getSettingValue();
+      const url = `${option.apiurl || environment.defaultBaseUrl}${this.createchat}`;
+      const body: ChatRequest = this.getBody(option);
+      body.stream = true;
 
-    fetch(url, {
-      method: 'POST', body: JSON.stringify(body), headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${option.apikey}`,
-      }
-    }).then(stream => {
-      const reader = stream.body?.getReader();
-      let text = '';
-      reader?.read().then(({ done, value }) => {
-        if (value) {
-          for (var i = 0; i < value.byteLength; i++) {
-            const char = String.fromCharCode(value[i]);
-            text += char;
-            // console.log(char);
-          }
+      fetch(url, {
+        method: 'POST', body: JSON.stringify(body), headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${option.apikey}`,
         }
+      }).then(response => {
+        const reader = response.body?.getReader();
+        const decoder = new TextDecoder();
+        if (!response.ok) {
+          reader?.read().then(({ done, value }) => {
+            try {
+              const err = JSON.parse(decoder.decode(value));
+              observer.error(err.error.message);
+            } catch (error) {
+              observer.error('未知错误');
+            }
+          });
+        }
+
+        function push() {
+          return reader?.read().then(({ done, value }) => {
+            if (done) {
+              observer.complete();
+              return;
+            }
+            const string = decoder.decode(value);
+            const eventStr = string.split('\n\n');
+            let content = '';
+            for (let i = 0; i < eventStr.length; i++) {
+              const str = eventStr[i];
+              if (str === 'data: [DONE]') break;
+              if (str) {
+                const jsonStr = str.replace('data: ', '');
+                const data: ChatStreamData = JSON.parse(jsonStr);
+                const thisContent = data.choices[0].delta?.content || '';
+                content += thisContent;
+              }
+            }
+            observer.next(content);
+            push();
+          });
+        }
+        push();
+      }).catch((err: Error) => {
+        observer.error(err?.message ?? '未知错误');
       });
-      console.log('text', text);
     });
-
-
   }
-
 
   genChatTitle(messages: ChatMessage[]): Observable<string> | undefined {
     if (messages.length !== 2) return;
@@ -118,7 +140,6 @@ export class HttpApiService {
         }),
       );
   }
-
 
   handleErr(err): string {
     if (err instanceof HttpErrorResponse) {

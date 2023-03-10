@@ -18,9 +18,8 @@ const PAGES_MODULES = [
 const GLOBAL_CONFIG: DevUIGlobalConfig = {
   global: {
     size: 'lg',
-    styleType: 'gray'
   },
-
+  'tooltip': { 'size': 'lg' }
 };
 
 @NgModule({
