@@ -3,13 +3,16 @@ import { BehaviorSubject } from 'rxjs';
 import { ChatMessage } from 'src/app/@shared/models/chat-messages.model';
 import { SettingOption, SettingValue } from 'src/app/@shared/models/setting.model';
 import { environment } from 'src/environments/environment';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable()
 export class StoreService {
 
-  constructor() { }
+  constructor(
+    private storage: LocalStorageService
+  ) { }
 
-  private defaultOption: SettingOption = {
+  private readonly defaultOption: SettingOption = <const>{
     apikey: { use: true, value: '' },
     apiurl: { use: true, value: environment.defaultBaseUrl },
     system: { use: true, value: 'You are a helpful assistant.' },
@@ -53,6 +56,13 @@ export class StoreService {
 
   setSettingOption(value: SettingOption): void {
     this.option$.next(value);
+    this.storage.set('CURRENT_OPTION', value);
+  }
+
+  getDefaultOption(apikey: string): SettingOption {
+    const option: SettingOption = JSON.parse(JSON.stringify(this.defaultOption));
+    option.apikey = { use: true, value: apikey };
+    return option;
   }
 
   getSettingValue(): SettingValue {

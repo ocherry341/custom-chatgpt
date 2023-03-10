@@ -8,6 +8,8 @@
           [routerLink]="['/']"></d-icon>
         <d-icon title="保存" [color]="'white'" icon="icon-save"
           (click)="save()"></d-icon>
+        <d-icon title="恢复默认配置" [color]="'white'" icon="icon-rollback"
+          (click)="setDefault()"></d-icon>
         <d-icon title="复制请求体" [color]="'white'" icon="icon-copy"
           (click)="copyBody()"></d-icon>
       </d-icon-group>
@@ -23,7 +25,7 @@
         <d-col [dSpan]="{ss:24,ms:19,mm:18}">
           <input style="margin-bottom: 24px;" name="chat-apikey" dTextInput
             [(ngModel)]="option.apikey.value" (ngModelChange)="submit(option)"
-            placeholder="Your OpenAI ApiKey">
+            placeholder="Your OpenAI ApiKey" type="password">
         </d-col>
       </d-row>
 
@@ -51,7 +53,6 @@
             (ngModelChange)="submit(option)" [min]="-1" [max]="1024" [step]="1"
             [decimalLimit]="0"></d-input-number>
         </d-col>
-
       </d-row>
 
       <div class="setting-title">模型参数

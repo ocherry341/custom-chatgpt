@@ -15,6 +15,7 @@ export class DrawerListComponent implements OnInit {
   @Input() items: SavedSettingOption[] | SavedChatMessage[] = [];
   @Input() close: () => void;
   @Input() selectEvent: Subject<{ index: number; item: SavedSettingOption | SavedChatMessage; }>;
+  @Input() deleteEvent: Subject<number>;
   @Input() storageKey: 'CHAT_OPTIONS' | 'CHAT_SESSION';
 
 
@@ -35,12 +36,12 @@ export class DrawerListComponent implements OnInit {
 
   deleteItem(e: MouseEvent, index: number) {
     e.stopPropagation();
-
     this.items.splice(index, 1);
     this.storage.set(this.storageKey, this.items);
     if (this.items.length === 0) {
       this.close();
     }
+    this.deleteEvent.next(index);
   }
 
   selectItem(index: number) {
@@ -61,6 +62,7 @@ export class DrawerListComponent implements OnInit {
     this.items = [];
     localStorage.removeItem(this.storageKey);
     this.close();
+    this.deleteEvent.next(-1);
   }
 
 

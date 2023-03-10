@@ -54,15 +54,3 @@
 d-input-number {
     width: 100%;
 }
-
-.model-help {
-    margin-left: 2px;
-    cursor: pointer;
-    color: $devui-text;
-    font-size: 14px;
-    vertical-align: top;
-
-    &:hover {
-        color: $devui-primary-hover;
-    }
-}

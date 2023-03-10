@@ -25,7 +25,7 @@ export class HttpApiService {
     });
   }
 
-  getBody(option: SettingValue, chatInput: string): ChatRequest {
+  getBody(option: SettingValue): ChatRequest {
     const messages = this.store.getChatMessages().getValue();
     let chatMsg: ChatMessage[] = JSON.parse(JSON.stringify(messages));
 
@@ -36,7 +36,6 @@ export class HttpApiService {
       }
     }
 
-    chatMsg.push({ role: 'user', content: chatInput });
     if (option.system) {
       chatMsg.unshift({ role: 'system', content: option.system });
     }
@@ -48,10 +47,10 @@ export class HttpApiService {
     };
   }
 
-  chat(chatInput: string) {
+  chat() {
     const option = this.store.getSettingValue();
     const url = `${option.apiurl || environment.defaultBaseUrl}${this.createchat}`;
-    const body: ChatRequest = this.getBody(option, chatInput);
+    const body: ChatRequest = this.getBody(option);
     const headers = this.getHeader(option.apikey);
     return this.http.post<ChatResponse>(url, body, { headers })
       .pipe(

@@ -25,3 +25,19 @@ body {
     padding: 6px 16px;
     border-radius: $devui-border-radius;
 }
+
+.hide {
+    display: none;
+}
+
+.model-help {
+    margin-left: 2px;
+    cursor: pointer;
+    color: $devui-text;
+    font-size: 14px;
+    vertical-align: top;
+
+    &:hover {
+        color: $devui-primary-hover;
+    }
+}

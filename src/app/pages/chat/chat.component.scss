@@ -12,25 +12,45 @@
 }
 
 .chat-header {
+    height: 70px;
+}
+
+.header-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     font-size: 18px;
     color: white;
-    border-bottom: 2px solid $devui-line;
-    box-shadow: none;
+    box-shadow: $devui-shadow-length-base $devui-light-shadow;
     padding: 18px 36px;
     background-color: $devui-feedback-overlay-bg;
     display: flex;
     justify-content: space-between;
+    z-index: 1000;
 
     .title {
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        .title-text {
+            cursor: pointer;
+
+            &:hover {
+                color: $devui-link-light-active;
+            }
+        }
+
+        input {
+            font-size: 14px;
+            height: 32px;
+        }
     }
 
     d-icon {
         cursor: pointer;
     }
-
 }
 
 
@@ -75,6 +95,7 @@
     width: 100%;
     background-color: $devui-global-bg-normal;
     border-top: 1px solid $devui-line;
+    z-index: 1000;
 }
 
 .footer-placeholder {
@@ -82,7 +103,6 @@
     height: 110px;
     background-color: $devui-global-bg;
 }
-
 
 .footer-bar {
     max-width: 1260px;
@@ -117,4 +137,31 @@
     padding-bottom: 12px;
     margin-left: 5px;
     margin-right: 5px;
+}
+
+.login {
+    position: fixed;
+    bottom: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: white;
+    padding: 18px 16px;
+    border-radius: $devui-border-radius-card;
+    box-shadow: $devui-shadow-length-base $devui-light-shadow;
+
+    .input-bar {
+        display: flex;
+        width: 300px;
+        justify-content: space-between;
+
+        input {
+            margin-bottom: 12px;
+            height: 32px;
+            font-size: 14px;
+            width: 275px;
+        }
+    }
+
+
 }

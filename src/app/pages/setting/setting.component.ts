@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DialogService, FormLayout, ToastService } from 'ng-devui';
+import { Observable } from 'rxjs';
 import { LocalStorageService, StoreService } from 'src/app/@core/services';
 import { HttpApiService } from 'src/app/@core/services/http-api.service';
 import { SettingOption } from 'src/app/@shared/models/setting.model';
@@ -28,7 +29,6 @@ export class SettingComponent implements OnInit {
 
   stopTags: Array<{ name: string; }> = [];
 
-
   systemPlaceholder: string = `The content of the role 'system', set the behavior of the assistant.\n\ne.g. "You are a helpful assistant."`;
   stopPlaceholder: string = `up to 4 sequences \n\ne.g. ["\\n","?","."] \nThe generated text will stop at the sequences.`;
   biasPlaceholder: string = `{ [ tokenID: number ]: number } \nEach value range from -100 to 100 \n\ne.g. {5171: -100, 470: -100} \nThe token IDs for "can't" are [5171, 470]. \nThe generated text will be unlikely to contain the word "can't".`;
@@ -48,7 +48,8 @@ export class SettingComponent implements OnInit {
     if (option) {
       this.store.setSettingOption(option);
     }
-    return this.store.getSettingOption().getValue();
+    const value = this.store.getSettingOption().getValue();
+    return JSON.parse(JSON.stringify(value));
   }
 
   stopTagsChange(e: Array<{ name: string; }>) {
@@ -65,7 +66,6 @@ export class SettingComponent implements OnInit {
 
   submit(option: SettingOption) {
     this.store.setSettingOption(option);
-    this.storage.set('CURRENT_OPTION', option);
   }
 
   save() {
@@ -78,9 +78,11 @@ export class SettingComponent implements OnInit {
           text: '确定',
           cssClass: 'primary',
           handler: () => {
-            this.saveOptions();
-            this.toastService.open({ value: [{ summary: '已保存', severity: 'success', life: 4500 }] });
-            dialog.modalInstance.hide();
+            this.saveOptions(this.saveInput.nativeElement.value)
+              .subscribe(() => {
+                this.toastService.open({ value: [{ summary: '已保存', severity: 'success', life: 4500 }] });
+                dialog.modalInstance.hide();
+              });
           }
         },
         {
@@ -97,31 +99,43 @@ export class SettingComponent implements OnInit {
     });
   }
 
-  saveOptions() {
-    const title = this.saveInput.nativeElement.value;
-    if (!title) return;
-    const savedOptions = this.storage.get('CHAT_OPTIONS');
-    if (!savedOptions) {
-      this.storage.set('CHAT_OPTIONS', [{ title, option: this.option }]);
-    } else {
-      savedOptions.push({ title, option: this.option });
-      this.storage.set('CHAT_OPTIONS', savedOptions);
-    }
+  saveOptions(value: string) {
+    return new Observable(observe => {
+      const title = value.trim();
+      if (!title) {
+        observe.error();
+        return;
+      }
+      const savedOptions = this.storage.get('CHAT_OPTIONS');
+      if (!savedOptions) {
+        this.storage.set('CHAT_OPTIONS', [{ title, option: this.option }]);
+      } else {
+        savedOptions.push({ title, option: this.option });
+        this.storage.set('CHAT_OPTIONS', savedOptions);
+      }
+      observe.next();
+      observe.complete();
+    });
+
   }
 
   copyBody() {
-    const body = this.api.getBody(this.store.getSettingValue(), '${your text}');
-    try {
-      navigator.clipboard.writeText(JSON.stringify(body));
-      this.toastService.open({ value: [{ summary: '已复制', severity: 'success', life: 4500 }] });
-    } catch (error) { }
+    const body = this.api.getBody(this.store.getSettingValue());
+    body.messages.push({ role: 'user', content: '${your text}' });
+    navigator.clipboard.writeText(JSON.stringify(body));
+    this.toastService.open({ value: [{ summary: '已复制', severity: 'success', life: 4500 }] });
+    console.log(body);
+  }
 
+  setDefault() {
+    const apikey = this.option.apikey.value;
+    this.option = this.store.getDefaultOption(apikey);
+    this.submit(this.option);
   }
 
   ngOnInit() {
     this.option = this.getOption();
     this.stopTags = this.getStopTags(this.option.apiOptions.stop.value);
-
   }
 
 }

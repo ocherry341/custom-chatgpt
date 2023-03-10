@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { DrawerService, ToastService } from 'ng-devui';
+import { DrawerService } from 'ng-devui';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { LocalStorageService, StoreService } from 'src/app/@core/services';
 import { HttpApiService } from 'src/app/@core/services/http-api.service';
@@ -23,7 +23,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   constructor(
     private storage: LocalStorageService,
     private store: StoreService,
-    private toastService: ToastService,
     private drawerService: DrawerService,
     private http: HttpApiService,
   ) { }
@@ -31,19 +30,30 @@ export class ChatComponent implements OnInit, OnDestroy {
   //Chat
   chatMessages$: BehaviorSubject<ChatMessage[]> = new BehaviorSubject<ChatMessage[]>([]);
   chatTitle: string = '新对话';
-  generating: boolean = false;
-  haveError: boolean = false;
   errMessage: string = '';
   chatInput: string;
 
+  //Save and Read
+  /**drawer选择事件 */
+  selectEvent = new Subject<{ index: number; item: SavedSettingOption | SavedChatMessage; }>();
+  /**drawer删除事件 参数为chatIndex 清空=-1*/
+  deleteEvent = new Subject<number>();
+  /**当前drawer的数据源 */
+  currentStorage: 'CHAT_OPTIONS' | 'CHAT_SESSION';
+  /**读取chat的index */
+  chatIndex: number;
+  /**保存图标出现的位置 */
   savedIndex: number;
+  /**鼠标悬停的位置 */
   hoverIndex: number;
 
-  //Save and Read
-  selectEvent = new Subject<{ index: number; item: SavedSettingOption | SavedChatMessage; }>();
-  currentStorage: 'CHAT_OPTIONS' | 'CHAT_SESSION';
-  chatIndex: number;
+  //State
+  inChangeTitle: boolean = false;
+  haveApiKey: boolean = false;
+  generating: boolean = false;
+  haveError: boolean = false;
 
+  //Other
   stop$ = new Subject<void>();
   destroy$ = new Subject<void>();
 
@@ -62,6 +72,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         selectEvent: this.selectEvent,
         close: () => { drawer.drawerInstance.hide(); },
         storageKey,
+        deleteEvent: this.deleteEvent,
       }
     });
   }
@@ -76,14 +87,22 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.chatMessages$ = this.store.getChatMessages();
     this.setCurrentOption();
+    this.haveApiKey = !!this.store.getSettingOption().value.apikey.value;
 
-    this.selectEvent
-      .pipe(takeUntil(this.destroy$))
+    this.selectEvent.pipe(takeUntil(this.destroy$))
       .subscribe(({ index, item }) => {
         if ('message' in item) {
           this.chatTitle = item.title;
           this.chatIndex = index;
           this.savedIndex = this.chatMessages$.getValue().length - 1;
+        }
+      });
+
+    this.deleteEvent.pipe(takeUntil(this.destroy$))
+      .subscribe(index => {
+        if (index === this.chatIndex || index === -1) {
+          this.savedIndex = -1;
+          this.chatIndex = -1;
         }
       });
 
@@ -123,13 +142,14 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.store.pushChatMessages({ role: 'user', content: this.chatInput });
     if (!this.generating && this.chatInput && !this.haveError) {
       this.generating = true;
-      this.http.chat(this.chatInput)
+      this.http.chat()
         .pipe(takeUntil(this.stop$))
         .subscribe({
           next: (res) => {
             // console.log(res);
             if (res) this.chatInput = '';
-            this.setTextareaHeight();
+            this.textarea.nativeElement.style.height = `50px`;
+            this.placeholder.nativeElement.style.height = '110px';
             this.generating = false;
             const msg = res.choices[0].message ?? { role: 'assistant', content: 'err' };
             this.store.pushChatMessages(msg);
@@ -148,7 +168,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
   }
 
-
   chatListHover(index: number) {
     this.hoverIndex = index;
   }
@@ -157,6 +176,10 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.hoverIndex = -1;
   }
 
+  /**
+   * 保存当前对话
+   * @param index saveIndex
+   */
   saveChats(index: number) {
     const message = this.store.getChatMessages().getValue();
     if (!message || message.length === 0) return;
@@ -167,14 +190,16 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     const chatsSessions = this.storage.get('CHAT_SESSION');
     if (chatsSessions) {
-      this.chatIndex > -1
-        ? chatsSessions[this.chatIndex] = thisChat
-        : chatsSessions.push(thisChat);
+      if (this.chatIndex > -1) {
+        chatsSessions[this.chatIndex] = thisChat;
+      } else {
+        chatsSessions.push(thisChat);
+        this.chatIndex = chatsSessions.length - 1;
+      }
       this.storage.set('CHAT_SESSION', chatsSessions);
     } else {
       this.storage.set('CHAT_SESSION', [thisChat]);
     }
-    this.toastService.open({ value: [{ summary: '已保存', severity: 'success', life: 4500 }] });
   }
 
   clear() {
@@ -184,6 +209,33 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.savedIndex = -1;
     this.chatTitle = '新对话';
     this.stop$.next();
+  }
+
+  changeTitle(input: HTMLInputElement) {
+    this.inChangeTitle = true;
+    setTimeout(() => {
+      input.focus();
+    });
+
+  }
+
+  changeTitleSubmit(value: string) {
+    const title = value.trim();
+    if (title) {
+      this.chatTitle = title;
+      if (this.chatIndex > -1) {
+        this.saveChats(this.savedIndex);
+      }
+    }
+    this.inChangeTitle = false;
+  }
+
+  setApiKey(key: string) {
+    if (!key.trim()) return;
+    const option = this.store.getSettingOption().value;
+    option.apikey.value = key;
+    this.store.setSettingOption(option);
+    this.haveApiKey = true;
   }
 
 }

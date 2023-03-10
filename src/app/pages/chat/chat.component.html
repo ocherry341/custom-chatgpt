@@ -1,10 +1,16 @@
-<div class="chat-content">
-  <!-- Header -->
-  <div class="chat-header">
+<!-- Header -->
+<div class="chat-header">
+  <div class="header-fixed">
     <div class="title">
       <d-icon icon="icon-list-view" [color]="'white'" title="读取对话"
         (click)="showList('CHAT_SESSION')" style="margin-right: 8px;"></d-icon>
-      {{chatTitle}}
+
+      <div [ngClass]="{hide:inChangeTitle}" class="title-text"
+        (click)="changeTitle(titleInput)">
+        {{chatTitle}}</div>
+
+      <input [ngClass]="{hide:!inChangeTitle}" dTextInput #titleInput
+        (blur)="changeTitleSubmit(titleInput.value)" [value]="chatTitle">
     </div>
     <d-icon-group>
       <d-icon icon="icon-go-module" [color]="'white'" title="切换配置"
@@ -12,15 +18,18 @@
       <d-icon icon="icon-setting" [color]="'white'" title="设置"
         [routerLink]="'./setting'"></d-icon>
     </d-icon-group>
-
   </div>
+</div>
+
+
+<div class="chat-content">
   <!-- List -->
   <div class="chat-list" (mouseleave)="mouseout()">
-    <div class="chat-item"
-      *ngFor="let msg of chatMessages$|async;odd as odd;index as i"
-      (mouseover)="chatListHover(i)" [ngClass]="{bot:odd}">
+    <div class="chat-item" *ngFor="let msg of chatMessages$|async;index as i"
+      (mouseover)="chatListHover(i)" [ngClass]="{bot:msg.role==='assistant'}">
       <markdown clipboard [data]="msg.content"></markdown>
-      <div *ngIf="i===hoverIndex&&i!==savedIndex&&odd" class="saved">
+      <div *ngIf="i===hoverIndex && i!==savedIndex && msg.role==='assistant'"
+        class="saved">
         <d-icon title="保存对话" icon="icon-save" [operable]="true"
           (click)="saveChats(i)">
         </d-icon>
@@ -50,12 +59,23 @@
         bsStyle="primary" title="重置"></d-button>
       <textarea #textarea class="chat-textarea" name="chat" [(ngModel)]="chatInput"
         dTextarea (input)="setTextareaHeight()" (keydown)="preventEnter($event)"
-        (keyup)="enter($event)"></textarea>
+        (keyup)="enter($event)" [disabled]="!haveApiKey"></textarea>
       <d-button class="large-btn send" (btnClick)="chat()"
-        [icon]="generating?'icon-loading devui-icon-spin':'icon-publish'"
-        title="发送"></d-button>
+        [icon]="generating?'icon-loading devui-icon-spin':'icon-publish'" title="发送"
+        [disabled]="!haveApiKey"></d-button>
     </div>
   </div>
   <div #placeholder class="footer-placeholder"></div>
 
+</div>
+
+<div class="login" *ngIf="!haveApiKey">
+  <div class="input-bar">
+    <input dTextInput #keyInput placeholder="输入ApiKey" type="password">
+    <a dTooltip [content]="'获取ApiKey'" target="_blank" class="model-help"
+      href="https://platform.openai.com/account/api-keys/">
+      <i class="icon icon-helping"></i></a>
+  </div>
+  <d-button bsSize="lg" [bordered]="true"
+    (btnClick)="setApiKey(keyInput.value)">确定</d-button>
 </div>
