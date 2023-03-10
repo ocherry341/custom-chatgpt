@@ -51,15 +51,51 @@ export class HttpApiService {
     const option = this.store.getSettingValue();
     const url = `${option.apiurl || environment.defaultBaseUrl}${this.createchat}`;
     const body: ChatRequest = this.getBody(option);
+    body.stream = false;
     const headers = this.getHeader(option.apikey);
     return this.http.post<ChatResponse>(url, body, { headers })
       .pipe(
-        throttleTime(500),
+        throttleTime(1000),
         catchError(err => {
+          console.log(err);
           throw this.handleErr(err);
         })
       );
   }
+
+  chatStream() {
+    const option = this.store.getSettingValue();
+    const url = `${option.apiurl || environment.defaultBaseUrl}${this.createchat}`;
+    const body: ChatRequest = this.getBody(option);
+    body.stream = true;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${option.apikey}`,
+    });
+
+    fetch(url, {
+      method: 'POST', body: JSON.stringify(body), headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${option.apikey}`,
+      }
+    }).then(stream => {
+      const reader = stream.body?.getReader();
+      let text = '';
+      reader?.read().then(({ done, value }) => {
+        if (value) {
+          for (var i = 0; i < value.byteLength; i++) {
+            const char = String.fromCharCode(value[i]);
+            text += char;
+            // console.log(char);
+          }
+        }
+      });
+      console.log('text', text);
+    });
+
+
+  }
+
 
   genChatTitle(messages: ChatMessage[]): Observable<string> | undefined {
     if (messages.length !== 2) return;
@@ -83,25 +119,25 @@ export class HttpApiService {
       );
   }
 
+
   handleErr(err): string {
     if (err instanceof HttpErrorResponse) {
-      const msg = err.error?.error?.message ?? err.message;
+      const err0 = err.error;
+      let openAIMsg: string;
+      if (typeof err0 === 'string') {
+        try {
+          openAIMsg = JSON.parse(err0).error.message;
+        } catch (error) {
+          openAIMsg = err0;
+        }
+      } else {
+        openAIMsg = err.error?.error?.message;
+      }
+      const msg = openAIMsg || err.message;
       return msg;
     } else {
       return '未知错误';
     }
   }
 
-  // chat(content: string) {
-  //   return new Observable(sub => {
-  //     const messages = this.store.getChatMessages().getValue();
-  //     let chatMsg: ChatMessage[] = JSON.parse(JSON.stringify(messages));
-  //     chatMsg.push({ role: 'user', content });
-  //     chatMsg.push({ role: 'assistant', content: 'bot bot bot bot bot bot bot bot bot bot bot bot bot bot bot bot bot bot bot bot bot bot bot bot bot bot bot bot bot bot ' });
-  //     this.store.setChatMessages(chatMsg);
-
-  //     sub.next();
-  //     sub.complete();
-  //   });
-  // }
 }

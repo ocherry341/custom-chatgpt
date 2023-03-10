@@ -52,6 +52,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   haveApiKey: boolean = false;
   generating: boolean = false;
   haveError: boolean = false;
+  stream: boolean = true;
 
   //Other
   stop$ = new Subject<void>();
@@ -120,10 +121,11 @@ export class ChatComponent implements OnInit, OnDestroy {
     const list = this.storage.get(key);
     this.currentStorage = key;
     this.showDrawer(list, key);
+    this.stop$.next();
   }
 
   enter(e: KeyboardEvent) {
-    e.key === 'Enter' ? this.chat() : void 0;
+    e.key === 'Enter' ? this.startChat() : void 0;
   }
 
   preventEnter(e: KeyboardEvent) {
@@ -138,34 +140,46 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.placeholder.nativeElement.style.height = `${scrollHeight + 60}px`;
   }
 
-  chat() {
+  startChat() {
     this.store.pushChatMessages({ role: 'user', content: this.chatInput });
     if (!this.generating && this.chatInput && !this.haveError) {
       this.generating = true;
-      this.http.chat()
-        .pipe(takeUntil(this.stop$))
-        .subscribe({
-          next: (res) => {
-            // console.log(res);
-            if (res) this.chatInput = '';
-            this.textarea.nativeElement.style.height = `50px`;
-            this.placeholder.nativeElement.style.height = '110px';
-            this.generating = false;
-            const msg = res.choices[0].message ?? { role: 'assistant', content: 'err' };
-            this.store.pushChatMessages(msg);
-            //gen Title
-            const title$ = this.http.genChatTitle(this.chatMessages$.value);
-            if (title$) {
-              title$.subscribe(val => { this.chatTitle = val; });
-            }
-          },
-          error: (errMsg: string) => {
-            this.generating = false;
-            this.haveError = true;
-            this.errMessage = errMsg;
-          }
-        });
+      this.stream
+        ? this.chatStream()
+        : this.chat();
     }
+  }
+
+  chat() {
+    this.http.chat()
+      .pipe(takeUntil(this.stop$))
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          if (res) this.chatInput = '';
+          this.textarea.nativeElement.style.height = `50px`;
+          this.placeholder.nativeElement.style.height = '110px';
+          this.generating = false;
+          const msg = res.choices[0].message ?? { role: 'assistant', content: 'err' };
+          this.store.pushChatMessages(msg);
+          //gen Title
+          const title$ = this.http.genChatTitle(this.chatMessages$.value);
+          if (title$) {
+            title$.subscribe(val => { this.chatTitle = val; });
+          }
+        },
+        error: (errMsg: string) => {
+          this.generating = false;
+          this.haveError = true;
+          this.errMessage = errMsg;
+        }
+      });
+  }
+
+  chatStream() {
+
+    this.http.chatStream();
+
   }
 
   chatListHover(index: number) {

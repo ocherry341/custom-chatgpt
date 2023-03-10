@@ -13,6 +13,10 @@
         (blur)="changeTitleSubmit(titleInput.value)" [value]="chatTitle">
     </div>
     <d-icon-group>
+      <span style="margin-right: 18px;">
+        <span style="font-size: 14px;margin-right: 5px;">stream</span>
+        <d-toggle [(ngModel)]="stream"></d-toggle>
+      </span>
       <d-icon icon="icon-go-module" [color]="'white'" title="切换配置"
         (click)="showList('CHAT_OPTIONS')"></d-icon>
       <d-icon icon="icon-setting" [color]="'white'" title="设置"
@@ -20,7 +24,6 @@
     </d-icon-group>
   </div>
 </div>
-
 
 <div class="chat-content">
   <!-- List -->
@@ -60,7 +63,7 @@
       <textarea #textarea class="chat-textarea" name="chat" [(ngModel)]="chatInput"
         dTextarea (input)="setTextareaHeight()" (keydown)="preventEnter($event)"
         (keyup)="enter($event)" [disabled]="!haveApiKey"></textarea>
-      <d-button class="large-btn send" (btnClick)="chat()"
+      <d-button class="large-btn send" (btnClick)="startChat()"
         [icon]="generating?'icon-loading devui-icon-spin':'icon-publish'" title="发送"
         [disabled]="!haveApiKey"></d-button>
     </div>

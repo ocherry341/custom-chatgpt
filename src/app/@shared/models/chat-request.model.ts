@@ -1,5 +1,7 @@
 import { ChatMessage } from "./chat-messages.model";
 
+export type Model = "gpt-3.5-turbo" | "gpt-3.5-turbo-0301";
+
 export interface ChatRequest {
     frequency_penalty?: number;
     logit_bias?: { [key: string]: any; };
@@ -12,7 +14,7 @@ export interface ChatRequest {
      * ID of the model to use. Currently, only gpt-3.5-turbo and gpt-3.5-turbo-0301 are
      * supported.
      */
-    model: "gpt-3.5-turbo" | "gpt-3.5-turbo-0301";
+    model: Model;
     /**
      * How many chat completion choices to generate for each input ChatMessage.
      */
