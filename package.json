@@ -1,6 +1,6 @@
 {
-  "name": "chatbot",
-  "version": "0.0.0",
+  "name": "customGPT",
+  "version": "0.1.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

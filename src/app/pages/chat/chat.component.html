@@ -5,12 +5,11 @@
       <d-icon icon="icon-list-view" [color]="'white'" title="读取对话"
         (click)="showList('CHAT_SESSION')" style="margin-right: 8px;"></d-icon>
 
-      <div [ngClass]="{hide:inChangeTitle}" class="title-text"
-        (click)="changeTitle(titleInput)">
+      <div class="title-text" #titleDiv (click)="changeTitle(titleInput,titleDiv)">
         {{chatTitle}}</div>
+      <input dTextInput class="hide" #titleInput
+        (blur)="changeTitleSubmit(titleInput,titleDiv)" [value]="chatTitle">
 
-      <input [ngClass]="{hide:!inChangeTitle}" dTextInput #titleInput
-        (blur)="changeTitleSubmit(titleInput.value)" [value]="chatTitle">
     </div>
     <d-icon-group>
       <span style="margin-right: 18px;">
@@ -28,7 +27,7 @@
 <div class="chat-content">
   <!-- List -->
   <div class="chat-list" (mouseleave)="mouseout()">
-    <ng-container *ngFor="let msg of chatMessages$|async;index as i">
+    <ng-container *ngFor="let msg of messages;index as i">
       <!-- User Block -->
       <div class="chat-item" *ngIf="msg.role==='user'">
         <div>{{msg.content}}</div>
@@ -37,19 +36,19 @@
       <div class="chat-item bot" (mouseover)="chatListHover(i)"
         *ngIf="msg.role==='assistant'">
         <markdown clipboard [data]="msg.content"></markdown>
-        <div *ngIf="i===hoverIndex && i!==savedIndex " class="saved">
+        <div *ngIf="i===hoverIndex && i!==savedIndex " class="save">
           <d-icon title="保存对话" icon="icon-save" [operable]="true"
             (click)="saveChats(i)">
           </d-icon>
         </div>
-        <div *ngIf="i===savedIndex" class="saved">
+        <div *ngIf="i===savedIndex" class="save">
           <d-icon title="已保存" icon="icon-save" [operable]="true" [color]="'#5e7ce0'">
           </d-icon>
         </div>
       </div>
     </ng-container>
     <!-- Loading Block -->
-    <div *ngIf="generating" class="chat-item bot loading">
+    <div *ngIf="genStart" class="chat-item bot loading">
       <d-icon [icon]="'icon-loading'" [rotate]="'infinite'">
         <span iconSuffix>加载中</span>
       </d-icon>
@@ -69,8 +68,8 @@
       <textarea #textarea class="chat-textarea" name="chat" [(ngModel)]="chatInput"
         dTextarea (input)="setTextareaHeight()" (keydown)="preventEnter($event)"
         (keyup)="enter($event)" [disabled]="!haveApiKey"></textarea>
-      <d-button class="large-btn send" (btnClick)="startChat()"
-        [icon]="generating?'icon-loading devui-icon-spin':'icon-publish'" title="发送"
+      <d-button class="large-btn main" (btnClick)="startChat()"
+        [icon]="genPendding?'icon-loading devui-icon-spin':'icon-publish'" title="发送"
         [disabled]="!haveApiKey"></d-button>
     </div>
   </div>
@@ -88,3 +87,10 @@
   <d-button bsSize="lg" [bordered]="true"
     (btnClick)="setApiKey(keyInput.value)">确定</d-button>
 </div>
+
+<d-button *ngIf="genPendding" class="gen-controller" [bordered]="true" bsSize='lg'
+  icon="icon-stop" title="停止" (btnClick)="stop()">停止</d-button>
+
+<d-button *ngIf="!genPendding && messages.length!==0" class="gen-controller"
+  bsSize='lg' [bordered]="true" icon="icon-refresh"
+  (btnClick)="reGenerate()">重新生成</d-button>

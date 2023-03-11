@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DrawerService } from 'ng-devui';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { LocalStorageService, StoreService } from 'src/app/@core/services';
 import { HttpApiService } from 'src/app/@core/services/http-api.service';
 import { DrawerListComponent } from 'src/app/@shared/components/drawer-list/drawer-list.component';
@@ -28,7 +28,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   ) { }
 
   //Chat
-  chatMessages$: BehaviorSubject<ChatMessage[]> = new BehaviorSubject<ChatMessage[]>([]);
+  messages: ChatMessage[] = [];
   chatTitle: string = '新对话';
   errMessage: string = '';
   chatInput: string;
@@ -48,14 +48,14 @@ export class ChatComponent implements OnInit, OnDestroy {
   hoverIndex: number;
 
   //State
-  inChangeTitle: boolean = false;
   haveApiKey: boolean = false;
-  generating: boolean = false;
   haveError: boolean = false;
   stream: boolean = true;
 
+  genStart: boolean = false;
+  genPendding: boolean = false;
+
   //Other
-  stop$ = new Subject<void>();
   destroy$ = new Subject<void>();
 
   private showDrawer(items: DrawerItems | null, storageKey: 'CHAT_OPTIONS' | 'CHAT_SESSION') {
@@ -86,17 +86,22 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.chatMessages$ = this.store.getChatMessages();
+    this.store.getChatMessages().pipe(takeUntil(this.destroy$))
+      .subscribe(msg => {
+        this.messages = msg;
+      });
+
     this.setCurrentOption();
     this.haveApiKey = !!this.store.getSettingOption().value.apikey.value;
 
     this.selectEvent.pipe(takeUntil(this.destroy$))
       .subscribe(({ index, item }) => {
+        //select saved message
         if ('message' in item) {
+          this.stop();
           this.chatTitle = item.title;
           this.chatIndex = index;
-          this.savedIndex = this.chatMessages$.getValue().length - 1;
-          this.stop$.next();
+          this.savedIndex = this.messages.length - 1;
           this.haveError = false;
         }
       });
@@ -108,22 +113,23 @@ export class ChatComponent implements OnInit, OnDestroy {
           this.chatIndex = -1;
         }
       });
-
-    this.stop$.pipe(takeUntil(this.destroy$)).subscribe(() => { this.generating = false; });
   }
 
   ngOnDestroy(): void {
-    this.stop$.next();
+    this.stop();
     this.destroy$.next();
-    this.stop$.complete();
     this.destroy$.complete();
+  }
+
+  stop() {
+    this.http.stop();
   }
 
   showList(key: 'CHAT_OPTIONS' | 'CHAT_SESSION') {
     const list = this.storage.get(key);
     this.currentStorage = key;
     this.showDrawer(list, key);
-    this.stop$.next();
+    this.stop();
   }
 
   enter(e: KeyboardEvent) {
@@ -136,46 +142,47 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   setTextareaHeight() {
     this.textarea.nativeElement.style.height = `50px`;
-    this.placeholder.nativeElement.style.height = '110px';
+    this.placeholder.nativeElement.style.height = '160px';
     const scrollHeight = this.textarea.nativeElement.scrollHeight;
     this.textarea.nativeElement.style.height = `${scrollHeight}px`;
-    this.placeholder.nativeElement.style.height = `${scrollHeight + 60}px`;
+    this.placeholder.nativeElement.style.height = `${scrollHeight + 115}px`;
   }
 
   startChat() {
+    const canChat = !this.genPendding && this.chatInput && !this.haveError;
+    if (!canChat) return;
     this.store.pushChatMessages({ role: 'user', content: this.chatInput });
-    if (!this.generating && this.chatInput && !this.haveError) {
-      this.clearInput();
-      this.generating = true;
-      this.stream
-        ? this.chatStream()
-        : this.chat();
-    }
+    this.clearInput();
+    this.genStart = true;
+    this.genPendding = true;
+    this.stream
+      ? this.chatStream()
+      : this.chat();
   }
 
   clearInput() {
     this.chatInput = '';
     this.textarea.nativeElement.style.height = `50px`;
-    this.placeholder.nativeElement.style.height = '110px';
+    this.placeholder.nativeElement.style.height = '160px';
   }
 
   chat() {
     this.http.chat()
-      .pipe(takeUntil(this.stop$))
       .subscribe({
         next: (res) => {
-          console.log(res);
-          this.generating = false;
+          this.genStart = false;
+          this.genPendding = false;
           const msg = res.choices[0].message ?? { role: 'assistant', content: 'err' };
           this.store.pushChatMessages(msg);
           //gen Title
-          const title$ = this.http.genChatTitle(this.chatMessages$.value);
+          const title$ = this.http.genChatTitle(this.messages);
           if (title$) {
             title$.subscribe(val => { this.chatTitle = val; });
           }
         },
         error: (errMsg: string) => {
-          this.generating = false;
+          this.genStart = false;
+          this.genPendding = false;
           this.haveError = true;
           this.errMessage = errMsg;
         }
@@ -183,33 +190,47 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   chatStream() {
-    this.http.chatStream().subscribe({
-      next: (text) => {
-        const message = this.chatMessages$.value;
-        const lastMsg = message[message.length - 1];
-        if (lastMsg.role === 'user') {
-          this.generating = false;
-          message.push({ role: 'assistant', content: text });
-        } else {
-          lastMsg.content += text;
+    this.http.chatStream()
+      .subscribe({
+        next: (text) => {
+          const message = this.messages;
+          const lastMsg = message[message.length - 1];
+          if (lastMsg.role === 'user') {
+            this.genStart = false;
+            message.push({ role: 'assistant', content: text });
+          } else {
+            lastMsg.content += text;
+          }
+        },
+        complete: () => {
+          const message = this.messages;
+          this.store.setChatMessages(message);
+          this.genPendding = false;
+          //gen Title
+          const title$ = this.http.genChatTitle(message);
+          if (title$) {
+            title$.subscribe(val => { this.chatTitle = val; });
+          }
+        },
+        error: (errMsg) => {
+          this.genStart = false;
+          this.genPendding = false;
+          this.haveError = true;
+          this.errMessage = errMsg;
         }
-      },
-      complete: () => {
-        const message = this.chatMessages$.value;
-        this.store.setChatMessages(message);
-        //gen Title
-        const title$ = this.http.genChatTitle(message);
-        if (title$) {
-          title$.subscribe(val => { this.chatTitle = val; });
-        }
-      },
-      error: (errMsg) => {
-        this.generating = false;
-        this.haveError = true;
-        this.errMessage = errMsg;
-      }
-    });
+      });
 
+  }
+
+  reGenerate() {
+    if (this.messages[this.messages.length - 1].role === 'assistant') {
+      this.messages.pop();
+    }
+    this.genStart = true;
+    this.genPendding = true;
+    this.stream
+      ? this.chatStream()
+      : this.chat();
   }
 
   chatListHover(index: number) {
@@ -252,26 +273,27 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.chatIndex = -1;
     this.savedIndex = -1;
     this.chatTitle = '新对话';
-    this.stop$.next();
+    this.stop();
   }
 
-  changeTitle(input: HTMLInputElement) {
-    this.inChangeTitle = true;
+  changeTitle(input: HTMLInputElement, title: HTMLDivElement) {
+    input.classList.remove('hide');
+    title.classList.add('hide');
     setTimeout(() => {
       input.focus();
     });
-
   }
 
-  changeTitleSubmit(value: string) {
-    const title = value.trim();
-    if (title) {
-      this.chatTitle = title;
+  changeTitleSubmit(input: HTMLInputElement, title: HTMLDivElement) {
+    const value = input.value.trim();
+    if (value) {
+      this.chatTitle = value;
       if (this.chatIndex > -1) {
         this.saveChats(this.savedIndex);
       }
     }
-    this.inChangeTitle = false;
+    input.classList.add('hide');
+    title.classList.remove('hide');
   }
 
   setApiKey(key: string) {

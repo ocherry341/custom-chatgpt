@@ -1,16 +1,5 @@
 @import 'ng-devui/styles-var/devui-var.scss';
 
-
-.chat-content {
-    background-color: $devui-global-bg-normal;
-    max-width: 1260px;
-    margin: 0 auto;
-}
-
-.chat-list {
-    box-shadow: $devui-shadow-length-base $devui-light-shadow;
-}
-
 .chat-header {
     height: 70px;
 }
@@ -53,11 +42,24 @@
     }
 }
 
+.chat-content {
+    background-color: $devui-global-bg-normal;
+    max-width: 1260px;
+    margin: 0 auto;
+}
+
+.chat-list {
+    box-shadow: $devui-shadow-length-base $devui-light-shadow;
+}
 
 .chat-item {
     font-size: 16px;
     border-bottom: 1px solid $devui-line;
-    padding: 12px 18px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 32px;
+    padding-right: 48px;
+    position: relative;
 
     &.bot {
         background-color: $devui-list-item-strip-bg;
@@ -82,9 +84,10 @@
         }
     }
 
-    .saved {
-        margin-top: 8px;
-        text-align: right;
+    .save {
+        position: absolute;
+        top: 5px;
+        right: 12px;
     }
 }
 
@@ -100,7 +103,7 @@
 
 .footer-placeholder {
     width: 100%;
-    height: 110px;
+    height: 160px;
     background-color: $devui-global-bg;
 }
 
@@ -117,7 +120,7 @@
     d-button {
         vertical-align: bottom;
 
-        &.send {
+        &.main {
             width: 80px;
         }
 
@@ -125,18 +128,18 @@
             border-left: 1px solid $devui-line;
         }
     }
-}
 
-.chat-textarea {
-    width: calc(100% - 140px);
-    min-height: 50px;
-    height: 50px;
-    max-height: 200px;
-    font-size: 16px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    margin-left: 5px;
-    margin-right: 5px;
+    .chat-textarea {
+        width: calc(100% - 140px);
+        min-height: 50px;
+        height: 50px;
+        max-height: 200px;
+        font-size: 16px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
 }
 
 .login {
@@ -162,6 +165,11 @@
             width: 275px;
         }
     }
+}
 
-
+.gen-controller {
+    position: fixed;
+    bottom: 125px;
+    left: 50%;
+    transform: translate(-50%, 0);
 }

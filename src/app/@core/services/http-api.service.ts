@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, retry, throttleTime } from 'rxjs';
+import { Observable, Subject, catchError, map, retry, takeUntil, throttleTime } from 'rxjs';
 import { ChatMessage } from 'src/app/@shared/models/chat-messages.model';
 import { ChatRequest } from 'src/app/@shared/models/chat-request.model';
 import { ChatResponse, ChatStreamData } from 'src/app/@shared/models/chat-response.model';
@@ -18,11 +18,19 @@ export class HttpApiService {
 
   private createchat: string = `/v1/chat/completions`;
 
+  private stop$ = new Subject<void>();
+  private controller: AbortController;
+
   private getHeader(apikey: string): HttpHeaders {
     return new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${apikey}`
     });
+  }
+
+  stop() {
+    if (this.controller) this.controller.abort();
+    this.stop$.next();
   }
 
   getBody(option: SettingValue): ChatRequest {
@@ -57,9 +65,9 @@ export class HttpApiService {
       .pipe(
         throttleTime(1000),
         catchError(err => {
-          console.log(err);
           throw this.handleErr(err);
-        })
+        }),
+        takeUntil(this.stop$),
       );
   }
 
@@ -69,12 +77,15 @@ export class HttpApiService {
       const url = `${option.apiurl || environment.defaultBaseUrl}${this.createchat}`;
       const body: ChatRequest = this.getBody(option);
       body.stream = true;
-
+      this.controller = new AbortController();
       fetch(url, {
-        method: 'POST', body: JSON.stringify(body), headers: {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${option.apikey}`,
-        }
+        },
+        signal: this.controller.signal
       }).then(response => {
         const reader = response.body?.getReader();
         const decoder = new TextDecoder();
@@ -101,8 +112,8 @@ export class HttpApiService {
             for (let i = 0; i < eventStr.length; i++) {
               const str = eventStr[i];
               if (str === 'data: [DONE]') break;
-              if (str) {
-                const jsonStr = str.replace('data: ', '');
+              if (str && str.slice(0, 6) === 'data: ') {
+                const jsonStr = str.slice(6);
                 const data: ChatStreamData = JSON.parse(jsonStr);
                 const thisContent = data.choices[0].delta?.content || '';
                 content += thisContent;
@@ -116,7 +127,7 @@ export class HttpApiService {
       }).catch((err: Error) => {
         observer.error(err?.message ?? '未知错误');
       });
-    });
+    }).pipe(takeUntil(this.stop$));
   }
 
   genChatTitle(messages: ChatMessage[]): Observable<string> | undefined {
