@@ -13,7 +13,7 @@
 基于ChatGPT API开发的纯前端应用
 
 ## 在线查看
-https://www.customgpt.top/
+https://www.customgpt.top/zh-CN/
 
 ## 功能特性
 
