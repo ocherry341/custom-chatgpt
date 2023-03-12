@@ -2,21 +2,21 @@
   <div class="setting-content">
 
     <div class="setting-header">
-      <div class="title">设置</div>
+      <div class="title" i18n="Setting Title">设置</div>
       <d-icon-group>
-        <d-icon title="返回" [color]="'white'" icon="icon-go-back"
-          [routerLink]="['/']"></d-icon>
-        <d-icon title="保存" [color]="'white'" icon="icon-save"
+        <d-icon i18n-title="icon title" title="返回" [color]="'white'"
+          icon="icon-go-back" [routerLink]="['/']"></d-icon>
+        <d-icon i18n-title="icon title" title="保存" [color]="'white'" icon="icon-save"
           (click)="save()"></d-icon>
-        <d-icon title="恢复默认配置" [color]="'white'" icon="icon-rollback"
-          (click)="setDefault()"></d-icon>
-        <d-icon title="复制请求体" [color]="'white'" icon="icon-copy"
-          (click)="copyBody()"></d-icon>
+        <d-icon i18n-title="icon title" title="恢复默认配置" [color]="'white'"
+          icon="icon-rollback" (click)="setDefault()"></d-icon>
+        <d-icon i18n-title="icon title" title="复制请求体" [color]="'white'"
+          icon="icon-copy" (click)="copyBody()"></d-icon>
       </d-icon-group>
     </div>
 
     <form [layout]="formLayout" class="setting-form" dForm>
-      <div class="setting-title">通用</div>
+      <div class="setting-title" i18n="Setting Subtitle">通用</div>
 
       <d-row [dGutter]="48" [dSpace]="12">
         <d-col [dSpan]="{ss:24,ms:5,mm:3}">
@@ -40,9 +40,9 @@
       </d-row>
 
       <d-row [dGutter]="48" [dSpace]="12">
-        <d-col [dSpan]="{ss:24,ms:5,mm:3}">
-          最近对话 <i class="icon icon-helping model-help" dTooltip
-            [content]="'记住最近的几组对话，-1为所有对话'"></i>
+        <d-col [dSpan]="{ss:24,ms:5,mm:3}" i18n="Setting Label">
+          记忆 <i class="icon icon-helping model-help" dTooltip
+            i18n-content="tooltip content" content="记住最近的几组对话，-1为所有对话"></i>
         </d-col>
         <d-col [dSpan]="{ss:8,ms:4,mm:2}">
           <d-toggle name="use-memory" [(ngModel)]="option.memory.use"
@@ -55,8 +55,9 @@
         </d-col>
       </d-row>
 
-      <div class="setting-title">模型参数
-        <a dTooltip [content]="'Learn more'" class="model-help" target="_blank"
+      <div class="setting-title" i18n="Setting Subtitle">模型参数
+        <a dTooltip i18n-content="tooltip content" content="了解更多" class="model-help"
+          target="_blank"
           href="https://platform.openai.com/docs/api-reference/chat/create">
           <i class="icon icon-helping"></i></a>
       </div>
@@ -175,8 +176,8 @@
         <d-col [dSpan]="{ss:24,mm:8}">
           <d-form-item>
             <div class="toggle-label">
-              <d-form-label>logit_bias <a dTooltip
-                  [content]="'使用此项会造成输出异常，实际使用时请关闭该选项，点击查看官方示例'" class="model-help"
+              <d-form-label>logit_bias <a dTooltip i18n-content="tootip content"
+                  content="使用此项会造成输出异常，实际使用时请关闭该选项，点击查看官方示例" class="model-help"
                   target="_blank"
                   href="https://help.openai.com/en/articles/5247780-using-logit-bias-to-define-token-probability">
                   <i class="icon icon-infomation"
@@ -230,8 +231,8 @@
             </div>
             <d-form-control>
               <d-tags-input name="chat-stop" [tags]="stopTags" [(ngModel)]="stopTags"
-                placeholder="输出停止的字符，按空格确认" [maxTags]="4" [minLength]="1"
-                [showSuggestion]="false"
+                i18n-placeholder="placeholder" placeholder="输出停止的字符，按空格确认"
+                [maxTags]="4" [minLength]="1" [showSuggestion]="false"
                 (ngModelChange)="stopTagsChange($event)"></d-tags-input>
             </d-form-control>
           </d-form-item>
@@ -242,6 +243,6 @@
 </div>
 
 <ng-template #saveDialog>
-  <div style="margin-bottom: 7px;font-size: 14px;">输入配置名称</div>
+  <div style="margin-bottom: 7px;font-size: 14px;" i18n="dialog title">输入配置名称</div>
   <input #saveInput dTextInput>
 </ng-template>

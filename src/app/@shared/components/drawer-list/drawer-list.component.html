@@ -1,8 +1,8 @@
 <div class="drawer-menu">
   <div class="drawer-header">
     <div>{{header}}</div>
-    <d-icon icon="icon-delete" title="清空" [color]="'white'" (click)="clear()">
-      <!-- <span iconPrefix>清空</span> -->
+    <d-icon icon="icon-delete" i18n-title="delete icon title" title="清空"
+      [color]="'white'" (click)="clear()">
     </d-icon>
   </div>
   <ul class="list-group" [style.margin-top.px]="20">
@@ -17,7 +17,5 @@
     </li>
   </ul>
   <div class="operation-area">
-
-    <!-- <d-button icon="icon-delete" bsSize='lg'>清空</d-button> -->
   </div>
 </div>

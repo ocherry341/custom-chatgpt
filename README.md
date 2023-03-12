@@ -1,45 +1,49 @@
-> 声明：此项目只用于演示和测试，请勿用于商业用途！
-> 
 > This project is for demonstration and testing purposes only. Please do not use it for commercial purposes!
 
 # CustomGPT
 
-基于ChatGPT API开发的纯前端应用
+<div style="font-size: 1.5rem;">
+  <a href="./README-zh.md">中文</a> |
+  <a href="./README.md">English</a>
+</div>
+</br>
 
-## 在线查看
+A front-end application developed based on ChatGPT API.
+
+## Online Preview
 https://www.customgpt.top/
 
-## 功能特性
+## Features
 
-- 与chatGPT官网一致的问答功能
-- 自定义API参数
-- 自定义API baseUrl
-- 保存配置参数
-- 保存消息列表
+- Question and answer function consistent with the ChatGPT official website
+- Custom API parameters
+- Custom API base URL
+- Save configuration parameters
+- Save message list
 
-## 使用方式
- 1. [获取ApiKey](https://platform.openai.com/account/api-keys/)。
- 2. 在右上角设置中修改API参数，支持配置文件保存和读取。
- 3. 随时保存你的对话，比如保存[调教好的咒语](https://github.com/PlexPt/awesome-chatgpt-prompts-zh)，方便下次使用。
+## Usage
+1. [Get an API Key](https://platform.openai.com/account/api-keys/).
+2. Modify the API parameters in settings, supporting settings saving and reading.
+3. Save your conversations at any node, such as saving [Awesome ChatGPT Prompts](https://github.com/f/awesome-chatgpt-prompts) for easy use next time.
 
-> 所有的配置和ApiKey均保存在本地，服务端不保存任何内容
+> All settings and API Keys are saved locally, and the server does not save any content.
 
-## 已知问题
+## Known Issues
 
-- Markdown渲染：文字动态变化时会造成页面闪烁
-- logit_bias 配置
-  - 不能正确解析中文tokenID
-  - 按照[官方说明](https://help.openai.com/en/articles/5247780-using-logit-bias-to-define-token-probability)使用此参数不能达到预期效果
-  - 数值较大时会造成输出异常或请求过慢的问题
+- Markdown rendering: Text dynamic changes will cause page flicker.
+- logit_bias param
+  - Cannot correctly parse Chinese token IDs.
+  - Using this parameter according to the [official instructions](https://help.openai.com/en/articles/5247780-using-logit-bias-to-define-token-probability) cannot achieve the expected effect.
+  - Output abnormalities or slow request issues may occur when the value is too large.
 
-## 开发
+## Development
 
-本项目使用 [Angular CLI](https://github.com/angular/angular-cli) 15.2.1 版本生成的。查看 [Angular官方文档](https://angular.io/cli)获取更多帮助。
+This project is generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.1. Check [Angular official documents](https://angular.io/cli) for more help.
 
-### 开发环境配置
+### Development Environment Configuration
 
-运行 `npm i` 安装项目依赖，运行 `ng serve` 启动开发服务器，在浏览器中输入 `http://localhost:4201/` 可以访问应用程序。可以实时更新代码。
+Run `npm i` to install the project dependencies, and run `ng serve` to start the development server. You can access the application in the browser by entering `http://localhost:4201/`. The code can be updated in real time.
 
-### 打包部署
+### Packing and Deployment
 
-运行 `ng build` 命令打包项目。打包好的网页文件保存在 `dist/` 目录。
+Run the `ng build --localize` command to package the project. The packaged web files are saved in the `dist/` directory.

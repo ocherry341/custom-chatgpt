@@ -29,7 +29,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   //Chat
   messages: ChatMessage[] = [];
-  chatTitle: string = '新对话';
+  chatTitle: string = $localize`:Default Chat title:新对话`;
   errMessage: string = '';
   chatInput: string;
 
@@ -276,7 +276,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.haveError = false;
     this.chatIndex = -1;
     this.savedIndex = -1;
-    this.chatTitle = '新对话';
+    this.chatTitle = $localize`:Default chat title:新对话`;
     this.genStart = false;
     this.genPendding = false;
     this.stop();

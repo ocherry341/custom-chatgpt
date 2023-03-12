@@ -1,0 +1,452 @@
+{
+  "@@locale": "en-US",
+  "3941685415112093421": "Default Options",
+  "@3941685415112093421": {
+    "description": "Default Options title",
+    "x-locations": [
+      {
+        "file": "src\\app\\@core\\services\\default-save-options.ts",
+        "start": { "line": "5", "column": "24" },
+        "end": { "line": "5", "column": "53" }
+      }
+    ]
+  },
+  "6263838309075662906": "Chinese-Engilsh Translator",
+  "@6263838309075662906": {
+    "description": "Default Options title",
+    "x-locations": [
+      {
+        "file": "src\\app\\@core\\services\\default-save-options.ts",
+        "start": { "line": "25", "column": "24" },
+        "end": { "line": "25", "column": "53" }
+      }
+    ]
+  },
+  "1384732922999135535": "Unkown Error",
+  "@1384732922999135535": {
+    "description": "Error message",
+    "x-locations": [
+      {
+        "file": "src\\app\\@core\\services\\http-api.service.ts",
+        "start": { "line": "95", "column": "38" },
+        "end": { "line": "95", "column": "59" }
+      },
+      {
+        "file": "src\\app\\@core\\services\\http-api.service.ts",
+        "start": { "line": "125", "column": "48" },
+        "end": { "line": "125", "column": "69" }
+      },
+      {
+        "file": "src\\app\\@core\\services\\http-api.service.ts",
+        "start": { "line": "168", "column": "22" },
+        "end": { "line": "168", "column": "43" }
+      }
+    ]
+  },
+  "4799953663010484591": "New Chat",
+  "@4799953663010484591": {
+    "description": "Default Chat title",
+    "x-locations": [
+      {
+        "file": "src\\app\\@core\\services\\http-api.service.ts",
+        "start": { "line": "132", "column": "34" },
+        "end": { "line": "132", "column": "59" }
+      },
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.ts",
+        "start": { "line": "31", "column": "31" },
+        "end": { "line": "31", "column": "56" }
+      },
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.ts",
+        "start": { "line": "278", "column": "30" },
+        "end": { "line": "278", "column": "55" }
+      }
+    ]
+  },
+  "7240755182998120197": "Provide a title for the above dialogue in 10 words or less.",
+  "@7240755182998120197": {
+    "x-locations": [
+      {
+        "file": "src\\app\\@core\\services\\http-api.service.ts",
+        "start": { "line": "137", "column": "52" },
+        "end": { "line": "137", "column": "71" }
+      }
+    ]
+  },
+  "3428705618621115087": "Clear",
+  "@3428705618621115087": {
+    "description": "delete icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\@shared\\components\\drawer-list\\drawer-list.component.html",
+        "start": { "line": "3", "column": "69" },
+        "end": { "line": "3", "column": "71" }
+      }
+    ]
+  },
+  "6450412066894591971": "Saved Options",
+  "@6450412066894591971": {
+    "description": "Saved Options title",
+    "x-locations": [
+      {
+        "file": "src\\app\\@shared\\components\\drawer-list\\drawer-list.component.ts",
+        "start": { "line": "33", "column": "17" },
+        "end": { "line": "33", "column": "45" }
+      }
+    ]
+  },
+  "5964587835955027412": "Saved Chats",
+  "@5964587835955027412": {
+    "description": "Saved Chat Session title",
+    "x-locations": [
+      {
+        "file": "src\\app\\@shared\\components\\drawer-list\\drawer-list.component.ts",
+        "start": { "line": "34", "column": "17" },
+        "end": { "line": "34", "column": "50" }
+      }
+    ]
+  },
+  "5194161922783347416": "Load option {$PH}",
+  "@5194161922783347416": {
+    "x-locations": [
+      {
+        "file": "src\\app\\@shared\\components\\drawer-list\\drawer-list.component.ts",
+        "start": { "line": "64", "column": "36" },
+        "end": { "line": "64", "column": "56" }
+      }
+    ]
+  },
+  "4175676012905575865": "Load chat",
+  "@4175676012905575865": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "5", "column": "15" },
+        "end": { "line": "5", "column": "19" }
+      }
+    ]
+  },
+  "2056071452549290591": "Saved options",
+  "@2056071452549290591": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "23", "column": "15" },
+        "end": { "line": "23", "column": "19" }
+      }
+    ]
+  },
+  "1133636729557061267": "Settings",
+  "@1133636729557061267": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "25", "column": "15" },
+        "end": { "line": "25", "column": "17" }
+      },
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "4", "column": "46" },
+        "end": { "line": "4", "column": "48" }
+      }
+    ]
+  },
+  "682398568740948785": "Save",
+  "@682398568740948785": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "43", "column": "49" },
+        "end": { "line": "43", "column": "53" }
+      }
+    ]
+  },
+  "1118672504100881770": "Saved",
+  "@1118672504100881770": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "48", "column": "49" },
+        "end": { "line": "48", "column": "52" }
+      },
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.ts",
+        "start": { "line": "112", "column": "69" },
+        "end": { "line": "112", "column": "89" }
+      }
+    ]
+  },
+  "1020788923918302393": "Loading",
+  "@1020788923918302393": {
+    "description": "chat loading text",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "57", "column": "50" },
+        "end": { "line": "57", "column": "53" }
+      }
+    ]
+  },
+  "8666329139889049125": "Reset",
+  "@8666329139889049125": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "71", "column": "57" },
+        "end": { "line": "71", "column": "59" }
+      }
+    ]
+  },
+  "6083837080827780743": "Send",
+  "@6083837080827780743": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "77", "column": "39" },
+        "end": { "line": "77", "column": "41" }
+      }
+    ]
+  },
+  "6226635459176509822": "Enter Your ApiKey",
+  "@6226635459176509822": {
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "86", "column": "62" },
+        "end": { "line": "86", "column": "70" }
+      }
+    ]
+  },
+  "296998367173536040": "Get ApiKey",
+  "@296998367173536040": {
+    "description": "tooltip content",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "88", "column": "56" },
+        "end": { "line": "88", "column": "64" }
+      }
+    ]
+  },
+  "4084906370576746110": "OK",
+  "@4084906370576746110": {
+    "description": "button text",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "93", "column": "23" },
+        "end": { "line": "93", "column": "25" }
+      },
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.ts",
+        "start": { "line": "107", "column": "25" },
+        "end": { "line": "107", "column": "42" }
+      }
+    ]
+  },
+  "4418433101149864838": "Stop",
+  "@4418433101149864838": {
+    "description": "button title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "97", "column": "52" },
+        "end": { "line": "97", "column": "54" }
+      },
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "98", "column": "21" },
+        "end": { "line": "98", "column": "23" }
+      }
+    ]
+  },
+  "52705202740700324": "Re-Generate",
+  "@52705202740700324": {
+    "description": "button text",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "102", "column": "21" },
+        "end": { "line": "102", "column": "25" }
+      }
+    ]
+  },
+  "1768692559946731828": "Back",
+  "@1768692559946731828": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "6", "column": "47" },
+        "end": { "line": "6", "column": "49" }
+      }
+    ]
+  },
+  "1819481355019287016": "Save",
+  "@1819481355019287016": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "8", "column": "47" },
+        "end": { "line": "8", "column": "49" }
+      },
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.ts",
+        "start": { "line": "103", "column": "22" },
+        "end": { "line": "103", "column": "40" }
+      }
+    ]
+  },
+  "6006247536502068695": "Restore to default",
+  "@6006247536502068695": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "10", "column": "47" },
+        "end": { "line": "10", "column": "53" }
+      }
+    ]
+  },
+  "1108043846030124527": "Copy Request Body",
+  "@1108043846030124527": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "12", "column": "47" },
+        "end": { "line": "12", "column": "52" }
+      }
+    ]
+  },
+  "8759474191954015330": "General",
+  "@8759474191954015330": {
+    "description": "Setting Subtitle",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "18", "column": "57" },
+        "end": { "line": "18", "column": "59" }
+      }
+    ]
+  },
+  "8898750880214472915": " Memory {$START_ITALIC_TEXT}{$CLOSE_ITALIC_TEXT}",
+  "@8898750880214472915": {
+    "description": "Setting Label",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "42", "column": "64" },
+        "end": { "line": "44", "column": "75" }
+      }
+    ]
+  },
+  "3545697533411961230": "Remember the recent conversations, -1 for all conversations",
+  "@3545697533411961230": {
+    "description": "tooltip content",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "44", "column": "52" },
+        "end": { "line": "44", "column": "69" }
+      }
+    ]
+  },
+  "6551908030705822888": "Api Parameters {$START_LINK}{$START_ITALIC_TEXT}{$CLOSE_ITALIC_TEXT}{$CLOSE_LINK}",
+  "@6551908030705822888": {
+    "description": "Setting Subtitle",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "57", "column": "57" },
+        "end": { "line": "61", "column": "47" }
+      }
+    ]
+  },
+  "797303627345064587": "Learn More",
+  "@797303627345064587": {
+    "description": "tooltip content",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "58", "column": "60" },
+        "end": { "line": "58", "column": "64" }
+      }
+    ]
+  },
+  "144196055581870057": "Using this param may cause abnormal output. Please turn it off when using it in practice. Click to see official examples.",
+  "@144196055581870057": {
+    "description": "tootip content",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "179", "column": "27" },
+        "end": { "line": "179", "column": "59" }
+      }
+    ]
+  },
+  "1901880865144770898": "The character to stop the output. Press space to confirm.",
+  "@1901880865144770898": {
+    "description": "placeholder",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "233", "column": "60" },
+        "end": { "line": "233", "column": "73" }
+      }
+    ]
+  },
+  "6726905744201320880": "Option Title",
+  "@6726905744201320880": {
+    "description": "dialog title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "245", "column": "71" },
+        "end": { "line": "245", "column": "77" }
+      }
+    ]
+  },
+  "7096769399879583190": "The content of the role 'system', set the behavior of the assistant.\n\ne.g. \"You are a helpful assistant.\"",
+  "@7096769399879583190": {
+    "description": "placeholder",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.ts",
+        "start": { "line": "29", "column": "39" },
+        "end": { "line": "29", "column": "161" }
+      }
+    ]
+  },
+  "5601254587589034652": "Cancel",
+  "@5601254587589034652": {
+    "description": "button text",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.ts",
+        "start": { "line": "118", "column": "25" },
+        "end": { "line": "118", "column": "42" }
+      }
+    ]
+  },
+  "4760373501072765725": "Copied",
+  "@4760373501072765725": {
+    "description": "toast message",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.ts",
+        "start": { "line": "155", "column": "57" },
+        "end": { "line": "155", "column": "77" }
+      }
+    ]
+  }
+}

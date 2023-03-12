@@ -3,7 +3,7 @@ import { environment } from "src/environments/environment";
 
 export const defaultSavedOptions: SavedSettingOption[] = [
     {
-        title: '默认配置',
+        title: $localize`:Default Options title:默认设置`,
         option: {
             apikey: { use: true, value: '' },
             apiurl: { use: true, value: environment.defaultBaseUrl },
@@ -23,7 +23,7 @@ export const defaultSavedOptions: SavedSettingOption[] = [
         }
     },
     {
-        title: '中英互译',
+        title: $localize`:Default Options title:中英互译`,
         option: {
             apikey: { use: true, value: '' },
             apiurl: { use: true, value: environment.defaultBaseUrl },

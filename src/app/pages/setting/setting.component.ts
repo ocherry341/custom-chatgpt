@@ -27,7 +27,7 @@ export class SettingComponent implements OnInit {
   formLayout: FormLayout = FormLayout.Vertical;
   option: SettingOption;
   stopTags: Array<{ name: string; }> = [];
-  systemPlaceholder: string = `The content of the role 'system', set the behavior of the assistant.\n\ne.g. "You are a helpful assistant."`;
+  systemPlaceholder: string = $localize`:placeholder:'system'的内容, 此项会设置AI的默认行为\n\ne.g. "You are a helpful assistant."`;
   bodyStr: string = '';
   logitBiasData: { [key: number]: number; } | undefined;
 
@@ -101,22 +101,22 @@ export class SettingComponent implements OnInit {
   save() {
     const dialog = this.dialogService.open({
       id: 'save-option',
-      title: '保存',
+      title: $localize`:dialog title:保存`,
       contentTemplate: this.saveDialog,
       buttons: [
         {
-          text: '确定',
+          text: $localize`:button text:确定`,
           cssClass: 'primary',
           handler: () => {
             this.saveOptions(this.saveInput.nativeElement.value)
               .subscribe(() => {
-                this.toastService.open({ value: [{ summary: '已保存', severity: 'success', life: 4500 }] });
+                this.toastService.open({ value: [{ summary: $localize`:toast message:已保存`, severity: 'success', life: 4500 }] });
                 dialog.modalInstance.hide();
               });
           }
         },
         {
-          text: '取消',
+          text: $localize`:button text:取消`,
           cssClass: 'common',
           handler: () => {
             dialog.modalInstance.hide();
@@ -153,7 +153,7 @@ export class SettingComponent implements OnInit {
     const body = this.api.getBody(this.store.getSettingValue(), true);
     body.messages.push({ role: 'user', content: '${your text}' });
     navigator.clipboard.writeText(JSON.stringify(body));
-    this.toastService.open({ value: [{ summary: '已复制', severity: 'success', life: 4500 }] });
+    this.toastService.open({ value: [{ summary: $localize`:toast message:已复制`, severity: 'success', life: 4500 }] });
     console.log(body);
   }
 

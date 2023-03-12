@@ -1,0 +1,452 @@
+{
+  "@@locale": "zh-CN",
+  "3941685415112093421": "默认设置",
+  "@3941685415112093421": {
+    "description": "Default Options title",
+    "x-locations": [
+      {
+        "file": "src\\app\\@core\\services\\default-save-options.ts",
+        "start": { "line": "5", "column": "24" },
+        "end": { "line": "5", "column": "53" }
+      }
+    ]
+  },
+  "6263838309075662906": "中英互译",
+  "@6263838309075662906": {
+    "description": "Default Options title",
+    "x-locations": [
+      {
+        "file": "src\\app\\@core\\services\\default-save-options.ts",
+        "start": { "line": "25", "column": "24" },
+        "end": { "line": "25", "column": "53" }
+      }
+    ]
+  },
+  "1384732922999135535": "未知错误",
+  "@1384732922999135535": {
+    "description": "Error message",
+    "x-locations": [
+      {
+        "file": "src\\app\\@core\\services\\http-api.service.ts",
+        "start": { "line": "95", "column": "38" },
+        "end": { "line": "95", "column": "59" }
+      },
+      {
+        "file": "src\\app\\@core\\services\\http-api.service.ts",
+        "start": { "line": "125", "column": "48" },
+        "end": { "line": "125", "column": "69" }
+      },
+      {
+        "file": "src\\app\\@core\\services\\http-api.service.ts",
+        "start": { "line": "168", "column": "22" },
+        "end": { "line": "168", "column": "43" }
+      }
+    ]
+  },
+  "4799953663010484591": "新对话",
+  "@4799953663010484591": {
+    "description": "Default Chat title",
+    "x-locations": [
+      {
+        "file": "src\\app\\@core\\services\\http-api.service.ts",
+        "start": { "line": "132", "column": "34" },
+        "end": { "line": "132", "column": "59" }
+      },
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.ts",
+        "start": { "line": "31", "column": "31" },
+        "end": { "line": "31", "column": "56" }
+      },
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.ts",
+        "start": { "line": "278", "column": "30" },
+        "end": { "line": "278", "column": "55" }
+      }
+    ]
+  },
+  "7240755182998120197": "为以上对话取一个标题，10个字以内",
+  "@7240755182998120197": {
+    "x-locations": [
+      {
+        "file": "src\\app\\@core\\services\\http-api.service.ts",
+        "start": { "line": "137", "column": "52" },
+        "end": { "line": "137", "column": "71" }
+      }
+    ]
+  },
+  "3428705618621115087": "清空",
+  "@3428705618621115087": {
+    "description": "delete icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\@shared\\components\\drawer-list\\drawer-list.component.html",
+        "start": { "line": "3", "column": "69" },
+        "end": { "line": "3", "column": "71" }
+      }
+    ]
+  },
+  "6450412066894591971": "保存的设置",
+  "@6450412066894591971": {
+    "description": "Saved Options title",
+    "x-locations": [
+      {
+        "file": "src\\app\\@shared\\components\\drawer-list\\drawer-list.component.ts",
+        "start": { "line": "33", "column": "17" },
+        "end": { "line": "33", "column": "45" }
+      }
+    ]
+  },
+  "5964587835955027412": "保存的对话",
+  "@5964587835955027412": {
+    "description": "Saved Chat Session title",
+    "x-locations": [
+      {
+        "file": "src\\app\\@shared\\components\\drawer-list\\drawer-list.component.ts",
+        "start": { "line": "34", "column": "17" },
+        "end": { "line": "34", "column": "50" }
+      }
+    ]
+  },
+  "5194161922783347416": "载入配置 {$PH}",
+  "@5194161922783347416": {
+    "x-locations": [
+      {
+        "file": "src\\app\\@shared\\components\\drawer-list\\drawer-list.component.ts",
+        "start": { "line": "64", "column": "36" },
+        "end": { "line": "64", "column": "56" }
+      }
+    ]
+  },
+  "4175676012905575865": "读取对话",
+  "@4175676012905575865": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "5", "column": "15" },
+        "end": { "line": "5", "column": "19" }
+      }
+    ]
+  },
+  "2056071452549290591": "切换配置",
+  "@2056071452549290591": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "23", "column": "15" },
+        "end": { "line": "23", "column": "19" }
+      }
+    ]
+  },
+  "1133636729557061267": "设置",
+  "@1133636729557061267": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "25", "column": "15" },
+        "end": { "line": "25", "column": "17" }
+      },
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "4", "column": "46" },
+        "end": { "line": "4", "column": "48" }
+      }
+    ]
+  },
+  "682398568740948785": "保存对话",
+  "@682398568740948785": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "52", "column": "49" },
+        "end": { "line": "52", "column": "53" }
+      }
+    ]
+  },
+  "1118672504100881770": "已保存",
+  "@1118672504100881770": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "57", "column": "49" },
+        "end": { "line": "57", "column": "52" }
+      },
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.ts",
+        "start": { "line": "112", "column": "69" },
+        "end": { "line": "112", "column": "89" }
+      }
+    ]
+  },
+  "1020788923918302393": "加载中",
+  "@1020788923918302393": {
+    "description": "chat loading text",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "66", "column": "50" },
+        "end": { "line": "66", "column": "53" }
+      }
+    ]
+  },
+  "8666329139889049125": "重置",
+  "@8666329139889049125": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "80", "column": "57" },
+        "end": { "line": "80", "column": "59" }
+      }
+    ]
+  },
+  "6083837080827780743": "发送",
+  "@6083837080827780743": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "86", "column": "39" },
+        "end": { "line": "86", "column": "41" }
+      }
+    ]
+  },
+  "6226635459176509822": "输入ApiKey",
+  "@6226635459176509822": {
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "95", "column": "62" },
+        "end": { "line": "95", "column": "70" }
+      }
+    ]
+  },
+  "296998367173536040": "获取ApiKey",
+  "@296998367173536040": {
+    "description": "tooltip content",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "97", "column": "56" },
+        "end": { "line": "97", "column": "64" }
+      }
+    ]
+  },
+  "4084906370576746110": "确定",
+  "@4084906370576746110": {
+    "description": "button text",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "102", "column": "23" },
+        "end": { "line": "102", "column": "25" }
+      },
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.ts",
+        "start": { "line": "107", "column": "25" },
+        "end": { "line": "107", "column": "42" }
+      }
+    ]
+  },
+  "4418433101149864838": "停止",
+  "@4418433101149864838": {
+    "description": "button title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "106", "column": "52" },
+        "end": { "line": "106", "column": "54" }
+      },
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "107", "column": "21" },
+        "end": { "line": "107", "column": "23" }
+      }
+    ]
+  },
+  "52705202740700324": "重新生成",
+  "@52705202740700324": {
+    "description": "button text",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\chat\\chat.component.html",
+        "start": { "line": "111", "column": "21" },
+        "end": { "line": "111", "column": "25" }
+      }
+    ]
+  },
+  "1768692559946731828": "返回",
+  "@1768692559946731828": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "6", "column": "47" },
+        "end": { "line": "6", "column": "49" }
+      }
+    ]
+  },
+  "1819481355019287016": "保存",
+  "@1819481355019287016": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "8", "column": "47" },
+        "end": { "line": "8", "column": "49" }
+      },
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.ts",
+        "start": { "line": "103", "column": "22" },
+        "end": { "line": "103", "column": "40" }
+      }
+    ]
+  },
+  "6006247536502068695": "恢复默认配置",
+  "@6006247536502068695": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "10", "column": "47" },
+        "end": { "line": "10", "column": "53" }
+      }
+    ]
+  },
+  "1108043846030124527": "复制请求体",
+  "@1108043846030124527": {
+    "description": "icon title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "12", "column": "47" },
+        "end": { "line": "12", "column": "52" }
+      }
+    ]
+  },
+  "8759474191954015330": "通用",
+  "@8759474191954015330": {
+    "description": "Setting Subtitle",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "18", "column": "57" },
+        "end": { "line": "18", "column": "59" }
+      }
+    ]
+  },
+  "8898750880214472915": " 记忆 {$START_ITALIC_TEXT}{$CLOSE_ITALIC_TEXT}",
+  "@8898750880214472915": {
+    "description": "Setting Label",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "42", "column": "64" },
+        "end": { "line": "44", "column": "75" }
+      }
+    ]
+  },
+  "3545697533411961230": "记住最近的几组对话，-1为所有对话",
+  "@3545697533411961230": {
+    "description": "tooltip content",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "44", "column": "52" },
+        "end": { "line": "44", "column": "69" }
+      }
+    ]
+  },
+  "6551908030705822888": "模型参数 {$START_LINK}{$START_ITALIC_TEXT}{$CLOSE_ITALIC_TEXT}{$CLOSE_LINK}",
+  "@6551908030705822888": {
+    "description": "Setting Subtitle",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "57", "column": "57" },
+        "end": { "line": "61", "column": "47" }
+      }
+    ]
+  },
+  "797303627345064587": "了解更多",
+  "@797303627345064587": {
+    "description": "tooltip content",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "58", "column": "60" },
+        "end": { "line": "58", "column": "64" }
+      }
+    ]
+  },
+  "144196055581870057": "使用此项会造成输出异常，实际使用时请关闭该选项，点击查看官方示例",
+  "@144196055581870057": {
+    "description": "tootip content",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "179", "column": "27" },
+        "end": { "line": "179", "column": "59" }
+      }
+    ]
+  },
+  "1901880865144770898": "输出停止的字符，按空格确认",
+  "@1901880865144770898": {
+    "description": "placeholder",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "233", "column": "60" },
+        "end": { "line": "233", "column": "73" }
+      }
+    ]
+  },
+  "6726905744201320880": "输入配置名称",
+  "@6726905744201320880": {
+    "description": "dialog title",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "245", "column": "71" },
+        "end": { "line": "245", "column": "77" }
+      }
+    ]
+  },
+  "8046749470304016096": "'system'的内容, 此项会设置AI的默认行为\n\ne.g. \"You are a helpful assistant.\"",
+  "@8046749470304016096": {
+    "description": "placeholder",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.ts",
+        "start": { "line": "29", "column": "39" },
+        "end": { "line": "29", "column": "118" }
+      }
+    ]
+  },
+  "5601254587589034652": "取消",
+  "@5601254587589034652": {
+    "description": "button text",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.ts",
+        "start": { "line": "118", "column": "25" },
+        "end": { "line": "118", "column": "42" }
+      }
+    ]
+  },
+  "4760373501072765725": "已复制",
+  "@4760373501072765725": {
+    "description": "toast message",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.ts",
+        "start": { "line": "155", "column": "57" },
+        "end": { "line": "155", "column": "77" }
+      }
+    ]
+  }
+}

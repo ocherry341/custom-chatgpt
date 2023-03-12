@@ -6,11 +6,10 @@ import { SettingComponent } from './pages/setting/setting.component';
 const routes: Routes = [
   { path: '', component: ChatComponent },
   { path: 'setting', component: SettingComponent },
-  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

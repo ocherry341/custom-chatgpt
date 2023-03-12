@@ -31,8 +31,8 @@ export class DrawerListComponent implements OnInit {
 
   ngOnInit() {
     this.header = this.storageKey === 'CHAT_OPTIONS'
-      ? '保存的配置'
-      : '保存的对话';
+      ? $localize`:Saved Options title:保存的设置`
+      : $localize`:Saved Chat Session title:保存的对话`;
 
     const currentOption = this.storage.get('CURRENT_OPTION');
     this.apikey = currentOption?.apikey.value;
@@ -62,7 +62,7 @@ export class DrawerListComponent implements OnInit {
       this.store.setChatMessages(item.message);
     } else {
       this.toastService.open({
-        value: [{ summary: `载入配置 ${item.title}`, severity: 'success', life: 4500, }]
+        value: [{ summary: $localize`载入配置 ${item.title}`, severity: 'success', life: 4500, }]
       });
     }
     this.selectEvent.next({ index, item });

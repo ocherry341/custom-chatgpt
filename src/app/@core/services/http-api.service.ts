@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject, catchError, map, retry, takeUntil, throttleTime } from 'rxjs';
+import { catchError, map, Observable, retry, Subject, takeUntil, throttleTime } from 'rxjs';
 import { ChatMessage } from 'src/app/@shared/models/chat-messages.model';
 import { ChatRequest } from 'src/app/@shared/models/chat-request.model';
 import { ChatResponse, ChatStreamData } from 'src/app/@shared/models/chat-response.model';
@@ -93,7 +93,7 @@ export class HttpApiService {
               const err = JSON.parse(decoder.decode(value));
               observer.error(err.error.message);
             } catch (error) {
-              observer.error('未知错误');
+              observer.error($localize`:Error message:未知错误`);
             }
           });
         }
@@ -123,19 +123,19 @@ export class HttpApiService {
         }
         push();
       }).catch((err: Error) => {
-        observer.error(err?.message ?? '未知错误');
+        observer.error(err?.message ?? $localize`:Error message:未知错误`);
       });
     }).pipe(takeUntil(this.stop$));
   }
 
   genChatTitle(messages: ChatMessage[]): Observable<string> | undefined {
     if (messages.length !== 2) return;
-    const defaultTitle = '新对话';
+    const defaultTitle = $localize`:Default Chat title:新对话`;
     const option = this.store.getSettingValue();
     const url = `${option.apiurl || environment.defaultBaseUrl}${this.createchat}`;
     const headers = this.getHeader(option.apikey);
     const queryMsg = messages.slice(0, 2);
-    queryMsg.push({ role: 'user', content: '为以上对话取一个标题，10个字以内' });
+    queryMsg.push({ role: 'user', content: $localize`为以上对话取一个标题，10个字以内` });
     const body: ChatRequest = { model: 'gpt-3.5-turbo', messages: queryMsg };
     return this.http.post<ChatResponse>(url, body, { headers })
       .pipe(
@@ -166,7 +166,7 @@ export class HttpApiService {
       const msg = openAIMsg || err.message;
       return msg;
     } else {
-      return '未知错误';
+      return $localize`:Error message:未知错误`;
     }
   }
 
