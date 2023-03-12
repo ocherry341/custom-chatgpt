@@ -4,7 +4,7 @@ export type Model = "gpt-3.5-turbo" | "gpt-3.5-turbo-0301";
 
 export interface ChatRequest {
     frequency_penalty?: number;
-    logit_bias?: { [key: string]: any; };
+    logit_bias?: { [key: number]: number; };
     max_tokens?: number;
     /**
      * The ChatMessages to generate chat completions for, in the chat format.

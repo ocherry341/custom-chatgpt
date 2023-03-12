@@ -33,7 +33,7 @@ export class HttpApiService {
     this.stop$.next();
   }
 
-  getBody(option: SettingValue): ChatRequest {
+  getBody(option: SettingValue, stream: boolean): ChatRequest {
     const messages = this.store.getChatMessages().getValue();
     let chatMsg: ChatMessage[] = JSON.parse(JSON.stringify(messages));
 
@@ -50,7 +50,7 @@ export class HttpApiService {
 
     return {
       messages: chatMsg,
-      stream: false,
+      stream: stream,
       ...option.apiOptions,
     };
   }
@@ -58,8 +58,7 @@ export class HttpApiService {
   chat() {
     const option = this.store.getSettingValue();
     const url = `${option.apiurl || environment.defaultBaseUrl}${this.createchat}`;
-    const body: ChatRequest = this.getBody(option);
-    body.stream = false;
+    const body: ChatRequest = this.getBody(option, false);
     const headers = this.getHeader(option.apikey);
     return this.http.post<ChatResponse>(url, body, { headers })
       .pipe(
@@ -75,8 +74,7 @@ export class HttpApiService {
     return new Observable<string>(observer => {
       const option = this.store.getSettingValue();
       const url = `${option.apiurl || environment.defaultBaseUrl}${this.createchat}`;
-      const body: ChatRequest = this.getBody(option);
-      body.stream = true;
+      const body: ChatRequest = this.getBody(option, true);
       this.controller = new AbortController();
       fetch(url, {
         method: 'POST',

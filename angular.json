@@ -55,6 +55,9 @@
               "node_modules/prismjs/components/prism-bash.min.js",
               "node_modules/prismjs/components/prism-latex.min.js",
               "node_modules/clipboard/dist/clipboard.min.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "@nem035/gpt-3-encoder"
             ]
           },
           "configurations": {
@@ -63,7 +66,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "1mb",
-                  "maximumError": "2mb"
+                  "maximumError": "4mb"
                 },
                 {
                   "type": "anyComponentStyle",

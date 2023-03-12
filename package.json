@@ -1,6 +1,6 @@
 {
   "name": "customGPT",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -19,8 +19,8 @@
     "@angular/platform-browser-dynamic": "^15.2.0",
     "@angular/router": "^15.2.0",
     "@devui-design/icons": "^1.3.0",
+    "@nem035/gpt-3-encoder": "^1.1.7",
     "clipboard": "^2.0.11",
-    "gpt-3-encoder": "^1.1.4",
     "marked": "^4.2.12",
     "ng-devui": "^15.0.0",
     "ngx-markdown": "^15.1.1",

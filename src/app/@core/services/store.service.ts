@@ -25,7 +25,7 @@ export class StoreService {
       n: { use: false, value: 1 },
       presence_penalty: { use: false, value: 0 },
       frequency_penalty: { use: false, value: 0 },
-      logit_bias: { use: false, value: undefined },
+      logit_bias: { use: false, value: { 640: 20, 2435: 20 } },
       stop: { use: false, value: undefined },
     },
   };

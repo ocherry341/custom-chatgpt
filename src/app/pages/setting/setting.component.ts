@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { encode } from '@nem035/gpt-3-encoder';
 import { DialogService, FormLayout, ToastService } from 'ng-devui';
 import { Observable } from 'rxjs';
 import { LocalStorageService, StoreService } from 'src/app/@core/services';
@@ -24,16 +25,13 @@ export class SettingComponent implements OnInit {
   ) { }
 
   formLayout: FormLayout = FormLayout.Vertical;
-
   option: SettingOption;
-
   stopTags: Array<{ name: string; }> = [];
-
   systemPlaceholder: string = `The content of the role 'system', set the behavior of the assistant.\n\ne.g. "You are a helpful assistant."`;
-  stopPlaceholder: string = `up to 4 sequences \n\ne.g. ["\\n","?","."] \nThe generated text will stop at the sequences.`;
-  biasPlaceholder: string = `{ [ tokenID: number ]: number } \nEach value range from -100 to 100 \n\ne.g. {5171: -100, 470: -100} \nThe token IDs for "can't" are [5171, 470]. \nThe generated text will be unlikely to contain the word "can't".`;
-
   bodyStr: string = '';
+  logitBiasData: { [key: number]: number; } | undefined;
+
+  // tokenList: Array<{ [char: string]: number; }> = [];
 
   private getStopTags(stop: string[] | undefined): Array<{ name: string; }> {
     if (stop) {
@@ -52,6 +50,12 @@ export class SettingComponent implements OnInit {
     return JSON.parse(JSON.stringify(value));
   }
 
+  ngOnInit() {
+    this.option = this.getOption();
+    this.stopTags = this.getStopTags(this.option.apiOptions.stop.value);
+    this.logitBiasData = this.option.apiOptions.logit_bias.value;
+  }
+
   stopTagsChange(e: Array<{ name: string; }>) {
     this.option.apiOptions.stop.value = e.map(tag => tag.name);
     this.submit(this.option);
@@ -62,6 +66,32 @@ export class SettingComponent implements OnInit {
       this.option.apiOptions.top_p.use = field !== 'temperature';
       this.option.apiOptions.temperature.use = field !== 'top_p';
     }
+  }
+
+  addLogitBias(tokenStr: string, value: number) {
+    if (!tokenStr || value == undefined) return;
+    const tokens = encode(tokenStr);
+    const map = tokens.reduce((map, token) => {
+      map[token] = value;
+      return map;
+    }, {});
+    const oldMap = this.option.apiOptions.logit_bias.value ?? {};
+    this.option.apiOptions.logit_bias.value = Object.assign(oldMap, map);
+    this.logitBiasData = JSON.parse(JSON.stringify(this.option.apiOptions.logit_bias.value));
+    this.submit(this.option);
+  }
+
+  removeLogitBias(rowItem: { token: number; char: string; value: number; }) {
+    const logitBias = this.option.apiOptions.logit_bias.value ?? {};
+    delete logitBias[rowItem.token];
+    this.logitBiasData = JSON.parse(JSON.stringify(this.option.apiOptions.logit_bias.value));
+    this.submit(this.option);
+  }
+
+  removeAllLogitBias() {
+    this.option.apiOptions.logit_bias.value = undefined;
+    this.logitBiasData = [];
+    this.submit(this.option);
   }
 
   submit(option: SettingOption) {
@@ -120,7 +150,7 @@ export class SettingComponent implements OnInit {
   }
 
   copyBody() {
-    const body = this.api.getBody(this.store.getSettingValue());
+    const body = this.api.getBody(this.store.getSettingValue(), true);
     body.messages.push({ role: 'user', content: '${your text}' });
     navigator.clipboard.writeText(JSON.stringify(body));
     this.toastService.open({ value: [{ summary: '已复制', severity: 'success', life: 4500 }] });
@@ -131,11 +161,7 @@ export class SettingComponent implements OnInit {
     const apikey = this.option.apikey.value;
     this.option = this.store.getDefaultOption(apikey);
     this.submit(this.option);
-  }
-
-  ngOnInit() {
-    this.option = this.getOption();
-    this.stopTags = this.getStopTags(this.option.apiOptions.stop.value);
+    this.logitBiasData = JSON.parse(JSON.stringify(this.option.apiOptions.logit_bias.value ?? {}));
   }
 
 }

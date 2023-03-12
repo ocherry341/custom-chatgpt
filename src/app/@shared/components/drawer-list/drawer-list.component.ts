@@ -26,12 +26,17 @@ export class DrawerListComponent implements OnInit {
   ) { }
 
   header: string = '';
+  apikey: string | undefined = '';
+  apiurl: string | undefined = '';
 
   ngOnInit() {
     this.header = this.storageKey === 'CHAT_OPTIONS'
       ? '保存的配置'
       : '保存的对话';
 
+    const currentOption = this.storage.get('CURRENT_OPTION');
+    this.apikey = currentOption?.apikey.value;
+    this.apiurl = currentOption?.apiurl.value;
   }
 
   deleteItem(e: MouseEvent, index: number) {
@@ -46,6 +51,12 @@ export class DrawerListComponent implements OnInit {
 
   selectItem(index: number) {
     const item = this.items[index];
+    if (this.apikey) {
+      item.option.apikey.value = this.apikey;
+    }
+    if (this.apiurl) {
+      item.option.apiurl.value = this.apiurl;
+    }
     this.store.setSettingOption(item.option);
     if ('message' in item) {
       this.store.setChatMessages(item.message);

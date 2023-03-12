@@ -86,6 +86,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.storage.saveDefaultOptions();
     this.store.getChatMessages().pipe(takeUntil(this.destroy$))
       .subscribe(msg => {
         this.messages = msg;
@@ -123,6 +124,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   stop() {
     this.http.stop();
+    this.genStart = false;
+    this.genPendding = false;
   }
 
   showList(key: 'CHAT_OPTIONS' | 'CHAT_SESSION') {
@@ -273,6 +276,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.chatIndex = -1;
     this.savedIndex = -1;
     this.chatTitle = '新对话';
+    this.genStart = false;
+    this.genPendding = false;
     this.stop();
   }
 

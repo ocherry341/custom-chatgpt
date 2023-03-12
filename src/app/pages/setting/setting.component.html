@@ -160,12 +160,13 @@
           <d-form-item>
             <div class="toggle-label">
               <d-form-label>n</d-form-label>
-              <d-toggle name="use-n" [(ngModel)]="option.apiOptions['n'].use"
+              <d-toggle [disabled]="true" name="use-n"
+                [(ngModel)]="option.apiOptions['n'].use"
                 (ngModelChange)="submit(option)"></d-toggle>
             </div>
             <d-form-control>
-              <d-input-number name="chat-n" [(ngModel)]="option.apiOptions.n.value"
-                [min]="0" [decimalLimit]="0"
+              <d-input-number [disabled]="true" name="chat-n"
+                [(ngModel)]="option.apiOptions.n.value" [min]="0" [decimalLimit]="0"
                 (ngModelChange)="submit(option)"></d-input-number>
             </d-form-control>
           </d-form-item>
@@ -174,19 +175,50 @@
         <d-col [dSpan]="{ss:24,mm:8}">
           <d-form-item>
             <div class="toggle-label">
-              <d-form-label>logit_bias <a dTooltip [content]="'Get TokenIDs'"
-                  class="model-help" target="_blank"
-                  href="https://platform.openai.com/tokenizer">
-                  <i class="icon icon-helping"></i></a></d-form-label>
+              <d-form-label>logit_bias <a dTooltip
+                  [content]="'使用此项会造成输出异常，实际使用时请关闭该选项，点击查看官方示例'" class="model-help"
+                  target="_blank"
+                  href="https://help.openai.com/en/articles/5247780-using-logit-bias-to-define-token-probability">
+                  <i class="icon icon-infomation"
+                    style="color: #f66f6a;"></i></a></d-form-label>
               <d-toggle name="use-bias"
                 [(ngModel)]="option.apiOptions.logit_bias.use"
                 (ngModelChange)="submit(option)"></d-toggle>
             </div>
             <d-form-control>
-              <textarea dTextarea style="height: 231px;" name="chat-bias"
-                [(ngModel)]="option.apiOptions.logit_bias.value"
-                (ngModelChange)="submit(option)"
-                [placeholder]="biasPlaceholder"></textarea>
+              <div class="bias-input">
+                <input #biasToken dTextInput placeholder="text">
+                <d-input-number #biasValue [max]="100" [min]="-100"
+                  [decimalLimit]="0" [allowEmpty]="true"
+                  placeholder="bias"></d-input-number>
+                <d-icon [operable]="true" icon="icon-right"
+                  (click)="addLogitBias(biasToken.value,biasValue.lastValue)"></d-icon>
+              </div>
+              <d-data-table [dataSource]="logitBiasData|logitBiasList"
+                [fixHeader]="true" [scrollable]="true"
+                [containFixHeaderHeight]="true" [tableHeight]="'250px'">
+                <d-column field="token" header="TokenID"></d-column>
+                <d-column field="text" header="Text"></d-column>
+                <d-column field="value" header="Value"></d-column>
+                <d-column field="op" [width]="'80px'">
+                  <d-head-cell>
+                    <ng-template>
+                      <i title="remove all" (click)="removeAllLogitBias()"
+                        class="icon icon-error"
+                        style="font-size: 16px;cursor: pointer;"></i>
+                    </ng-template>
+                  </d-head-cell>
+                  <d-cell>
+                    <ng-template let-rowItem="rowItem">
+                      <i (click)="removeLogitBias(rowItem)" class="icon icon-error"
+                        style="font-size: 16px;cursor: pointer;"></i>
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <ng-template #noResultTemplateRef>
+                  <div style="text-align: center;font-size: 14px;">No Data</div>
+                </ng-template>
+              </d-data-table>
             </d-form-control>
           </d-form-item>
 
@@ -197,12 +229,8 @@
                 (ngModelChange)="submit(option)"></d-toggle>
             </div>
             <d-form-control>
-              <!-- <textarea dTextarea style="height: 231px;" name="chat-stop"
-                [(ngModel)]="option.apiOptions.stop.value"
-                (ngModelChange)="submit(option)"
-                [placeholder]="stopPlaceholder"></textarea> -->
               <d-tags-input name="chat-stop" [tags]="stopTags" [(ngModel)]="stopTags"
-                placeholder="添加一个参数" [maxTags]="4" [minLength]="1"
+                placeholder="输出停止的字符，按空格确认" [maxTags]="4" [minLength]="1"
                 [showSuggestion]="false"
                 (ngModelChange)="stopTagsChange($event)"></d-tags-input>
             </d-form-control>
