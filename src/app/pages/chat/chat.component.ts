@@ -226,6 +226,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   reGenerate() {
+    this.haveError = false;
     if (this.messages[this.messages.length - 1].role === 'assistant') {
       this.messages.pop();
     }
