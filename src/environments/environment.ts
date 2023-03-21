@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    defaultBaseUrl: 'https://api.openai.com',
+    defaultUrl: 'https://api.openai.com/v1/chat/completions',
 };

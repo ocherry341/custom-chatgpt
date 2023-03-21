@@ -6,7 +6,7 @@ export const defaultSavedOptions: SavedSettingOption[] = [
         title: $localize`:Default Options title:默认设置`,
         option: {
             apikey: { use: true, value: '' },
-            apiurl: { use: true, value: environment.defaultBaseUrl },
+            apiurl: { use: true, value: environment.defaultUrl },
             system: { use: true, value: 'You are a helpful assistant.' },
             memory: { use: false, value: -1 },
             apiOptions: {
@@ -26,7 +26,7 @@ export const defaultSavedOptions: SavedSettingOption[] = [
         title: $localize`:Default Options title:中英互译`,
         option: {
             apikey: { use: true, value: '' },
-            apiurl: { use: true, value: environment.defaultBaseUrl },
+            apiurl: { use: true, value: environment.defaultUrl },
             system: { use: true, value: 'You are a helpful assistant for Chinese-English translator, just translate the following text' },
             memory: { use: false, value: 0 },
             apiOptions: {

@@ -16,8 +16,6 @@ export class HttpApiService {
     private store: StoreService
   ) { }
 
-  private createchat: string = `/v1/chat/completions`;
-
   private stop$ = new Subject<void>();
   private controller: AbortController;
 
@@ -57,7 +55,7 @@ export class HttpApiService {
 
   chat() {
     const option = this.store.getSettingValue();
-    const url = `${option.apiurl || environment.defaultBaseUrl}${this.createchat}`;
+    const url = option.apiurl || environment.defaultUrl;
     const body: ChatRequest = this.getBody(option, false);
     const headers = this.getHeader(option.apikey);
     return this.http.post<ChatResponse>(url, body, { headers })
@@ -73,7 +71,7 @@ export class HttpApiService {
   chatStream() {
     return new Observable<string>(observer => {
       const option = this.store.getSettingValue();
-      const url = `${option.apiurl || environment.defaultBaseUrl}${this.createchat}`;
+      const url = option.apiurl || environment.defaultUrl;
       const body: ChatRequest = this.getBody(option, true);
       this.controller = new AbortController();
       fetch(url, {
@@ -132,7 +130,7 @@ export class HttpApiService {
     if (messages.length !== 2) return;
     const defaultTitle = $localize`:Default Chat title:新对话`;
     const option = this.store.getSettingValue();
-    const url = `${option.apiurl || environment.defaultBaseUrl}${this.createchat}`;
+    const url = option.apiurl || environment.defaultUrl;
     const headers = this.getHeader(option.apikey);
     const queryMsg = messages.slice(0, 2);
     queryMsg.push({ role: 'user', content: $localize`为以上对话取一个标题，10个字以内` });

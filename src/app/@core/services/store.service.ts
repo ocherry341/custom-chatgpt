@@ -14,7 +14,7 @@ export class StoreService {
 
   private readonly defaultOption: SettingOption = <const>{
     apikey: { use: true, value: '' },
-    apiurl: { use: true, value: environment.defaultBaseUrl },
+    apiurl: { use: true, value: environment.defaultUrl },
     system: { use: true, value: 'You are a helpful assistant.' },
     memory: { use: false, value: -1 },
     apiOptions: {
