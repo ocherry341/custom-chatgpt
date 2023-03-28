@@ -1,7 +1,3 @@
-> 声明：此项目只用于演示和测试，请勿用于商业用途！
-> 
-> This project is for demonstration and testing purposes only. Please do not use it for commercial purposes!
-
 # CustomGPT
 
 <div style="font-size: 1.5rem;">

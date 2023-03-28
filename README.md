@@ -1,5 +1,3 @@
-> This project is for demonstration and testing purposes only. Please do not use it for commercial purposes!
-
 # CustomGPT
 
 <div style="font-size: 1.5rem;">
