@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { LocalStorageService, StoreService } from 'src/app/@core/services';
 import { HttpApiService } from 'src/app/@core/services/http-api.service';
 import { SettingOption } from 'src/app/@shared/models/setting.model';
+import { AppDrawerService } from '../app-drawer.service';
 
 @Component({
   selector: 'app-setting',
@@ -21,7 +22,8 @@ export class SettingComponent implements OnInit {
     private storage: LocalStorageService,
     private dialogService: DialogService,
     private toastService: ToastService,
-    private api: HttpApiService,
+    public api: HttpApiService,
+    private drawerService: AppDrawerService,
   ) { }
 
   formLayout: FormLayout = FormLayout.Vertical;
@@ -162,6 +164,10 @@ export class SettingComponent implements OnInit {
     this.option = this.store.getDefaultOption(apikey);
     this.submit(this.option);
     this.logitBiasData = JSON.parse(JSON.stringify(this.option.apiOptions.logit_bias.value ?? {}));
+  }
+
+  showList(key: "CHAT_OPTIONS" | "CHAT_SESSION") {
+    this.drawerService.open(key);
   }
 
 }

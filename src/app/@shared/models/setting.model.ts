@@ -1,6 +1,6 @@
 import { ChatRequest } from "./chat-request.model";
 
-export interface ApiOptions extends Omit<ChatRequest, 'messages' | 'stream' | 'user'> { }
+export interface ApiOptions extends Omit<ChatRequest, 'messages' | 'user' | 'stream'> { }
 
 interface Value<T> {
     use: boolean;

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule, DrawerModule, FormModule, IconModule, InputNumberModule, LayoutModule, ModalModule, SelectModule, TagsInputModule, TextInputModule, TextareaModule, ToastModule, ToggleModule, TooltipModule } from 'ng-devui';
+import { ButtonModule, DrawerModule, DropDownModule, FormModule, IconModule, InputNumberModule, LayoutModule, ModalModule, SelectModule, TagsInputModule, TextareaModule, TextInputModule, ToastModule, ToggleModule, TooltipModule } from 'ng-devui';
 import { DrawerListComponent } from './components/drawer-list/drawer-list.component';
 
 const DEVUI = [
@@ -20,6 +20,7 @@ const DEVUI = [
   ToastModule,
   TagsInputModule,
   DrawerModule,
+  DropDownModule,
 ];
 
 const COMPONENTS = [

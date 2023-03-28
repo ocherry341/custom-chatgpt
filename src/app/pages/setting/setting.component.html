@@ -2,16 +2,35 @@
   <div class="setting-content">
 
     <div class="setting-header">
-      <div class="title" i18n="Setting Title">设置</div>
+      <div class="title">
+        <d-icon icon="icon-list-view" [color]="'white'" i18n-title="icon title"
+          style="margin-right: 8px;" (click)="showList('CHAT_OPTIONS')"></d-icon>
+        <div i18n="Setting Title">设置</div>
+      </div>
       <d-icon-group>
         <d-icon i18n-title="icon title" title="返回" [color]="'white'"
           icon="icon-go-back" [routerLink]="['/']"></d-icon>
-        <d-icon i18n-title="icon title" title="保存" [color]="'white'" icon="icon-save"
-          (click)="save()"></d-icon>
-        <d-icon i18n-title="icon title" title="恢复默认配置" [color]="'white'"
-          icon="icon-rollback" (click)="setDefault()"></d-icon>
-        <d-icon i18n-title="icon title" title="复制请求体" [color]="'white'"
-          icon="icon-copy" (click)="copyBody()"></d-icon>
+        <div dDropDown [trigger]="'click'" appendToBody>
+          <d-icon [icon]="'icon-more-operate'" [color]="'white'" dDropDownToggle>
+          </d-icon>
+          <ul dDropDownMenu class="devui-dropdown-menu devui-scrollbar" role="menu">
+            <li role="menuitem" class="menu-item" (click)="save()">
+              <a dDropDownMenuItem><i class="icon icon-save"></i>
+                <span i18n="Item save">保存</span>
+              </a>
+            </li>
+            <li role="menuitem" class="menu-item" (click)="setDefault()">
+              <a dDropDownMenuItem><i class="icon icon-rollback"></i>
+                <span i18n="Item set to default">恢复默认配置</span>
+              </a>
+            </li>
+            <li role="menuitem" class="menu-item" (click)="copyBody()">
+              <a dDropDownMenuItem><i class="icon icon-copy"></i>
+                <span i18n="Item copy body">复制请求体</span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </d-icon-group>
     </div>
 
@@ -19,10 +38,10 @@
       <div class="setting-title" i18n="Setting Subtitle">通用</div>
 
       <d-row [dGutter]="48" [dSpace]="12">
-        <d-col [dSpan]="{ss:24,ms:5,mm:3}">
+        <d-col [dSpan]="{ss:24,ms:24,mm:3}">
           ApiKey
         </d-col>
-        <d-col [dSpan]="{ss:24,ms:19,mm:18}">
+        <d-col [dSpan]="{ss:24,ms:24,mm:18}">
           <input style="margin-bottom: 24px;" name="chat-apikey" dTextInput
             [(ngModel)]="option.apikey.value" (ngModelChange)="submit(option)"
             placeholder="Your OpenAI ApiKey" type="password">
@@ -30,21 +49,30 @@
       </d-row>
 
       <d-row [dGutter]="48" [dSpace]="12">
-        <d-col [dSpan]="{ss:24,ms:5,mm:3}">
+        <d-col [dSpan]="{ss:24,ms:24,mm:3}">
           ApiUrl
         </d-col>
-        <d-col [dSpan]="{ss:24,ms:19,mm:18}">
+        <d-col [dSpan]="{ss:24,ms:24,mm:18}">
           <input style="margin-bottom: 24px;" name="chat-apiurl" dTextInput
             [(ngModel)]="option.apiurl.value" (ngModelChange)="submit(option)">
         </d-col>
       </d-row>
 
-      <d-row [dGutter]="48" [dSpace]="12">
-        <d-col [dSpan]="{ss:24,ms:5,mm:3}" i18n="Setting Label">
+      <d-row class="setting-toggle" [dGutter]="48" [dSpace]="12">
+        <d-col class="title" [dSpan]="{ss:24,ms:8,mm:4,ml:3}" i18n="Setting Label">
+          流式输出
+        </d-col>
+        <d-col class="toggle" [dSpan]="{ss:8,ms:4,mm:2}">
+          <d-toggle name="stream" [(ngModel)]="api.isStream"></d-toggle>
+        </d-col>
+      </d-row>
+
+      <d-row class="setting-toggle" [dGutter]="48" [dSpace]="12">
+        <d-col class="title" [dSpan]="{ss:24,ms:8,mm:4,ml:3}" i18n="Setting Label">
           记忆 <i class="icon icon-helping model-help" dTooltip
             i18n-content="tooltip content" content="记住最近的几组对话，-1为所有对话"></i>
         </d-col>
-        <d-col [dSpan]="{ss:8,ms:4,mm:2}">
+        <d-col class="toggle" [dSpan]="{ss:8,ms:4,mm:2}">
           <d-toggle name="use-memory" [(ngModel)]="option.memory.use"
             (ngModelChange)="submit(option)"></d-toggle>
         </d-col>
@@ -65,7 +93,7 @@
         <d-col [dSpan]="{ss:24,mm:10}">
           <d-form-item>
             <div class="toggle-label">
-              <d-form-label>system <a dTooltip
+              <d-form-label>system <a i18n-content="tooltip content" dTooltip
                   [content]="'The behavior of the assistant'" class="model-help"
                   target="_blank"
                   href="https://platform.openai.com/docs/guides/chat/introduction">
@@ -74,7 +102,7 @@
                 (ngModelChange)="submit(option)"></d-toggle>
             </div>
             <d-form-control>
-              <textarea dTextarea name="chat-system" style="height: 514px;"
+              <textarea dTextarea name="chat-system" class="chat-system-input"
                 [(ngModel)]="option.system.value" (ngModelChange)="submit(option)"
                 [placeholder]="systemPlaceholder"></textarea>
             </d-form-control>

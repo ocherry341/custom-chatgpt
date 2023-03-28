@@ -13,26 +13,20 @@
 
     </div>
     <d-icon-group>
-      <span style="margin-right: 18px;">
-        <span style="font-size: 14px;margin-right: 5px;">stream</span>
-        <d-toggle [(ngModel)]="stream"></d-toggle>
-      </span>
-      <a href="https://github.com/ocherry341/custom-gpt" target="_blank">
-        <d-icon [icon]="githubIcon" title="github"></d-icon>
-      </a>
-      <d-icon icon="icon-go-module" [color]="'white'" i18n-title="icon title"
-        title="切换配置" (click)="showList('CHAT_OPTIONS')"></d-icon>
-      <d-icon icon="icon-setting" [color]="'white'" i18n-title="icon title"
-        title="设置" [routerLink]="'./setting'"></d-icon>
-
-      <div dDropDown [trigger]="'hover'" appendToBody>
+      <div dDropDown [trigger]="'click'" appendToBody style="width: 26px;">
         <d-icon [icon]="langIcon" dDropDownToggle> <span iconSuffix
-            style="font-size: 14px;color: white;">Language</span></d-icon>
+            style="font-size: 14px;color: white;"></span></d-icon>
         <ul dDropDownMenu class="devui-dropdown-menu devui-scrollbar" role="menu">
           <li role="menuitem"><a dDropDownMenuItem href="/en-US/">English</a></li>
           <li role="menuitem"><a dDropDownMenuItem href="/zh-CN/">中文</a></li>
         </ul>
       </div>
+      <a href="https://github.com/ocherry341/custom-gpt" target="_blank">
+        <d-icon [icon]="githubIcon" title="github"></d-icon>
+      </a>
+
+      <d-icon icon="icon-setting" [color]="'white'" i18n-title="icon title"
+        title="设置" [routerLink]="'./setting'"></d-icon>
     </d-icon-group>
   </div>
 </div>

@@ -1,13 +1,9 @@
 import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { DrawerService } from 'ng-devui';
 import { Subject, takeUntil } from 'rxjs';
 import { LocalStorageService, StoreService } from 'src/app/@core/services';
 import { HttpApiService } from 'src/app/@core/services/http-api.service';
-import { DrawerListComponent } from 'src/app/@shared/components/drawer-list/drawer-list.component';
-import { ChatMessage, SavedChatMessage } from 'src/app/@shared/models/chat-messages.model';
-import { SavedSettingOption } from 'src/app/@shared/models/setting.model';
-
-type DrawerItems = SavedSettingOption[] | SavedChatMessage[];
+import { ChatMessage } from 'src/app/@shared/models/chat-messages.model';
+import { AppDrawerService } from '../app-drawer.service';
 
 @Component({
   selector: 'app-chat',
@@ -23,8 +19,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   constructor(
     private storage: LocalStorageService,
     private store: StoreService,
-    private drawerService: DrawerService,
-    private http: HttpApiService,
+    private drawerService: AppDrawerService,
+    private api: HttpApiService,
   ) { }
 
   //Chat
@@ -34,12 +30,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   chatInput: string;
 
   //Save and Read
-  /**drawer选择事件 */
-  selectEvent = new Subject<{ index: number; item: SavedSettingOption | SavedChatMessage; }>();
-  /**drawer删除事件 参数为chatIndex 清空=-1*/
-  deleteEvent = new Subject<number>();
-  /**当前drawer的数据源 */
-  currentStorage: 'CHAT_OPTIONS' | 'CHAT_SESSION';
   /**读取chat的index */
   chatIndex: number;
   /**保存图标出现的位置 */
@@ -50,33 +40,12 @@ export class ChatComponent implements OnInit, OnDestroy {
   //State
   haveApiKey: boolean = false;
   haveError: boolean = false;
-  stream: boolean = true;
 
   genStart: boolean = false;
   genPendding: boolean = false;
 
   //Other
   destroy$ = new Subject<void>();
-
-  private showDrawer(items: DrawerItems | null, storageKey: 'CHAT_OPTIONS' | 'CHAT_SESSION') {
-    const drawer = this.drawerService.open({
-      drawerContentComponent: DrawerListComponent,
-      width: '300px',
-      zIndex: 1000,
-      isCover: true,
-      fullScreen: true,
-      backdropCloseable: true,
-      escKeyCloseable: true,
-      position: storageKey === 'CHAT_SESSION' ? 'left' : 'right',
-      data: {
-        items,
-        selectEvent: this.selectEvent,
-        close: () => { drawer.drawerInstance.hide(); },
-        storageKey,
-        deleteEvent: this.deleteEvent,
-      }
-    });
-  }
 
   private setCurrentOption() {
     const currentOption = this.storage.get('CURRENT_OPTION');
@@ -95,7 +64,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.setCurrentOption();
     this.haveApiKey = !!this.store.getSettingOption().value.apikey.value;
 
-    this.selectEvent.pipe(takeUntil(this.destroy$))
+    this.drawerService.getSelectEvent().pipe(takeUntil(this.destroy$))
       .subscribe(({ index, item }) => {
         //select saved message
         if ('message' in item) {
@@ -107,7 +76,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.deleteEvent.pipe(takeUntil(this.destroy$))
+    this.drawerService.getDeleteEvent().pipe(takeUntil(this.destroy$))
       .subscribe(index => {
         if (index === this.chatIndex || index === -1) {
           this.savedIndex = -1;
@@ -123,15 +92,13 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   stop() {
-    this.http.stop();
+    this.api.stop();
     this.genStart = false;
     this.genPendding = false;
   }
 
   showList(key: 'CHAT_OPTIONS' | 'CHAT_SESSION') {
-    const list = this.storage.get(key);
-    this.currentStorage = key;
-    this.showDrawer(list, key);
+    this.drawerService.open(key);
     this.stop();
   }
 
@@ -158,7 +125,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.clearInput();
     this.genStart = true;
     this.genPendding = true;
-    this.stream
+    this.api.isStream
       ? this.chatStream()
       : this.chat();
   }
@@ -170,7 +137,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   chat() {
-    this.http.chat()
+    this.api.chat()
       .subscribe({
         next: (res) => {
           this.genStart = false;
@@ -178,7 +145,7 @@ export class ChatComponent implements OnInit, OnDestroy {
           const msg = res.choices[0].message ?? { role: 'assistant', content: 'err' };
           this.store.pushChatMessages(msg);
           //gen Title
-          const title$ = this.http.genChatTitle(this.messages);
+          const title$ = this.api.genChatTitle(this.messages);
           if (title$) {
             title$.subscribe(val => { this.chatTitle = val; });
           }
@@ -193,7 +160,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   chatStream() {
-    this.http.chatStream()
+    this.api.chatStream()
       .subscribe({
         next: (text) => {
           const message = this.messages;
@@ -210,7 +177,7 @@ export class ChatComponent implements OnInit, OnDestroy {
           this.store.setChatMessages(message);
           this.genPendding = false;
           //gen Title
-          const title$ = this.http.genChatTitle(message);
+          const title$ = this.api.genChatTitle(message);
           if (title$) {
             title$.subscribe(val => { this.chatTitle = val; });
           }
@@ -232,7 +199,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
     this.genStart = true;
     this.genPendding = true;
-    this.stream
+    this.api.isStream
       ? this.chatStream()
       : this.chat();
   }

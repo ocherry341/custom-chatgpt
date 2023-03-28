@@ -12,7 +12,7 @@
     font-size: 18px;
     color: white;
     box-shadow: $devui-shadow-length-base $devui-light-shadow;
-    padding: 18px 36px;
+    padding: 18px 30px;
     background-color: $devui-feedback-overlay-bg;
     display: flex;
     justify-content: space-between;
@@ -25,6 +25,10 @@
 
         .title-text {
             cursor: pointer;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            max-width: 40vw;
 
             &:hover {
                 color: $devui-link-light-active;
@@ -39,6 +43,12 @@
 
     d-icon {
         cursor: pointer;
+    }
+}
+
+@media only screen and (max-width: 760px) {
+    .header-fixed {
+        padding: 18px 15px;
     }
 }
 
@@ -127,6 +137,7 @@
         &.separate {
             border-left: 1px solid $devui-line;
         }
+
     }
 
     .chat-textarea {
@@ -139,6 +150,18 @@
         padding-bottom: 12px;
         margin-left: 5px;
         margin-right: 5px;
+    }
+}
+
+@media only screen and (max-width: 760px) {
+    .footer-bar {
+        d-button.main {
+            width: 50px;
+        }
+
+        .chat-textarea {
+            width: calc(100% - 110px);
+        }
     }
 }
 

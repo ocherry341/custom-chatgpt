@@ -41,3 +41,17 @@ body {
         color: $devui-primary-hover;
     }
 }
+
+.menu-item {
+    i {
+        margin-right: 6px;
+    }
+
+    svg {
+        vertical-align: text-top;
+    }
+}
+
+a:visited {
+    color: $devui-text;
+}

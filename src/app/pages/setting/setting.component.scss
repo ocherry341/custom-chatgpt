@@ -2,7 +2,7 @@
 @import 'ng-devui/styles-var/devui-var.scss';
 
 .setting-header {
-    font-size: 20px;
+    font-size: 18px;
     padding: 18px 30px;
     display: flex;
     align-items: center;
@@ -10,12 +10,20 @@
     background-color: $devui-feedback-overlay-bg;
     color: white;
 
+    .title {
+        display: flex;
+        align-items: center;
+    }
+
     d-icon {
         cursor: pointer;
     }
 
-    .title {
-        padding-left: 12px;
+}
+
+@media screen and (max-width: 500px) {
+    .setting-header {
+        padding: 18px 15px;
     }
 }
 
@@ -71,4 +79,25 @@
 
 d-input-number {
     width: 100%;
+}
+
+.chat-system-input {
+    height: 514px;
+}
+
+@media screen and (max-width: 760px) {
+    .chat-system-input {
+        height: 200px;
+    }
+
+    .setting-toggle {
+        .title {
+            padding-right: 0 !important;
+        }
+
+        .toggle {
+            padding-left: 12px !important;
+        }
+
+    }
 }

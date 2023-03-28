@@ -26,6 +26,8 @@ export class HttpApiService {
     });
   }
 
+  isStream: boolean = true;
+
   stop() {
     if (this.controller) this.controller.abort();
     this.stop$.next();
