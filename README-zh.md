@@ -42,6 +42,10 @@ https://www.customgpt.top/zh-CN/
 
 运行 `npm i` 安装项目依赖，运行 `ng serve` 启动开发服务器，在浏览器中输入 `http://localhost:4201/` 可以访问应用程序。可以实时更新代码。
 
+### [国际化](https://angular.io/guide/i18n-overview)
+
+运行 `ng extract-i18n` 提取国际化文本，将翻译好的文本保存到 `src/locale/messages.*` 文件中。
+
 ### 打包部署
 
 运行 `ng build --localize` 命令打包项目。打包好的网页文件保存在 `dist/` 目录。

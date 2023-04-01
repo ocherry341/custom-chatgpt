@@ -54,13 +54,13 @@
       },
       {
         "file": "src\\app\\pages\\chat\\chat.component.ts",
-        "start": { "line": "31", "column": "31" },
-        "end": { "line": "31", "column": "56" }
+        "start": { "line": "27", "column": "31" },
+        "end": { "line": "27", "column": "56" }
       },
       {
         "file": "src\\app\\pages\\chat\\chat.component.ts",
-        "start": { "line": "278", "column": "30" },
-        "end": { "line": "278", "column": "55" }
+        "start": { "line": "245", "column": "30" },
+        "end": { "line": "245", "column": "55" }
       }
     ]
   },
@@ -128,30 +128,19 @@
       }
     ]
   },
-  "2056071452549290591": "切换配置",
-  "@2056071452549290591": {
-    "description": "icon title",
-    "x-locations": [
-      {
-        "file": "src\\app\\pages\\chat\\chat.component.html",
-        "start": { "line": "23", "column": "15" },
-        "end": { "line": "23", "column": "19" }
-      }
-    ]
-  },
   "1133636729557061267": "设置",
   "@1133636729557061267": {
     "description": "icon title",
     "x-locations": [
       {
         "file": "src\\app\\pages\\chat\\chat.component.html",
-        "start": { "line": "25", "column": "15" },
-        "end": { "line": "25", "column": "17" }
+        "start": { "line": "28", "column": "15" },
+        "end": { "line": "28", "column": "17" }
       },
       {
         "file": "src\\app\\pages\\setting\\setting.component.html",
-        "start": { "line": "4", "column": "46" },
-        "end": { "line": "4", "column": "48" }
+        "start": { "line": "7", "column": "34" },
+        "end": { "line": "7", "column": "36" }
       }
     ]
   },
@@ -161,8 +150,8 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\chat\\chat.component.html",
-        "start": { "line": "52", "column": "49" },
-        "end": { "line": "52", "column": "53" }
+        "start": { "line": "46", "column": "49" },
+        "end": { "line": "46", "column": "53" }
       }
     ]
   },
@@ -172,13 +161,13 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\chat\\chat.component.html",
-        "start": { "line": "57", "column": "49" },
-        "end": { "line": "57", "column": "52" }
+        "start": { "line": "51", "column": "49" },
+        "end": { "line": "51", "column": "52" }
       },
       {
         "file": "src\\app\\pages\\setting\\setting.component.ts",
-        "start": { "line": "112", "column": "69" },
-        "end": { "line": "112", "column": "89" }
+        "start": { "line": "85", "column": "69" },
+        "end": { "line": "85", "column": "89" }
       }
     ]
   },
@@ -188,8 +177,8 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\chat\\chat.component.html",
-        "start": { "line": "66", "column": "50" },
-        "end": { "line": "66", "column": "53" }
+        "start": { "line": "60", "column": "50" },
+        "end": { "line": "60", "column": "53" }
       }
     ]
   },
@@ -199,8 +188,8 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\chat\\chat.component.html",
-        "start": { "line": "80", "column": "57" },
-        "end": { "line": "80", "column": "59" }
+        "start": { "line": "74", "column": "57" },
+        "end": { "line": "74", "column": "59" }
       }
     ]
   },
@@ -210,8 +199,8 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\chat\\chat.component.html",
-        "start": { "line": "86", "column": "39" },
-        "end": { "line": "86", "column": "41" }
+        "start": { "line": "80", "column": "39" },
+        "end": { "line": "80", "column": "41" }
       }
     ]
   },
@@ -220,8 +209,8 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\chat\\chat.component.html",
-        "start": { "line": "95", "column": "62" },
-        "end": { "line": "95", "column": "70" }
+        "start": { "line": "89", "column": "62" },
+        "end": { "line": "89", "column": "70" }
       }
     ]
   },
@@ -231,8 +220,8 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\chat\\chat.component.html",
-        "start": { "line": "97", "column": "56" },
-        "end": { "line": "97", "column": "64" }
+        "start": { "line": "91", "column": "56" },
+        "end": { "line": "91", "column": "64" }
       }
     ]
   },
@@ -242,13 +231,13 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\chat\\chat.component.html",
-        "start": { "line": "102", "column": "23" },
-        "end": { "line": "102", "column": "25" }
+        "start": { "line": "96", "column": "23" },
+        "end": { "line": "96", "column": "25" }
       },
       {
         "file": "src\\app\\pages\\setting\\setting.component.ts",
-        "start": { "line": "107", "column": "25" },
-        "end": { "line": "107", "column": "42" }
+        "start": { "line": "80", "column": "25" },
+        "end": { "line": "80", "column": "42" }
       }
     ]
   },
@@ -258,13 +247,13 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\chat\\chat.component.html",
-        "start": { "line": "106", "column": "52" },
-        "end": { "line": "106", "column": "54" }
+        "start": { "line": "100", "column": "52" },
+        "end": { "line": "100", "column": "54" }
       },
       {
         "file": "src\\app\\pages\\chat\\chat.component.html",
-        "start": { "line": "107", "column": "21" },
-        "end": { "line": "107", "column": "23" }
+        "start": { "line": "101", "column": "21" },
+        "end": { "line": "101", "column": "23" }
       }
     ]
   },
@@ -274,8 +263,8 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\chat\\chat.component.html",
-        "start": { "line": "111", "column": "21" },
-        "end": { "line": "111", "column": "25" }
+        "start": { "line": "105", "column": "21" },
+        "end": { "line": "105", "column": "25" }
       }
     ]
   },
@@ -285,46 +274,46 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\setting\\setting.component.html",
-        "start": { "line": "6", "column": "47" },
-        "end": { "line": "6", "column": "49" }
+        "start": { "line": "10", "column": "47" },
+        "end": { "line": "10", "column": "49" }
       }
     ]
   },
   "1819481355019287016": "保存",
   "@1819481355019287016": {
-    "description": "icon title",
+    "description": "Item save",
     "x-locations": [
       {
         "file": "src\\app\\pages\\setting\\setting.component.html",
-        "start": { "line": "8", "column": "47" },
-        "end": { "line": "8", "column": "49" }
+        "start": { "line": "18", "column": "39" },
+        "end": { "line": "18", "column": "41" }
       },
       {
         "file": "src\\app\\pages\\setting\\setting.component.ts",
-        "start": { "line": "103", "column": "22" },
-        "end": { "line": "103", "column": "40" }
+        "start": { "line": "76", "column": "22" },
+        "end": { "line": "76", "column": "40" }
       }
     ]
   },
   "6006247536502068695": "恢复默认配置",
   "@6006247536502068695": {
-    "description": "icon title",
+    "description": "Item set to default",
     "x-locations": [
       {
         "file": "src\\app\\pages\\setting\\setting.component.html",
-        "start": { "line": "10", "column": "47" },
-        "end": { "line": "10", "column": "53" }
+        "start": { "line": "23", "column": "49" },
+        "end": { "line": "23", "column": "55" }
       }
     ]
   },
   "1108043846030124527": "复制请求体",
   "@1108043846030124527": {
-    "description": "icon title",
+    "description": "Item copy body",
     "x-locations": [
       {
         "file": "src\\app\\pages\\setting\\setting.component.html",
-        "start": { "line": "12", "column": "47" },
-        "end": { "line": "12", "column": "52" }
+        "start": { "line": "28", "column": "44" },
+        "end": { "line": "28", "column": "49" }
       }
     ]
   },
@@ -334,8 +323,19 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\setting\\setting.component.html",
-        "start": { "line": "18", "column": "57" },
-        "end": { "line": "18", "column": "59" }
+        "start": { "line": "37", "column": "57" },
+        "end": { "line": "37", "column": "59" }
+      }
+    ]
+  },
+  "4837160065300278179": " 连续输出 ",
+  "@4837160065300278179": {
+    "description": "Setting Label",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "61", "column": "83" },
+        "end": { "line": "63", "column": "8" }
       }
     ]
   },
@@ -345,8 +345,8 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\setting\\setting.component.html",
-        "start": { "line": "42", "column": "64" },
-        "end": { "line": "44", "column": "75" }
+        "start": { "line": "70", "column": "83" },
+        "end": { "line": "72", "column": "75" }
       }
     ]
   },
@@ -356,8 +356,8 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\setting\\setting.component.html",
-        "start": { "line": "44", "column": "52" },
-        "end": { "line": "44", "column": "69" }
+        "start": { "line": "72", "column": "52" },
+        "end": { "line": "72", "column": "69" }
       }
     ]
   },
@@ -367,8 +367,8 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\setting\\setting.component.html",
-        "start": { "line": "57", "column": "57" },
-        "end": { "line": "61", "column": "47" }
+        "start": { "line": "85", "column": "57" },
+        "end": { "line": "89", "column": "47" }
       }
     ]
   },
@@ -378,8 +378,8 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\setting\\setting.component.html",
-        "start": { "line": "58", "column": "60" },
-        "end": { "line": "58", "column": "64" }
+        "start": { "line": "86", "column": "60" },
+        "end": { "line": "86", "column": "64" }
       }
     ]
   },
@@ -389,8 +389,8 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\setting\\setting.component.html",
-        "start": { "line": "179", "column": "27" },
-        "end": { "line": "179", "column": "59" }
+        "start": { "line": "207", "column": "27" },
+        "end": { "line": "207", "column": "59" }
       }
     ]
   },
@@ -400,8 +400,8 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\setting\\setting.component.html",
-        "start": { "line": "233", "column": "60" },
-        "end": { "line": "233", "column": "73" }
+        "start": { "line": "230", "column": "60" },
+        "end": { "line": "230", "column": "73" }
       }
     ]
   },
@@ -411,8 +411,8 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\setting\\setting.component.html",
-        "start": { "line": "245", "column": "71" },
-        "end": { "line": "245", "column": "77" }
+        "start": { "line": "242", "column": "71" },
+        "end": { "line": "242", "column": "77" }
       }
     ]
   },
@@ -422,8 +422,8 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\setting\\setting.component.ts",
-        "start": { "line": "29", "column": "39" },
-        "end": { "line": "29", "column": "118" }
+        "start": { "line": "30", "column": "39" },
+        "end": { "line": "30", "column": "118" }
       }
     ]
   },
@@ -433,8 +433,8 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\setting\\setting.component.ts",
-        "start": { "line": "118", "column": "25" },
-        "end": { "line": "118", "column": "42" }
+        "start": { "line": "91", "column": "25" },
+        "end": { "line": "91", "column": "42" }
       }
     ]
   },
@@ -444,8 +444,8 @@
     "x-locations": [
       {
         "file": "src\\app\\pages\\setting\\setting.component.ts",
-        "start": { "line": "155", "column": "57" },
-        "end": { "line": "155", "column": "77" }
+        "start": { "line": "128", "column": "57" },
+        "end": { "line": "128", "column": "77" }
       }
     ]
   }

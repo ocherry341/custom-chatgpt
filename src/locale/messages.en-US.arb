@@ -128,17 +128,6 @@
       }
     ]
   },
-  "2056071452549290591": "Saved options",
-  "@2056071452549290591": {
-    "description": "icon title",
-    "x-locations": [
-      {
-        "file": "src\\app\\pages\\chat\\chat.component.html",
-        "start": { "line": "23", "column": "15" },
-        "end": { "line": "23", "column": "19" }
-      }
-    ]
-  },
   "1133636729557061267": "Settings",
   "@1133636729557061267": {
     "description": "icon title",
@@ -336,6 +325,17 @@
         "file": "src\\app\\pages\\setting\\setting.component.html",
         "start": { "line": "18", "column": "57" },
         "end": { "line": "18", "column": "59" }
+      }
+    ]
+  },
+  "4837160065300278179": " 连续输出 ",
+  "@4837160065300278179": {
+    "description": "Setting Label",
+    "x-locations": [
+      {
+        "file": "src\\app\\pages\\setting\\setting.component.html",
+        "start": { "line": "61", "column": "83" },
+        "end": { "line": "63", "column": "8" }
       }
     ]
   },

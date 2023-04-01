@@ -42,6 +42,9 @@ This project is generated with [Angular CLI](https://github.com/angular/angular-
 
 Run `npm i` to install the project dependencies, and run `ng serve` to start the development server. You can access the application in the browser by entering `http://localhost:4201/`. The code can be updated in real time.
 
+### [Internationalization](https://angular.io/guide/i18n-overview)
+Run `ng extract-i18n` to extract internationalized text, and save the translated text to the `src/locale/messages.*` file.
+
 ### Packing and Deployment
 
 Run the `ng build --localize` command to package the project. The packaged web files are saved in the `dist/` directory.
