@@ -59,25 +59,7 @@
     justify-content: space-between;
 }
 
-.bias-input {
-    display: flex;
-    align-items: center;
-
-    &>* {
-        margin: 0 6px;
-    }
-
-    d-input-number {
-        flex-shrink: 2;
-    }
-
-    d-icon {
-        flex-shrink: 3;
-    }
-
-}
-
-d-input-number {
+:host ::ng-deep d-input-number {
     width: 100%;
 }
 

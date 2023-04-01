@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { DataTableModule } from 'ng-devui';
 import { MarkdownModule } from 'ngx-markdown';
 import { SharedModule } from 'src/app/@shared/shared.module';
-import { LogitBiasListPipe } from './pipes/logit-bias-list.pipe';
+import { LogitBiasEditorModule } from './components/logit-bias-editor/logit-bias-editor.module';
 import { SettingComponent } from './setting.component';
 
 @NgModule({
@@ -11,9 +10,11 @@ import { SettingComponent } from './setting.component';
     SharedModule,
     RouterModule,
     MarkdownModule.forChild(),
-    DataTableModule,
+    LogitBiasEditorModule,
   ],
-  declarations: [SettingComponent, LogitBiasListPipe],
+  declarations: [
+    SettingComponent,
+  ],
   exports: [SettingComponent]
 })
 export class SettingModule { }

@@ -215,39 +215,8 @@
                 (ngModelChange)="submit(option)"></d-toggle>
             </div>
             <d-form-control>
-              <div class="bias-input">
-                <input #biasToken dTextInput placeholder="text">
-                <d-input-number #biasValue [max]="100" [min]="-100"
-                  [decimalLimit]="0" [allowEmpty]="true"
-                  placeholder="bias"></d-input-number>
-                <d-icon [operable]="true" icon="icon-right"
-                  (click)="addLogitBias(biasToken.value,biasValue.lastValue)"></d-icon>
-              </div>
-              <d-data-table [dataSource]="logitBiasData|logitBiasList"
-                [fixHeader]="true" [scrollable]="true"
-                [containFixHeaderHeight]="true" [tableHeight]="'250px'">
-                <d-column field="token" header="TokenID"></d-column>
-                <d-column field="text" header="Text"></d-column>
-                <d-column field="value" header="Value"></d-column>
-                <d-column field="op" [width]="'80px'">
-                  <d-head-cell>
-                    <ng-template>
-                      <i title="remove all" (click)="removeAllLogitBias()"
-                        class="icon icon-error"
-                        style="font-size: 16px;cursor: pointer;"></i>
-                    </ng-template>
-                  </d-head-cell>
-                  <d-cell>
-                    <ng-template let-rowItem="rowItem">
-                      <i (click)="removeLogitBias(rowItem)" class="icon icon-error"
-                        style="font-size: 16px;cursor: pointer;"></i>
-                    </ng-template>
-                  </d-cell>
-                </d-column>
-                <ng-template #noResultTemplateRef>
-                  <div style="text-align: center;font-size: 14px;">No Data</div>
-                </ng-template>
-              </d-data-table>
+              <app-logit-bias-editor name="chat-bias"
+                [(ngModel)]="option.apiOptions.logit_bias.value"></app-logit-bias-editor>
             </d-form-control>
           </d-form-item>
 

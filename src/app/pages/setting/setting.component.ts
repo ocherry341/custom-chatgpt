@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { encode } from '@nem035/gpt-3-encoder';
 import { DialogService, FormLayout, ToastService } from 'ng-devui';
 import { Observable } from 'rxjs';
 import { LocalStorageService, StoreService } from 'src/app/@core/services';
@@ -31,7 +30,6 @@ export class SettingComponent implements OnInit {
   stopTags: Array<{ name: string; }> = [];
   systemPlaceholder: string = $localize`:placeholder:'system'的内容, 此项会设置AI的默认行为\n\ne.g. "You are a helpful assistant."`;
   bodyStr: string = '';
-  logitBiasData: { [key: number]: number; } | undefined;
 
   // tokenList: Array<{ [char: string]: number; }> = [];
 
@@ -55,7 +53,6 @@ export class SettingComponent implements OnInit {
   ngOnInit() {
     this.option = this.getOption();
     this.stopTags = this.getStopTags(this.option.apiOptions.stop.value);
-    this.logitBiasData = this.option.apiOptions.logit_bias.value;
   }
 
   stopTagsChange(e: Array<{ name: string; }>) {
@@ -68,32 +65,6 @@ export class SettingComponent implements OnInit {
       this.option.apiOptions.top_p.use = field !== 'temperature';
       this.option.apiOptions.temperature.use = field !== 'top_p';
     }
-  }
-
-  addLogitBias(tokenStr: string, value: number) {
-    if (!tokenStr || value == undefined) return;
-    const tokens = encode(tokenStr);
-    const map = tokens.reduce((map, token) => {
-      map[token] = value;
-      return map;
-    }, {});
-    const oldMap = this.option.apiOptions.logit_bias.value ?? {};
-    this.option.apiOptions.logit_bias.value = Object.assign(oldMap, map);
-    this.logitBiasData = JSON.parse(JSON.stringify(this.option.apiOptions.logit_bias.value));
-    this.submit(this.option);
-  }
-
-  removeLogitBias(rowItem: { token: number; char: string; value: number; }) {
-    const logitBias = this.option.apiOptions.logit_bias.value ?? {};
-    delete logitBias[rowItem.token];
-    this.logitBiasData = JSON.parse(JSON.stringify(this.option.apiOptions.logit_bias.value));
-    this.submit(this.option);
-  }
-
-  removeAllLogitBias() {
-    this.option.apiOptions.logit_bias.value = undefined;
-    this.logitBiasData = [];
-    this.submit(this.option);
   }
 
   submit(option: SettingOption) {
@@ -163,7 +134,6 @@ export class SettingComponent implements OnInit {
     const apikey = this.option.apikey.value;
     this.option = this.store.getDefaultOption(apikey);
     this.submit(this.option);
-    this.logitBiasData = JSON.parse(JSON.stringify(this.option.apiOptions.logit_bias.value ?? {}));
   }
 
   showList(key: "CHAT_OPTIONS" | "CHAT_SESSION") {

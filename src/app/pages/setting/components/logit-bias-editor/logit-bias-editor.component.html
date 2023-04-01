@@ -1,0 +1,36 @@
+<div class="bias-input">
+  <input #biasToken dTextInput placeholder="text" (blur)="touched()">
+  <d-input-number #biasValue [max]="100" [min]="-100" [decimalLimit]="0"
+    [allowEmpty]="true" placeholder="bias" (blur)="touched()"></d-input-number>
+  <d-icon [operable]="true" icon="icon-right"
+    (click)="addLogitBias(biasToken.value,biasValue.lastValue)"></d-icon>
+</div>
+<d-data-table [dataSource]="logitBiasList" [fixHeader]="true" [scrollable]="true"
+  [containFixHeaderHeight]="true" [tableHeight]="'250px'">
+  <d-column field="tokenID" header="TokenID">
+    <d-cell>
+      <<ng-template let-cellItem="cellItem">
+        <span>{{cellItem|json}}</span>
+        </ng-template>
+    </d-cell>
+  </d-column>
+  <d-column field="text" header="Text"></d-column>
+  <d-column field="bias" header="Value"></d-column>
+  <d-column field="op" [width]="'80px'">
+    <d-head-cell>
+      <ng-template>
+        <i title="remove all" (click)="removeAllLogitBias()" class="icon icon-error"
+          style="font-size: 16px;cursor: pointer;"></i>
+      </ng-template>
+    </d-head-cell>
+    <d-cell>
+      <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
+        <i (click)="removeLogitBias(rowIndex)" class="icon icon-error"
+          style="font-size: 16px;cursor: pointer;"></i>
+      </ng-template>
+    </d-cell>
+  </d-column>
+  <ng-template #noResultTemplateRef>
+    <div style="text-align: center;font-size: 14px;">No Data</div>
+  </ng-template>
+</d-data-table>
