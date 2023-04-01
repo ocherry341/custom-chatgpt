@@ -71,6 +71,41 @@
     padding-right: 48px;
     position: relative;
 
+    ::ng-deep {
+        h1 {
+            font-size: 22px;
+            border-bottom: 1px solid #d7d8da;
+            padding: 8px 0;
+            margin: 16px 0;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin: 16px 0;
+        }
+
+        h3 {
+            font-size: 18px;
+            margin: 8px 0;
+        }
+
+        h4 {
+            font-size: 16px;
+            margin: 8px 8px;
+        }
+
+        h5 {
+            font-size: 16px;
+            margin: 8px 16px;
+        }
+
+        h6 {
+            font-size: 16px;
+            margin: 8px 24px;
+        }
+    }
+
+
     &.bot {
         background-color: $devui-list-item-strip-bg;
     }
